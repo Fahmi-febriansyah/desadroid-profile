@@ -64,7 +64,21 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
 }
 
 if ($sent) {
+    // Set session for SweetAlert success
+    session_start();
+    $_SESSION['swal'] = [
+        'type' => 'success',
+        'title' => 'Pesan Terkirim!',
+        'text' => 'Terima kasih, pesan Anda berhasil dikirim. Kami akan segera menghubungi Anda.'
+    ];
     back('#contact', ['success' => '1']);
 } else {
+    // Set session for SweetAlert error
+    session_start();
+    $_SESSION['swal'] = [
+        'type' => 'error',
+        'title' => 'Gagal Mengirim Pesan',
+        'text' => 'Maaf, terjadi kesalahan saat mengirim pesan. Silakan coba lagi.'
+    ];
     back('#contact', ['error' => 'mail', 'msg' => $error_msg]);
 }
