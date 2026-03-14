@@ -3,13 +3,15 @@ require_once __DIR__ . '/config/db.php';
 
 define('FONNTE_TOKEN', 'TOKEN_KAMU');
 
-// ambil raw input dari webhook
-$input = file_get_contents("php://input");
+$data = $_POST;
 
-// parse data
-$data = json_decode($input, true);
-if (!$data) {
-    parse_str($input, $data);
+if (empty($data)) {
+    $raw = file_get_contents("php://input");
+    $data = json_decode($raw, true);
+
+    if (!$data) {
+        parse_str($raw, $data);
+    }
 }
 
 // log webhook
