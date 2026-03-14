@@ -79,16 +79,34 @@ function generateArticle($prompt) {
     return [true, compact('title', 'category', 'content', 'keyword', 'excerpt')];
 }
 
-// Fungsi: Download gambar dari URL dan simpan ke uploads/articles/
+// Fungsi: Download gambar dari URL dan simpan ke uploads/articles/, return path lokal
 function downloadImageToLocal($url, $slug) {
+    // Pastikan direktori uploads/articles/ ada
+    $uploadDir = realpath(__DIR__ . '/../uploads/articles');
+    if ($uploadDir === false) {
+        $uploadDir = __DIR__ . '/../uploads/articles';
+        if (!is_dir($uploadDir)) {
+            if (!mkdir($uploadDir, 0775, true)) {
+                error_log('Gagal membuat direktori uploads/articles');
+                return null;
+            }
+        }
+    }
     $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
-    if (!$ext) $ext = 'jpg';
-    $filename = 'uploads/articles/' . $slug . '_' . time() . '.' . $ext;
-    $fullPath = __DIR__ . '/../' . $filename;
+    if (!$ext || strlen($ext) > 4) $ext = 'jpg';
+    $filename = $slug . '_' . time() . '.' . $ext;
+    $fullPath = $uploadDir . '/' . $filename;
+    $relativePath = '/uploads/articles/' . $filename;
     $imgData = @file_get_contents($url);
-    if ($imgData === false) return null;
-    file_put_contents($fullPath, $imgData);
-    return '/' . $filename;
+    if ($imgData === false) {
+        error_log('Gagal download gambar dari: ' . $url);
+        return null;
+    }
+    if (file_put_contents($fullPath, $imgData) === false) {
+        error_log('Gagal menyimpan gambar ke: ' . $fullPath);
+        return null;
+    }
+    return $relativePath;
 }
 
 // Fungsi: Simpan artikel ke database (status: published)
@@ -97,7 +115,7 @@ function saveArticle($pdo, $data) {
     $imgUrl = 'https://loremflickr.com/800/400/' . urlencode($data['keyword']);
     $featured_image = downloadImageToLocal($imgUrl, $slug);
     if (!$featured_image) {
-        $featured_image = $imgUrl; // fallback jika gagal download
+        $featured_image = ''; // fallback kosong jika gagal download
     }
     $stmt = $pdo->prepare('INSERT INTO articles (title, slug, category, excerpt, content, featured_image, author_id, read_time, status, published_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $read_time = 3;
