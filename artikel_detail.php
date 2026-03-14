@@ -49,19 +49,27 @@ $canonical = $scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slu
 
 if (!empty($article['featured_image'])) {
     $img_path = $article['featured_image'];
-    
-    // Hilangkan slash di awal jika ada
-    $img_path = ltrim($img_path, '/');
-
-    // Jika path mengandung spasi, kita encode agar bot WA tidak bingung
-    // Kita pecah per folder agar karakter '/' tidak ikut ter-encode
-    $parts = explode('/', $img_path);
-    $encoded_parts = array_map('rawurlencode', $parts);
-    $safe_path = implode('/', $encoded_parts);
-
     if (strpos($img_path, 'http') === 0) {
-        $heroImg = $img_path; // Kalau link luar biasanya sudah aman
+        // Untuk URL eksternal, encode hanya nama file saja
+        $parsed = parse_url($img_path);
+        if (!empty($parsed['path'])) {
+            $pathParts = explode('/', $parsed['path']);
+            $filename = array_pop($pathParts);
+            $encodedFilename = rawurlencode($filename);
+            $encodedPath = implode('/', $pathParts) . '/' . $encodedFilename;
+            $heroImg = $parsed['scheme'] . '://' . $parsed['host'] . $encodedPath;
+            if (!empty($parsed['query'])) {
+                $heroImg .= '?' . $parsed['query'];
+            }
+        } else {
+            $heroImg = $img_path;
+        }
     } else {
+        // Untuk path lokal, encode semua bagian path
+        $img_path = ltrim($img_path, '/');
+        $parts = explode('/', $img_path);
+        $encoded_parts = array_map('rawurlencode', $parts);
+        $safe_path = implode('/', $encoded_parts);
         $heroImg = $scheme . '://' . $host . '/' . $safe_path;
     }
 } else {
@@ -148,7 +156,8 @@ white-space:nowrap;
 }
 
 .share-btn img{
-width:16px;
+width:18px;
+height:18px;
 }
 
 .article-content{
@@ -270,7 +279,7 @@ Ilustrasi teknologi Desadroid
 <div class="share-bar">
 
 <div class="share-btn" onclick="copyLink()">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/link.svg">
+<img src="src/icon/share.png">
 Copy
 </div>
 
