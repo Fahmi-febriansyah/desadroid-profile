@@ -48,7 +48,7 @@ if (!empty($baseDirSegments)) {
                         <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/artikel' : $baseDirUrl . '/artikel')) ?>">Blog</a></li>
                         <li><a href="#">Documentation</a></li>
                         <li><a href="#">Support</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/privacy.php' : $baseDirUrl . '/privacy.php')) ?>">Privacy Policy</a></li>
                     </ul>
                 </div>
             </div>
