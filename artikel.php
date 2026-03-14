@@ -99,6 +99,15 @@ line-height:1.6;
 margin-bottom:8px;
 }
 
+.blog-excerpt::before{
+content:"";
+display:"block";
+width:"100%";
+height:"100px";
+background:#f5f7fb;
+border-radius:8px;
+}
+
 .read-more{
 color:#0066cc;
 font-weight:600;
@@ -179,7 +188,7 @@ $articles = [];
 <?= date('d M Y', strtotime($article['published_date'])) ?> • <?= $article['read_time'] ?> min read
 </div>
 
-<p class="blog-excerpt">
+<p class="blog-excerpt" style="display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; max-height: 6.4em;">
 <?= htmlspecialchars($article['excerpt']) ?>
 </p>
 
