@@ -20,8 +20,8 @@ $stmt=$pdo->prepare("
 SELECT * FROM articles
 WHERE status='published'
 AND id!=?
-ORDER BY RAND()
-LIMIT 5
+ORDER BY published_date DESC
+LIMIT 6
 ");
 
 $stmt->execute([$article['id']]);
@@ -46,25 +46,64 @@ $heroImg=!empty($article['featured_image'])
 :'https://source.unsplash.com/1200x800/?technology';
 
 ?>
+
 <?php include 'partials/header.php'; ?>
+
+
+<!-- SEO SCHEMA -->
+<script type="application/ld+json">
+{
+"@context":"https://schema.org",
+"@type":"Article",
+"headline":"<?=htmlspecialchars($article['title'])?>",
+"image":"<?=$heroImg?>",
+"author":{
+"@type":"Person",
+"name":"<?=htmlspecialchars($article['author']??'Desadroid')?>"
+},
+"publisher":{
+"@type":"Organization",
+"name":"Desadroid"
+},
+"datePublished":"<?=$article['published_date']?>",
+"mainEntityOfPage":"<?=$canonical?>"
+}
+</script>
+
 
 <style>
 
-.article-container{
+.reading-progress{
+position:fixed;
+top:0;
+left:0;
+height:4px;
+background:#0066cc;
+width:0%;
+z-index:999;
+}
+
+.article-wrap{
 max-width:900px;
 margin:auto;
-padding:60px 20px;
-position:relative;
+padding:70px 20px;
 }
+
+/* TITLE */
 
 .article-title{
-font-size:36px;
+font-size:38px;
 font-weight:700;
 line-height:1.3;
-margin-bottom:10px;
+margin-bottom:15px;
 }
 
+/* META */
+
 .article-meta{
+display:flex;
+gap:15px;
+align-items:center;
 color:#666;
 font-size:14px;
 margin-bottom:25px;
@@ -72,15 +111,11 @@ margin-bottom:25px;
 
 /* HERO IMAGE */
 
-.hero{
-margin-bottom:30px;
-}
-
 .hero-img{
 width:100%;
 aspect-ratio:16/9;
 overflow:hidden;
-border-radius:10px;
+border-radius:12px;
 }
 
 .hero-img img{
@@ -89,10 +124,36 @@ height:100%;
 object-fit:cover;
 }
 
-.hero-caption{
-font-size:13px;
-color:#888;
+.img-caption{
+font-size:12px;
+color:#777;
 margin-top:6px;
+}
+
+/* SHARE */
+
+.share-bar{
+display:flex;
+gap:12px;
+overflow-x:auto;
+padding:10px 0;
+margin:20px 0;
+}
+
+.share-btn{
+display:flex;
+align-items:center;
+gap:6px;
+padding:8px 12px;
+background:#f1f5f9;
+border-radius:6px;
+font-size:14px;
+white-space:nowrap;
+cursor:pointer;
+}
+
+.share-btn img{
+width:16px;
 }
 
 /* CONTENT */
@@ -101,59 +162,41 @@ margin-top:6px;
 font-size:18px;
 line-height:1.9;
 color:#333;
+margin-top:20px;
 }
 
-/* SHARE SIDEBAR */
-
-.share-bar{
-position:sticky;
-top:120px;
-left:-70px;
-float:left;
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.share-btn{
-width:40px;
-height:40px;
-border-radius:50%;
-background:#f1f5f9;
-display:flex;
-align-items:center;
-justify-content:center;
-cursor:pointer;
-}
-
-.share-btn img{
-width:18px;
+.article-content p{
+margin-bottom:18px;
 }
 
 /* BACA JUGA */
 
-.baca-juga{
-background:#f8fafc;
+.read-more-box{
 border-left:4px solid #0066cc;
-padding:14px 16px;
+background:#f8fafc;
+padding:14px;
 margin:30px 0;
 }
 
-.baca-juga a{
+.read-more-box a{
 font-weight:700;
-text-decoration:none;
 color:#0066cc;
+text-decoration:none;
 }
 
 /* RELATED */
 
-.related-section{
+.related{
 margin-top:60px;
+}
+
+.related h3{
+margin-bottom:20px;
 }
 
 .related-grid{
 display:grid;
-grid-template-columns:repeat(3,1fr);
+grid-template-columns:1fr 1fr 1fr;
 gap:20px;
 }
 
@@ -161,35 +204,41 @@ gap:20px;
 background:#fff;
 border-radius:10px;
 overflow:hidden;
-box-shadow:0 6px 20px rgba(0,0,0,0.05);
+box-shadow:0 5px 20px rgba(0,0,0,0.05);
 }
 
-.related-card img{
+.related-img{
 width:100%;
-height:150px;
+aspect-ratio:16/9;
+overflow:hidden;
+}
+
+.related-img img{
+width:100%;
+height:100%;
 object-fit:cover;
 }
 
-.related-card h4{
-font-size:15px;
-padding:10px;
+.related-body{
+padding:12px;
+}
+
+.related-title{
+font-weight:600;
+font-size:14px;
 line-height:1.4;
 }
 
-.related-card a{
+.related-title a{
 text-decoration:none;
 color:#111;
 }
 
-.related-card a:hover{
+.related-title a:hover{
 color:#0066cc;
 }
 
 @media(max-width:900px){
-
-.share-bar{
-display:none;
-}
 
 .related-grid{
 grid-template-columns:1fr;
@@ -204,71 +253,76 @@ font-size:28px;
 </style>
 
 
-<section class="article-container">
+<div class="reading-progress"></div>
 
-<!-- SHARE BAR -->
+
+<section class="article-wrap">
+
+
+<h1 class="article-title">
+<?=htmlspecialchars($article['title'])?>
+</h1>
+
+
+<div class="article-meta">
+
+<span>👤 <?=htmlspecialchars($article['author']??'Tim Kami')?></span>
+
+<span>📅 <?=date('d M Y',strtotime($article['published_date']))?></span>
+
+</div>
+
+
+<div class="hero-img">
+<img src="<?=$heroImg?>">
+</div>
+
+<div class="img-caption">
+Ilustrasi artikel teknologi Desadroid
+</div>
+
 
 <div class="share-bar">
+
+<div class="share-btn" onclick="copyLink()">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/link.svg">
+Copy
+</div>
 
 <a class="share-btn"
 href="https://wa.me/?text=<?=urlencode($canonical)?>"
 target="_blank">
 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg">
+WhatsApp
 </a>
 
 <a class="share-btn"
 href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($canonical)?>"
 target="_blank">
 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg">
+Facebook
 </a>
 
-<div class="share-btn" onclick="copyLink()">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/link.svg">
-</div>
+<a class="share-btn"
+href="https://twitter.com/intent/tweet?url=<?=urlencode($canonical)?>"
+target="_blank">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/x.svg">
+X
+</a>
 
 </div>
 
 
-<!-- TITLE -->
 
-<h1 class="article-title">
-<?=htmlspecialchars($article['title'])?>
-</h1>
-
-<div class="article-meta">
-
-<?=htmlspecialchars($article['author']??'Tim Kami')?>  
-• <?=date('d M Y',strtotime($article['published_date']))?>
-
-</div>
-
-
-<!-- HERO IMAGE -->
-
-<div class="hero">
-
-<div class="hero-img">
-<img src="<?=$heroImg?>">
-</div>
-
-<div class="hero-caption">
-Ilustrasi teknologi • Desadroid
-</div>
-
-</div>
-
-
-<!-- CONTENT -->
-
-<div class="article-content" id="article-content">
+<div class="article-content" id="content">
 <?=$article['content']?>
 </div>
 
 
 
-<!-- RELATED -->
+<!-- RELATED ARTICLE -->
 
-<div class="related-section">
+<div class="related">
 
 <h3>Artikel Terkait</h3>
 
@@ -279,18 +333,26 @@ Ilustrasi teknologi • Desadroid
 <?php
 $rImg=!empty($r['featured_image'])
 ?$r['featured_image']
-:'https://source.unsplash.com/400x300/?technology';
+:'https://source.unsplash.com/600x400/?technology';
 ?>
 
 <div class="related-card">
 
-<a href="<?=$baseDir?>/artikel/<?=rawurlencode($r['slug'])?>">
-
+<div class="related-img">
 <img src="<?=$rImg?>">
+</div>
 
-<h4><?=htmlspecialchars($r['title'])?></h4>
+<div class="related-body">
 
+<div class="related-title">
+
+<a href="<?=$baseDir?>/artikel/<?=rawurlencode($r['slug'])?>">
+<?=htmlspecialchars($r['title'])?>
 </a>
+
+</div>
+
+</div>
 
 </div>
 
@@ -300,41 +362,61 @@ $rImg=!empty($r['featured_image'])
 
 </div>
 
-
 </section>
-
 
 
 <script>
 
-/* COPY LINK */
+/* reading progress */
+
+window.addEventListener("scroll",()=>{
+
+let winScroll=document.documentElement.scrollTop;
+let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
+
+let scrolled=(winScroll/height)*100;
+
+document.querySelector(".reading-progress").style.width=scrolled+"%";
+
+});
+
+
+/* copy link */
 
 function copyLink(){
+
 navigator.clipboard.writeText(window.location.href);
+
 alert("Link artikel disalin");
+
 }
 
 
-/* BACA JUGA INSERT */
+/* baca juga auto */
 
-const content=document.querySelector("#article-content");
+const paragraphs=document.querySelectorAll("#content p");
 
-let paragraphs=content.querySelectorAll("p");
+if(paragraphs.length>4){
 
-if(paragraphs.length>3){
+let box=document.createElement("div");
 
-let baca=document.createElement("div");
+box.className="read-more-box";
 
-baca.className="baca-juga";
+box.innerHTML='Baca juga: <a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[0]['slug']??'')?>"><?=htmlspecialchars($related[0]['title']??'Artikel lainnya')?></a>';
 
-baca.innerHTML=`Baca juga: 
-<a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[0]['slug']??'')?>">
+paragraphs[2].after(box);
 
-<?=htmlspecialchars($related[0]['title']??'Artikel lainnya')?> 
+}
 
-</a>`;
+if(paragraphs.length>7){
 
-paragraphs[2].after(baca);
+let box=document.createElement("div");
+
+box.className="read-more-box";
+
+box.innerHTML='Baca juga: <a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[1]['slug']??'')?>"><?=htmlspecialchars($related[1]['title']??'Artikel lainnya')?></a>';
+
+paragraphs[5].after(box);
 
 }
 
