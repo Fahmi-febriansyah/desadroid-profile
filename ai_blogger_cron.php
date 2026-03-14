@@ -81,15 +81,11 @@ function generateArticle($prompt) {
 
 // Fungsi: Download gambar dari URL dan simpan ke uploads/articles/, return path lokal
 function downloadImageToLocal($url, $slug) {
-    // Pastikan direktori uploads/articles/ ada
-    $uploadDir = realpath(__DIR__ . '/../uploads/articles');
-    if ($uploadDir === false) {
-        $uploadDir = __DIR__ . '/../uploads/articles';
-        if (!is_dir($uploadDir)) {
-            if (!mkdir($uploadDir, 0775, true)) {
-                error_log('Gagal membuat direktori uploads/articles');
-                return null;
-            }
+    $uploadDir = __DIR__ . '/uploads/articles'; // ABSOLUTE path, same dir as script
+    if (!is_dir($uploadDir)) {
+        if (!mkdir($uploadDir, 0755, true)) {
+            error_log('Gagal membuat direktori uploads/articles: ' . $uploadDir);
+            return null;
         }
     }
     $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
@@ -97,13 +93,22 @@ function downloadImageToLocal($url, $slug) {
     $filename = $slug . '_' . time() . '.' . $ext;
     $fullPath = $uploadDir . '/' . $filename;
     $relativePath = '/uploads/articles/' . $filename;
-    $imgData = @file_get_contents($url);
-    if ($imgData === false) {
-        error_log('Gagal download gambar dari: ' . $url);
+
+    // Download image with cURL
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    $imgData = curl_exec($ch);
+    $curlErr = curl_error($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+    if ($imgData === false || $httpCode !== 200) {
+        error_log('Gagal download gambar dari: ' . $url . ' | HTTP: ' . $httpCode . ' | cURL error: ' . $curlErr);
         return null;
     }
     if (file_put_contents($fullPath, $imgData) === false) {
-        error_log('Gagal menyimpan gambar ke: ' . $fullPath);
+        error_log('Gagal menyimpan gambar ke: ' . $fullPath . ' | Cek permission folder uploads/articles');
         return null;
     }
     return $relativePath;
