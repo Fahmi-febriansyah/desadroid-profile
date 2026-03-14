@@ -50,15 +50,21 @@ $canonical = $scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slu
 if (!empty($article['featured_image'])) {
     $img_path = $article['featured_image'];
     
-    // Jika di database sudah ada http atau https (link luar), pakai langsung
+    // Hilangkan slash di awal jika ada
+    $img_path = ltrim($img_path, '/');
+
+    // Jika path mengandung spasi, kita encode agar bot WA tidak bingung
+    // Kita pecah per folder agar karakter '/' tidak ikut ter-encode
+    $parts = explode('/', $img_path);
+    $encoded_parts = array_map('rawurlencode', $parts);
+    $safe_path = implode('/', $encoded_parts);
+
     if (strpos($img_path, 'http') === 0) {
-        $heroImg = $img_path;
+        $heroImg = $img_path; // Kalau link luar biasanya sudah aman
     } else {
-        // Jika link lokal, bersihkan slash di awal biar tidak double (//)
-        $heroImg = $scheme . '://' . $host . '/' . ltrim($img_path, '/');
+        $heroImg = $scheme . '://' . $host . '/' . $safe_path;
     }
 } else {
-    // Gambar default jika artikel tidak punya foto
     $heroImg = 'https://source.unsplash.com/1200x800/?technology';
 }
 
@@ -74,9 +80,6 @@ if (!empty($article['featured_image'])) {
 <meta property="og:title" content="<?=htmlspecialchars($article['title'])?>">
 <meta property="og:description" content="<?=htmlspecialchars($article['excerpt'] ?? '')?>">
 <meta property="og:image" content="<?=$heroImg?>">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:type" content="image/jpeg">
 <meta property="og:url" content="<?=$canonical?>">
 
 <meta name="twitter:card" content="summary_large_image">
