@@ -1,115 +1,93 @@
 <?php
+// Debug log WA webhook - HARUS PALING ATAS!
+$input = file_get_contents('php://input');
+$debugFile = __DIR__ . '/callback_debug.log';
+file_put_contents($debugFile, date('c') . "\nINPUT:\n" . $input . "\n\n", FILE_APPEND);
+
 require_once __DIR__ . '/config/db.php';
 
-define('FONNTE_TOKEN', 'TOKEN_KAMU');
+// Konfigurasi API
+define('FONNTE_TOKEN', 'yTQYghDMCByYnK18nz5k');
 
-// ambil data webhook
-$data = $_POST;
-
-// fallback jika bukan POST form
-if (empty($data)) {
-    $raw = file_get_contents("php://input");
-    $data = json_decode($raw, true);
-
-    if (!$data) {
-        parse_str($raw, $data);
-    }
-} else {
-    $raw = json_encode($data);
+// Fungsi: Ubah nomor WA ke format internasional (62)
+function formatWaNumber($number) {
+    $number = preg_replace('/\D/', '', $number);
+    if (strpos($number, '62') === 0) return $number;
+    if (strpos($number, '0') === 0) return '62' . substr($number, 1);
+    return $number;
 }
 
-// log webhook dipanggil
-file_put_contents(
-    __DIR__ . '/callback_status.log',
-    date('c') . " - Webhook dipanggil\n",
-    FILE_APPEND
-);
-
-// log debug data
-file_put_contents(
-    __DIR__ . '/callback_debug.log',
-    date('c') . "\nRAW:\n" . $raw . "\nDATA:\n" . print_r($data, true) . "\n\n",
-    FILE_APPEND
-);
-
-// ambil pesan
-$message = strtolower(trim($data['message'] ?? ''));
-$from    = $data['sender'] ?? '';
-
-if (!$message || !$from) {
-    echo "No message";
-    exit;
-}
-
-// fungsi kirim WA
-function sendWhatsApp($number, $message)
-{
+// Fungsi: Kirim pesan WhatsApp via Fonnte
+function sendWhatsApp($number, $message) {
+    $number = formatWaNumber($number);
     $curl = curl_init();
-
-    curl_setopt_array($curl, [
-        CURLOPT_URL => "https://api.fonnte.com/send",
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://api.fonnte.com/send',
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => [
-            "target"  => $number,
-            "message" => $message
-        ],
+        CURLOPT_CUSTOMREQUEST => 'POST',
+        CURLOPT_POSTFIELDS => http_build_query([
+            'target' => $number,
+            'message' => $message
+        ]),
         CURLOPT_HTTPHEADER => [
-            "Authorization: " . FONNTE_TOKEN
-        ]
-    ]);
-
+            'Authorization: ' . FONNTE_TOKEN
+        ],
+    ));
     $response = curl_exec($curl);
+    $err = curl_error($curl);
     curl_close($curl);
-
+    if ($err) return false;
     return $response;
 }
 
+// Hanya terima POST
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    http_response_code(405);
+    exit('Method Not Allowed');
+}
 
-// cek command approve / reject
-if (preg_match('/^(approve|reject)\s*(\d+)/', $message, $match)) {
+// Ambil data dari Fonnte (cek dokumentasi Fonnte untuk format pasti)
+$data = json_decode($input, true);
+if (!$data) {
+    parse_str($input, $data); // fallback jika x-www-form-urlencoded
+}
 
-    $action = $match[1];
-    $article_id = intval($match[2]);
+// Debug log hasil parsing
+$data_log = print_r($data, true);
+file_put_contents($debugFile, date('c') . "\nPARSED:\n" . $data_log . "\n\n", FILE_APPEND);
 
-    // cek artikel
-    $stmt = $pdo->prepare("SELECT * FROM articles WHERE id=?");
+// Cek pesan WA
+$message = strtolower(trim($data['message'] ?? ''));
+$from = $data['number'] ?? '';
+
+if (preg_match('/^(approve|reject)\s*(\d+)/i', $message, $matches)) {
+    $action = strtolower($matches[1]);
+    $article_id = intval($matches[2]);
+
+    // Cek artikel
+    $stmt = $pdo->prepare('SELECT * FROM articles WHERE id = ?');
     $stmt->execute([$article_id]);
     $article = $stmt->fetch();
-
     if (!$article) {
-        sendWhatsApp($from, "Artikel tidak ditemukan.");
-        exit;
+        sendWhatsApp($from, 'Artikel tidak ditemukan.');
+        exit('Artikel tidak ditemukan');
     }
 
-    if ($action == "approve") {
-
-        $stmt = $pdo->prepare(
-            "UPDATE articles 
-             SET status='published', published_date=NOW() 
-             WHERE id=?"
-        );
-        $stmt->execute([$article_id]);
-
-        $msg = "✅ Artikel ID $article_id berhasil dipublish.";
-
+    if ($action === 'approve') {
+        // Publish artikel
+        $stmt = $pdo->prepare('UPDATE articles SET status = ?, published_date = ? WHERE id = ?');
+        $stmt->execute(['published', date('Y-m-d H:i:s'), $article_id]);
+        $resultMsg = "Artikel ID $article_id berhasil dipublish.";
     } else {
-
-        $stmt = $pdo->prepare(
-            "UPDATE articles 
-             SET status='draft' 
-             WHERE id=?"
-        );
-        $stmt->execute([$article_id]);
-
-        $msg = "❌ Artikel ID $article_id ditolak.";
+        // Tolak artikel
+        $stmt = $pdo->prepare('UPDATE articles SET status = ? WHERE id = ?');
+        $stmt->execute(['draft', $article_id]);
+        $resultMsg = "Artikel ID $article_id ditolak dan diubah ke draft.";
     }
-
-    // kirim balasan ke WA
-    sendWhatsApp($from, $msg);
-
-    echo "OK";
+    // Balas ke admin
+    sendWhatsApp($from, $resultMsg);
+    echo $resultMsg;
     exit;
 }
 
-echo "Command tidak dikenali.";
+echo 'Format pesan tidak dikenali.';
