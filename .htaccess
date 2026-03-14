@@ -1,0 +1,23 @@
+RewriteEngine On
+
+# Don't rewrite existing files or directories
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Pretty URL for article detail: /artikel/slug -> artikel_detail.php?slug=slug
+RewriteRule ^artikel/([^/]+)/?$ artikel_detail.php?slug=$1 [L,QSA]
+
+# Pretty URL for article list: /artikel -> artikel.php
+RewriteRule ^artikel/?$ artikel.php [L,QSA]
+
+# Admin pretty URLs: /admin -> admin/index.php, /admin/dashboard -> admin/dashboard.php
+RewriteRule ^admin/?$ admin/index.php [L,QSA]
+RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L,QSA]
+# Admin subpages: /admin/section[/sub] -> admin/section.php or admin/section/sub.php
+RewriteRule ^admin/([^/]+)/?$ admin/$1.php [L,QSA]
+RewriteRule ^admin/([^/]+)/([^/]+)/?$ admin/$1/$2.php [L,QSA]
+
+# Generic pretty URLs for top-level pages (e.g. /tentang -> tentang.php)
+# This will only apply when the requested path isn't an existing file/dir (handled above).
+RewriteRule ^([A-Za-z0-9-]+)/?$ $1.php [L,QSA]

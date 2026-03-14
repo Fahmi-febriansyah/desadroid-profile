@@ -1,0 +1,26 @@
+# robots.txt for desadroid.shop
+# Allow search engines to index public site while blocking admin and sensitive paths.
+
+# Host and sitemap (Sitemap line is standard; Host is optional/non-standard but sometimes used)
+Host: desadroid.shop
+Sitemap: https://desadroid.shop/sitemap.xml
+
+User-agent: *
+# Allow main assets so crawlers can render pages (important for Mobile-first indexing)
+Allow: /src/css/
+Allow: /src/js/
+Allow: /src/img/
+Allow: /src/icon/
+
+# Prefer crawling pretty URLs; block admin and backend folders
+Disallow: /admin/
+Disallow: /vendor/
+Disallow: /config/
+Disallow: /uploads/
+Disallow: /signatures/
+
+# Give search engines a friendly crawl pace
+Crawl-delay: 5
+
+# Sitemap location (again for clarity)
+Sitemap: https://desadroid.shop/sitemap.xml
