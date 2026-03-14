@@ -1,95 +1,80 @@
 <?php
 require_once 'config/db.php';
 
-$slug=$_GET['slug'] ?? '';
-$article=null;
-$related=[];
+$slug = $_GET['slug'] ?? '';
+$article = null;
+$related = [];
+$allArticles = [];
 
-$baseDir=rtrim(dirname($_SERVER['SCRIPT_NAME']),'/\\');
-if($baseDir==='/')$baseDir='';
+$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
+if ($baseDir === '/') $baseDir = '';
 
-if($slug){
+if ($slug) {
 
-$stmt=$pdo->prepare("SELECT * FROM articles WHERE slug=? AND status='published'");
+$stmt = $pdo->prepare("SELECT * FROM articles WHERE slug=? AND status='published'");
 $stmt->execute([$slug]);
-$article=$stmt->fetch();
+$article = $stmt->fetch();
 
-if($article){
+if ($article) {
 
-$stmt=$pdo->prepare("
+$stmt = $pdo->prepare("
 SELECT * FROM articles
 WHERE status='published'
 AND id!=?
 ORDER BY published_date DESC
 LIMIT 6
 ");
-
 $stmt->execute([$article['id']]);
-$related=$stmt->fetchAll();
+$related = $stmt->fetchAll();
+
+$allArticles = $pdo->query("
+SELECT title,slug
+FROM articles
+WHERE status='published'
+")->fetchAll();
 
 }
 
 }
 
-if(!$article){
+if (!$article) {
 echo "Artikel tidak ditemukan";
 exit;
 }
 
-$scheme=(!empty($_SERVER['HTTPS'])&&$_SERVER['HTTPS']!=='off')?'https':'http';
-$host=$_SERVER['HTTP_HOST'];
+$scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
 
-$canonical=$scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slug']);
+$canonical = $scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slug']);
 
-$heroImg=!empty($article['featured_image'])
-?$article['featured_image']
-:'https://source.unsplash.com/1200x800/?technology';
+$heroImg = !empty($article['featured_image'])
+? $scheme.'://'.$host.'/'.$article['featured_image']
+: 'https://source.unsplash.com/1200x800/?technology';
 
 ?>
-
 <?php include 'partials/header.php'; ?>
 
 
-<!-- SEO SCHEMA -->
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"Article",
-"headline":"<?=htmlspecialchars($article['title'])?>",
-"image":"<?=$heroImg?>",
-"author":{
-"@type":"Person",
-"name":"<?=htmlspecialchars($article['author']??'Desadroid')?>"
-},
-"publisher":{
-"@type":"Organization",
-"name":"Desadroid"
-},
-"datePublished":"<?=$article['published_date']?>",
-"mainEntityOfPage":"<?=$canonical?>"
-}
-</script>
+<!-- SEO META -->
+
+<meta name="description" content="<?=htmlspecialchars($article['excerpt'] ?? '')?>">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="<?=htmlspecialchars($article['title'])?>">
+<meta property="og:description" content="<?=htmlspecialchars($article['excerpt'] ?? '')?>">
+<meta property="og:image" content="<?=$heroImg?>">
+<meta property="og:url" content="<?=$canonical?>">
+
+<meta name="twitter:card" content="summary_large_image">
 
 
 <style>
-
-.reading-progress{
-position:fixed;
-top:0;
-left:0;
-height:4px;
-background:#0066cc;
-width:0%;
-z-index:999;
-}
 
 .article-wrap{
 max-width:900px;
 margin:auto;
 padding:70px 20px;
 }
-
-/* TITLE */
 
 .article-title{
 font-size:38px;
@@ -98,18 +83,13 @@ line-height:1.3;
 margin-bottom:15px;
 }
 
-/* META */
-
 .article-meta{
 display:flex;
 gap:15px;
-align-items:center;
 color:#666;
 font-size:14px;
 margin-bottom:25px;
 }
-
-/* HERO IMAGE */
 
 .hero-img{
 width:100%;
@@ -130,8 +110,6 @@ color:#777;
 margin-top:6px;
 }
 
-/* SHARE */
-
 .share-bar{
 display:flex;
 gap:12px;
@@ -148,28 +126,34 @@ padding:8px 12px;
 background:#f1f5f9;
 border-radius:6px;
 font-size:14px;
-white-space:nowrap;
 cursor:pointer;
+white-space:nowrap;
 }
 
 .share-btn img{
 width:16px;
 }
 
-/* CONTENT */
-
 .article-content{
-font-size:18px;
+font-size:19px;
 line-height:1.9;
 color:#333;
 margin-top:20px;
 }
 
 .article-content p{
-margin-bottom:18px;
+margin-bottom:22px;
 }
 
-/* BACA JUGA */
+.article-content a{
+color:#0066cc;
+font-weight:600;
+text-decoration:none;
+}
+
+.article-content a:hover{
+text-decoration:underline;
+}
 
 .read-more-box{
 border-left:4px solid #0066cc;
@@ -178,20 +162,8 @@ padding:14px;
 margin:30px 0;
 }
 
-.read-more-box a{
-font-weight:700;
-color:#0066cc;
-text-decoration:none;
-}
-
-/* RELATED */
-
 .related{
 margin-top:60px;
-}
-
-.related h3{
-margin-bottom:20px;
 }
 
 .related-grid{
@@ -253,9 +225,6 @@ font-size:28px;
 </style>
 
 
-<div class="reading-progress"></div>
-
-
 <section class="article-wrap">
 
 
@@ -263,10 +232,9 @@ font-size:28px;
 <?=htmlspecialchars($article['title'])?>
 </h1>
 
-
 <div class="article-meta">
 
-<span>👤 <?=htmlspecialchars($article['author']??'Tim Kami')?></span>
+<span>👤 <?=htmlspecialchars($article['author'] ?? 'Tim Kami')?></span>
 
 <span>📅 <?=date('d M Y',strtotime($article['published_date']))?></span>
 
@@ -278,7 +246,7 @@ font-size:28px;
 </div>
 
 <div class="img-caption">
-Ilustrasi artikel teknologi Desadroid
+Ilustrasi teknologi Desadroid
 </div>
 
 
@@ -303,24 +271,41 @@ target="_blank">
 Facebook
 </a>
 
-<a class="share-btn"
-href="https://twitter.com/intent/tweet?url=<?=urlencode($canonical)?>"
-target="_blank">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/x.svg">
-X
-</a>
-
 </div>
 
 
 
 <div class="article-content" id="content">
-<?=$article['content']?>
+
+<?php
+$content = '<p>'.implode('</p><p>', explode("\n", $article['content'])).'</p>';
+
+/* AUTO INTERNAL LINK SEO */
+
+foreach($allArticles as $a){
+
+if($a['slug'] != $article['slug']){
+
+$url = $baseDir.'/artikel/'.rawurlencode($a['slug']);
+
+$content = preg_replace(
+'/\b('.preg_quote($a['title'],'/').')\b/i',
+'<a href="'.$url.'">$1</a>',
+$content,
+1
+);
+
+}
+
+}
+
+echo $content;
+
+?>
+
 </div>
 
 
-
-<!-- RELATED ARTICLE -->
 
 <div class="related">
 
@@ -362,26 +347,11 @@ $rImg=!empty($r['featured_image'])
 
 </div>
 
+
 </section>
 
 
 <script>
-
-/* reading progress */
-
-window.addEventListener("scroll",()=>{
-
-let winScroll=document.documentElement.scrollTop;
-let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-
-let scrolled=(winScroll/height)*100;
-
-document.querySelector(".reading-progress").style.width=scrolled+"%";
-
-});
-
-
-/* copy link */
 
 function copyLink(){
 
@@ -391,8 +361,7 @@ alert("Link artikel disalin");
 
 }
 
-
-/* baca juga auto */
+/* BACA JUGA */
 
 const paragraphs=document.querySelectorAll("#content p");
 
@@ -402,7 +371,7 @@ let box=document.createElement("div");
 
 box.className="read-more-box";
 
-box.innerHTML='Baca juga: <a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[0]['slug']??'')?>"><?=htmlspecialchars($related[0]['title']??'Artikel lainnya')?></a>';
+box.innerHTML='Baca juga: <a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[0]['slug'] ?? '')?>"><?=htmlspecialchars($related[0]['title'] ?? 'Artikel lainnya')?></a>';
 
 paragraphs[2].after(box);
 
@@ -414,7 +383,7 @@ let box=document.createElement("div");
 
 box.className="read-more-box";
 
-box.innerHTML='Baca juga: <a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[1]['slug']??'')?>"><?=htmlspecialchars($related[1]['title']??'Artikel lainnya')?></a>';
+box.innerHTML='Baca juga: <a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[1]['slug'] ?? '')?>"><?=htmlspecialchars($related[1]['title'] ?? 'Artikel lainnya')?></a>';
 
 paragraphs[5].after(box);
 
