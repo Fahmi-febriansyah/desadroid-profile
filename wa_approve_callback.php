@@ -1,8 +1,15 @@
 <?php
-// Debug log WA webhook - HARUS PALING ATAS!
+// HARUS PALING ATAS! Ambil input POST dan log
 $input = file_get_contents('php://input');
 $debugFile = __DIR__ . '/callback_debug.log';
 file_put_contents($debugFile, date('c') . "\nINPUT:\n" . $input . "\n\n", FILE_APPEND);
+
+// Parse data POST
+$data = json_decode($input, true);
+if (!$data) {
+    parse_str($input, $data); // fallback jika x-www-form-urlencoded
+}
+file_put_contents($debugFile, date('c') . "\nPARSED:\n" . print_r($data, true) . "\n\n", FILE_APPEND);
 
 require_once __DIR__ . '/config/db.php';
 
@@ -45,16 +52,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
     exit('Method Not Allowed');
 }
-
-// Ambil data dari Fonnte (cek dokumentasi Fonnte untuk format pasti)
-$data = json_decode($input, true);
-if (!$data) {
-    parse_str($input, $data); // fallback jika x-www-form-urlencoded
-}
-
-// Debug log hasil parsing
-$data_log = print_r($data, true);
-file_put_contents($debugFile, date('c') . "\nPARSED:\n" . $data_log . "\n\n", FILE_APPEND);
 
 // Cek pesan WA
 $message = strtolower(trim($data['message'] ?? ''));
