@@ -79,13 +79,29 @@ function generateArticle($prompt) {
     return [true, compact('title', 'category', 'content', 'keyword', 'excerpt')];
 }
 
+// Fungsi: Download gambar dari URL dan simpan ke uploads/articles/
+function downloadImageToLocal($url, $slug) {
+    $ext = pathinfo(parse_url($url, PHP_URL_PATH), PATHINFO_EXTENSION);
+    if (!$ext) $ext = 'jpg';
+    $filename = 'uploads/articles/' . $slug . '_' . time() . '.' . $ext;
+    $fullPath = __DIR__ . '/../' . $filename;
+    $imgData = @file_get_contents($url);
+    if ($imgData === false) return null;
+    file_put_contents($fullPath, $imgData);
+    return '/' . $filename;
+}
+
 // Fungsi: Simpan artikel ke database (status: published)
 function saveArticle($pdo, $data) {
     $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9-]+/', '-', $data['title']), '-')) . '-' . time();
+    $imgUrl = 'https://loremflickr.com/800/400/' . urlencode($data['keyword']);
+    $featured_image = downloadImageToLocal($imgUrl, $slug);
+    if (!$featured_image) {
+        $featured_image = $imgUrl; // fallback jika gagal download
+    }
     $stmt = $pdo->prepare('INSERT INTO articles (title, slug, category, excerpt, content, featured_image, author_id, read_time, status, published_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    $featured_image = 'https://loremflickr.com/800/400/' . urlencode($data['keyword']);
     $read_time = 3;
-    $status = 'published'; // langsung publish
+    $status = 'published';
     $published_date = date('Y-m-d H:i:s');
     $stmt->execute([
         $data['title'],
@@ -126,7 +142,7 @@ function sendWhatsApp($number, $message) {
 }
 
 // MAIN LOGIC
-$prompt = "Buatkan artikel blog singkat tentang pentingnya digital marketing untuk UMKM di Indonesia. Format: Judul di baris pertama, lalu baris kedua 'Kategori: ...', lalu isi artikel. Di baris paling terakhir sendiri, tuliskan hanya 1 kata kunci bahasa inggris yang cocok untuk gambar artikel ini, awali dengan kata KEYWORD: (contoh: KEYWORD: marketing)";
+$prompt = "Buatkan artikel blog yang menarik, unik, dan SEO-friendly tentang topik apapun yang sedang tren atau penting di dunia teknologi, inovasi, atau digital. Judul harus mengandung kata kunci yang relevan dan clickbait, cocok untuk SEO. Format: Judul di baris pertama, lalu baris kedua 'Kategori: ...', lalu isi artikel. Di baris paling terakhir sendiri, tuliskan hanya 1 kata kunci bahasa inggris yang cocok untuk gambar artikel ini, awali dengan kata KEYWORD: (contoh: KEYWORD: ai)";
 
 list($ok, $result) = generateArticle($prompt);
 if (!$ok) {
