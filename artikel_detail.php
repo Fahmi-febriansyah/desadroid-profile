@@ -47,9 +47,20 @@ $host = $_SERVER['HTTP_HOST'];
 
 $canonical = $scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slug']);
 
-$heroImg = !empty($article['featured_image'])
-? $scheme.'://'.$host.'/'.$article['featured_image']
-: 'https://source.unsplash.com/1200x800/?technology';
+if (!empty($article['featured_image'])) {
+    $img_path = $article['featured_image'];
+    
+    // Jika di database sudah ada http atau https (link luar), pakai langsung
+    if (strpos($img_path, 'http') === 0) {
+        $heroImg = $img_path;
+    } else {
+        // Jika link lokal, bersihkan slash di awal biar tidak double (//)
+        $heroImg = $scheme . '://' . $host . '/' . ltrim($img_path, '/');
+    }
+} else {
+    // Gambar default jika artikel tidak punya foto
+    $heroImg = 'https://source.unsplash.com/1200x800/?technology';
+}
 
 ?>
 <?php include 'partials/header.php'; ?>
@@ -63,6 +74,9 @@ $heroImg = !empty($article['featured_image'])
 <meta property="og:title" content="<?=htmlspecialchars($article['title'])?>">
 <meta property="og:description" content="<?=htmlspecialchars($article['excerpt'] ?? '')?>">
 <meta property="og:image" content="<?=$heroImg?>">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
 <meta property="og:url" content="<?=$canonical?>">
 
 <meta name="twitter:card" content="summary_large_image">
