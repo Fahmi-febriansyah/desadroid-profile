@@ -1,7 +1,7 @@
 <?php
 require_once 'config/db.php';
 
-$slug = $_GET['slug'] ?? '';
+$slug=$_GET['slug'] ?? '';
 $article=null;
 $related=[];
 
@@ -19,17 +19,12 @@ if($article){
 $stmt=$pdo->prepare("
 SELECT * FROM articles
 WHERE status='published'
-AND category=?
 AND id!=?
 ORDER BY RAND()
-LIMIT 3
+LIMIT 5
 ");
 
-$stmt->execute([
-$article['category'],
-$article['id']
-]);
-
+$stmt->execute([$article['id']]);
 $related=$stmt->fetchAll();
 
 }
@@ -51,71 +46,41 @@ $heroImg=!empty($article['featured_image'])
 :'https://source.unsplash.com/1200x800/?technology';
 
 ?>
-
 <?php include 'partials/header.php'; ?>
-
-
-<!-- SEO SCHEMA -->
-<script type="application/ld+json">
-{
-"@context":"https://schema.org",
-"@type":"Article",
-"headline":"<?=htmlspecialchars($article['title'])?>",
-"image":"<?=$heroImg?>",
-"author":{
-"@type":"Person",
-"name":"<?=htmlspecialchars($article['author']??'Desadroid')?>"
-},
-"publisher":{
-"@type":"Organization",
-"name":"Desadroid",
-"logo":{
-"@type":"ImageObject",
-"url":"<?=$baseDir?>/logo.png"
-}
-},
-"datePublished":"<?=$article['published_date']?>",
-"mainEntityOfPage":"<?=$canonical?>"
-}
-</script>
-
 
 <style>
 
-.reading-progress{
-position:fixed;
-top:0;
-left:0;
-height:4px;
-background:#0066cc;
-width:0;
-z-index:999;
-}
-
-.article-wrapper{
-max-width:1200px;
+.article-container{
+max-width:900px;
 margin:auto;
-padding:80px 20px;
-display:grid;
-grid-template-columns:3fr 1fr;
-gap:50px;
+padding:60px 20px;
+position:relative;
 }
 
-.article-card{
-background:#fff;
-padding:40px;
-border-radius:14px;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
+.article-title{
+font-size:36px;
+font-weight:700;
+line-height:1.3;
+margin-bottom:10px;
 }
 
-/* HERO */
+.article-meta{
+color:#666;
+font-size:14px;
+margin-bottom:25px;
+}
+
+/* HERO IMAGE */
+
+.hero{
+margin-bottom:30px;
+}
 
 .hero-img{
 width:100%;
 aspect-ratio:16/9;
 overflow:hidden;
-border-radius:12px;
-margin-bottom:30px;
+border-radius:10px;
 }
 
 .hero-img img{
@@ -124,18 +89,10 @@ height:100%;
 object-fit:cover;
 }
 
-/* TITLE */
-
-.article-title{
-font-size:34px;
-font-weight:700;
-margin-bottom:10px;
-}
-
-.meta{
-color:#777;
-font-size:14px;
-margin-bottom:20px;
+.hero-caption{
+font-size:13px;
+color:#888;
+margin-top:6px;
 }
 
 /* CONTENT */
@@ -146,70 +103,23 @@ line-height:1.9;
 color:#333;
 }
 
-/* TOC */
+/* SHARE SIDEBAR */
 
-.toc{
-background:#f8fafc;
-border-radius:10px;
-padding:18px;
-margin-bottom:25px;
-}
-
-.toc h4{
-margin-bottom:10px;
-font-size:16px;
-}
-
-.toc a{
-display:block;
-font-size:14px;
-color:#0066cc;
-margin-bottom:6px;
-text-decoration:none;
-}
-
-/* SIDEBAR */
-
-.sidebar{
+.share-bar{
 position:sticky;
-top:100px;
-}
-
-.sidebar-card{
-background:#fff;
-padding:20px;
-border-radius:10px;
-box-shadow:0 6px 20px rgba(0,0,0,0.05);
-margin-bottom:20px;
-}
-
-.related-item{
-margin-bottom:12px;
-}
-
-.related-item a{
-font-weight:600;
-color:#111;
-text-decoration:none;
-}
-
-.related-item a:hover{
-color:#0066cc;
-}
-
-/* SHARE */
-
-.share{
+top:120px;
+left:-70px;
+float:left;
 display:flex;
+flex-direction:column;
 gap:10px;
-margin-top:20px;
 }
 
 .share-btn{
-width:38px;
-height:38px;
+width:40px;
+height:40px;
+border-radius:50%;
 background:#f1f5f9;
-border-radius:8px;
 display:flex;
 align-items:center;
 justify-content:center;
@@ -220,10 +130,73 @@ cursor:pointer;
 width:18px;
 }
 
+/* BACA JUGA */
+
+.baca-juga{
+background:#f8fafc;
+border-left:4px solid #0066cc;
+padding:14px 16px;
+margin:30px 0;
+}
+
+.baca-juga a{
+font-weight:700;
+text-decoration:none;
+color:#0066cc;
+}
+
+/* RELATED */
+
+.related-section{
+margin-top:60px;
+}
+
+.related-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+}
+
+.related-card{
+background:#fff;
+border-radius:10px;
+overflow:hidden;
+box-shadow:0 6px 20px rgba(0,0,0,0.05);
+}
+
+.related-card img{
+width:100%;
+height:150px;
+object-fit:cover;
+}
+
+.related-card h4{
+font-size:15px;
+padding:10px;
+line-height:1.4;
+}
+
+.related-card a{
+text-decoration:none;
+color:#111;
+}
+
+.related-card a:hover{
+color:#0066cc;
+}
+
 @media(max-width:900px){
 
-.article-wrapper{
+.share-bar{
+display:none;
+}
+
+.related-grid{
 grid-template-columns:1fr;
+}
+
+.article-title{
+font-size:28px;
 }
 
 }
@@ -231,51 +204,11 @@ grid-template-columns:1fr;
 </style>
 
 
-<div class="reading-progress"></div>
+<section class="article-container">
 
+<!-- SHARE BAR -->
 
-<section class="article-wrapper">
-
-<article class="article-card">
-
-<div class="hero-img">
-<img src="<?=$heroImg?>">
-</div>
-
-<h1 class="article-title">
-<?=htmlspecialchars($article['title'])?>
-</h1>
-
-<div class="meta">
-<?=date('d M Y',strtotime($article['published_date']))?>
-•
-<?=htmlspecialchars($article['author']??'Tim Kami')?>
-</div>
-
-
-<!-- TOC -->
-<div class="toc">
-<h4>Daftar Isi</h4>
-<div id="toc-list"></div>
-</div>
-
-
-<div class="article-content" id="article-content">
-<?=$article['content']?>
-</div>
-
-
-<div class="share">
-
-<div class="share-btn" onclick="copyLink()">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/link.svg">
-</div>
-
-<a class="share-btn"
-href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($canonical)?>"
-target="_blank">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg">
-</a>
+<div class="share-bar">
 
 <a class="share-btn"
 href="https://wa.me/?text=<?=urlencode($canonical)?>"
@@ -283,43 +216,90 @@ target="_blank">
 <img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg">
 </a>
 
+<a class="share-btn"
+href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($canonical)?>"
+target="_blank">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg">
+</a>
+
+<div class="share-btn" onclick="copyLink()">
+<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/link.svg">
 </div>
 
-</article>
+</div>
 
 
-<!-- SIDEBAR -->
+<!-- TITLE -->
 
-<aside class="sidebar">
+<h1 class="article-title">
+<?=htmlspecialchars($article['title'])?>
+</h1>
 
-<div class="sidebar-card">
+<div class="article-meta">
 
-<h4>Artikel Terkait</h4>
+<?=htmlspecialchars($article['author']??'Tim Kami')?>  
+• <?=date('d M Y',strtotime($article['published_date']))?>
+
+</div>
+
+
+<!-- HERO IMAGE -->
+
+<div class="hero">
+
+<div class="hero-img">
+<img src="<?=$heroImg?>">
+</div>
+
+<div class="hero-caption">
+Ilustrasi teknologi • Desadroid
+</div>
+
+</div>
+
+
+<!-- CONTENT -->
+
+<div class="article-content" id="article-content">
+<?=$article['content']?>
+</div>
+
+
+
+<!-- RELATED -->
+
+<div class="related-section">
+
+<h3>Artikel Terkait</h3>
+
+<div class="related-grid">
 
 <?php foreach($related as $r): ?>
 
-<div class="related-item">
+<?php
+$rImg=!empty($r['featured_image'])
+?$r['featured_image']
+:'https://source.unsplash.com/400x300/?technology';
+?>
+
+<div class="related-card">
+
 <a href="<?=$baseDir?>/artikel/<?=rawurlencode($r['slug'])?>">
-<?=htmlspecialchars($r['title'])?>
+
+<img src="<?=$rImg?>">
+
+<h4><?=htmlspecialchars($r['title'])?></h4>
+
 </a>
+
 </div>
 
 <?php endforeach; ?>
 
 </div>
 
-
-<div class="sidebar-card">
-
-<h4>Share Artikel</h4>
-
-<p style="font-size:14px;color:#666">
-Bagikan artikel ini ke teman atau sosial media.
-</p>
-
 </div>
 
-</aside>
 
 </section>
 
@@ -327,53 +307,36 @@ Bagikan artikel ini ke teman atau sosial media.
 
 <script>
 
-/* reading progress */
-
-window.addEventListener("scroll",()=>{
-
-let winScroll=document.documentElement.scrollTop;
-let height=document.documentElement.scrollHeight-document.documentElement.clientHeight;
-
-let scrolled=(winScroll/height)*100;
-
-document.querySelector(".reading-progress").style.width=scrolled+"%";
-
-});
-
-
-/* copy link */
+/* COPY LINK */
 
 function copyLink(){
-
 navigator.clipboard.writeText(window.location.href);
-
-alert("Link disalin");
-
+alert("Link artikel disalin");
 }
 
 
-/* generate TOC */
+/* BACA JUGA INSERT */
 
 const content=document.querySelector("#article-content");
-const toc=document.querySelector("#toc-list");
 
-const headers=content.querySelectorAll("h2,h3");
+let paragraphs=content.querySelectorAll("p");
 
-headers.forEach((h,i)=>{
+if(paragraphs.length>3){
 
-let id="section-"+i;
+let baca=document.createElement("div");
 
-h.id=id;
+baca.className="baca-juga";
 
-let a=document.createElement("a");
+baca.innerHTML=`Baca juga: 
+<a href="<?=$baseDir?>/artikel/<?=rawurlencode($related[0]['slug']??'')?>">
 
-a.href="#"+id;
+<?=htmlspecialchars($related[0]['title']??'Artikel lainnya')?> 
 
-a.innerText=h.innerText;
+</a>`;
 
-toc.appendChild(a);
+paragraphs[2].after(baca);
 
-});
+}
 
 </script>
 
