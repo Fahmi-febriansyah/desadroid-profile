@@ -79,14 +79,14 @@ function generateArticle($prompt) {
     return [true, compact('title', 'category', 'content', 'keyword', 'excerpt')];
 }
 
-// Fungsi: Simpan artikel ke database (status: pending)
+// Fungsi: Simpan artikel ke database (status: published)
 function saveArticle($pdo, $data) {
     $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9-]+/', '-', $data['title']), '-')) . '-' . time();
     $stmt = $pdo->prepare('INSERT INTO articles (title, slug, category, excerpt, content, featured_image, author_id, read_time, status, published_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
     $featured_image = 'https://loremflickr.com/800/400/' . urlencode($data['keyword']);
     $read_time = 3;
-    $status = 'pending';
-    $published_date = null;
+    $status = 'published'; // langsung publish
+    $published_date = date('Y-m-d H:i:s');
     $stmt->execute([
         $data['title'],
         $slug,
