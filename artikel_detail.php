@@ -279,7 +279,7 @@ Ilustrasi teknologi Desadroid
 <div class="share-bar">
 
 <div class="share-btn" onclick="copyLink()">
-<img src="src/icon/share.png">
+<img src="/src/icon/share.png">
 Copy
 </div>
 
