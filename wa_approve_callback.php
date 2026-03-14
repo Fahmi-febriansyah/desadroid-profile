@@ -37,6 +37,10 @@ function sendWhatsApp($number, $message) {
     return $response;
 }
 
+// Debug log untuk webhook Fonnte
+$debugFile = __DIR__ . '/callback_debug.log';
+file_put_contents($debugFile, date('c') . "\nINPUT:\n" . $input . "\nPARSED:\n" . print_r($data, true) . "\n\n", FILE_APPEND);
+
 // Hanya terima POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
