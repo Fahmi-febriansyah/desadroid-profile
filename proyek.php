@@ -83,7 +83,7 @@ font-weight:600;
 
 .project-content{padding:20px;flex:1;display:flex;flex-direction:column}
 .project-content h4{margin-bottom:10px;font-size:18px}
-.project-content p{font-size:14px;color:#555;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
+.project-content p{font-size:14px;color:#555;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;min-height:calc(1.15em * 3);line-height:1.15}
 
 .btn-case{
 text-decoration:none;
