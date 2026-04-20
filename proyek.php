@@ -181,7 +181,8 @@ $projects = [];
 
 <h4><?= htmlspecialchars($project['title']) ?></h4>
 
-<p><?= htmlspecialchars($project['description']) ?></p>
+<?php $short = mb_strimwidth(trim($project['description'] ?? ''), 0, 140, '...'); ?>
+<p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;"><?= htmlspecialchars($short) ?></p>
 
 <div class="progress-wrap">
 	<?php $progress = isset($project['progress']) ? intval($project['progress']) : 0; ?>

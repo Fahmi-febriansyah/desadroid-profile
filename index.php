@@ -166,7 +166,8 @@ include 'partials/header.php';
                         <?php endif; ?>
                     </div>
                     <h4><?= htmlspecialchars($project['title']) ?></h4>
-                    <p><?= htmlspecialchars($project['description']) ?></p>
+                    <?php $shortDesc = mb_strimwidth(trim($project['description'] ?? ''), 0, 140, '...'); ?>
+                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;"><?= htmlspecialchars($shortDesc) ?></p>
                     <a href="#" class="btn tertiary">Lihat Case Study</a>
                 </div>
                 <?php $delay += 100; endforeach; ?>
