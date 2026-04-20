@@ -20,6 +20,19 @@ if (isset($_GET['delete']) && is_numeric($_GET['delete'])) {
                 unlink($filepath);
             }
         }
+        // Delete gallery images files and rows
+        $gstmt = $pdo->prepare('SELECT image_url FROM project_images WHERE project_id = ?');
+        $gstmt->execute([$_GET['delete']]);
+        $gimgs = $gstmt->fetchAll();
+        foreach ($gimgs as $gi) {
+            if (!empty($gi['image_url'])) {
+                $gfile = $_SERVER['DOCUMENT_ROOT'] . '/portofolio perusahaan/' . ltrim($gi['image_url'], '/');
+                if (file_exists($gfile)) {
+                    @unlink($gfile);
+                }
+            }
+        }
+        $pdo->prepare('DELETE FROM project_images WHERE project_id = ?')->execute([$_GET['delete']]);
         
         // Delete project
         $stmt = $pdo->prepare('DELETE FROM projects WHERE id = ?');
@@ -99,6 +112,7 @@ try {
                     <tr>
                         <th style="width: 80px;">Gambar</th>
                         <th>Judul</th>
+                        <th style="width:90px">Progress</th>
                         <th>Kategori</th>
                         <th>Deskripsi</th>
                         <th>Link</th>
@@ -116,6 +130,7 @@ try {
                                 <?php endif; ?>
                             </td>
                             <td><strong><?= htmlspecialchars(substr($project['title'], 0, 30)) ?></strong></td>
+                            <td><?= intval($project['progress'] ?? 0) ?>%</td>
                             <td><?= htmlspecialchars($project['category']) ?></td>
                             <td><?= htmlspecialchars(substr($project['description'] ?? '', 0, 40)) ?></td>
                             <td>

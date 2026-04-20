@@ -1,12 +1,12 @@
 <?php
 // Database Configuration
 define('DB_HOST', 'localhost');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
-// define('DB_NAME', 'desadroid_portfolio');
-define('DB_USER', 'desadroi_fahmi');
-define('DB_PASS', 'desadroid123');
-define('DB_NAME', 'desadroi_desadroid_portfolio');
+define('DB_USER', 'root');
+define('DB_PASS', '');
+define('DB_NAME', 'desadroid_portfolio');
+// define('DB_USER', 'desadroi_fahmi');
+// define('DB_PASS', 'desadroid123');
+// define('DB_NAME', 'desadroi_desadroid_portfolio');
 
 try {
     $pdo = new PDO(

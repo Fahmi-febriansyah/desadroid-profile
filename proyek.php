@@ -107,6 +107,11 @@ color:#0066cc;
 font-weight:600;
 }
 
+.progress-wrap{margin:10px 0 0}
+.progress{background:#eef2ff;border-radius:999px;height:10px;overflow:hidden}
+.progress-bar{height:10px;background:linear-gradient(90deg,#0066cc,#00aaff);display:block}
+.progress-label{font-size:12px;color:#444;margin-top:6px}
+
 .empty-project{
 text-align:center;
 padding:60px;
@@ -175,7 +180,14 @@ $projects = [];
 
 <p><?= htmlspecialchars($project['description']) ?></p>
 
-<a href="#" class="btn-case">Lihat Case Study</a>
+<div class="progress-wrap">
+	<?php $progress = isset($project['progress']) ? intval($project['progress']) : 0; ?>
+	<div class="progress" aria-hidden="true">
+		<span class="progress-bar" style="width: <?= $progress ?>%;"></span>
+	</div>
+	<div class="progress-label"><?= $progress ?>% Selesai</div>
+	<a href="project_detail.php?id=<?= intval($project['id']) ?>" class="btn-case">Lihat Case Study</a>
+</div>
 
 </div>
 

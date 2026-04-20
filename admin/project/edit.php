@@ -33,6 +33,7 @@ try {
         $description = trim($_POST['description'] ?? '');
         $link = trim($_POST['link'] ?? '');
         $code_link = trim($_POST['code_link'] ?? '');
+        $progress = intval($_POST['progress'] ?? 0);
         $order_num = intval($_POST['order_num'] ?? 0);
         $image_url = $project['image_url'];
 
@@ -40,14 +41,14 @@ try {
             $error = 'Judul dan kategori harus diisi!';
         } else {
             try {
-                // Handle image upload
+                        // Handle image upload
                 if (isset($_FILES['image']) && $_FILES['image']['size'] > 0) {
                     // Delete old image
                     if ($project['image_url']) {
                         deleteImage(basename($project['image_url']));
                     }
                     
-                    $upload = uploadImage($_FILES['image']);
+                            $upload = uploadImage($_FILES['image'], 'uploads/projects');
                     if ($upload['success']) {
                         $image_url = $upload['url'];
                     } else {
@@ -61,11 +62,71 @@ try {
                     $image_url = '';
                 }
 
+                // Handle gallery deletions (array of image ids)
+                if (isset($_POST['delete_images']) && is_array($_POST['delete_images'])) {
+                    foreach ($_POST['delete_images'] as $delId) {
+                        $delId = intval($delId);
+                        if ($delId) {
+                            $r = $pdo->prepare('SELECT image_url FROM project_images WHERE id = ? AND project_id = ?');
+                            $r->execute([$delId, $id]);
+                            $row = $r->fetch();
+                            if ($row && $row['image_url']) {
+                                // attempt delete file
+                                $filename = basename($row['image_url']);
+                                deleteImage($filename, 'uploads/projects');
+                            }
+                            $pdo->prepare('DELETE FROM project_images WHERE id = ? AND project_id = ?')->execute([$delId, $id]);
+                        }
+                    }
+                }
+
+                // Handle new gallery uploads (respect max 5 images)
+                if (isset($_FILES['gallery'])) {
+                    // Count existing images
+                    $cntStmt = $pdo->prepare('SELECT COUNT(*) as c FROM project_images WHERE project_id = ?');
+                    $cntStmt->execute([$id]);
+                    $existCount = intval($cntStmt->fetchColumn());
+                    $allowed = max(0, 5 - $existCount);
+
+                    $uploaded = 0;
+                    for ($i=0;$i<count($_FILES['gallery']['name']);$i++) {
+                        if ($uploaded >= $allowed) break;
+                        if ($_FILES['gallery']['error'][$i] !== UPLOAD_ERR_OK) continue;
+
+                        $file = [
+                            'name' => $_FILES['gallery']['name'][$i],
+                            'type' => $_FILES['gallery']['type'][$i],
+                            'tmp_name' => $_FILES['gallery']['tmp_name'][$i],
+                            'error' => $_FILES['gallery']['error'][$i],
+                            'size' => $_FILES['gallery']['size'][$i]
+                        ];
+
+                        $up = uploadImage($file, 'uploads/projects');
+                        if ($up['success']) {
+                            $pdo->prepare('INSERT INTO project_images (project_id, image_url) VALUES (?, ?)')
+                                ->execute([$id, $up['url']]);
+                            $uploaded++;
+                        }
+                    }
+                }
+
+                // Clear previous MOU association and set new one if provided
+                try {
+                    $pdo->prepare('UPDATE outgoing_letters SET project_id = NULL WHERE project_id = ?')->execute([$id]);
+                    if (!empty($_POST['mou_id']) && is_numeric($_POST['mou_id'])) {
+                        $mouId = intval($_POST['mou_id']);
+                        $pdo->prepare('UPDATE outgoing_letters SET project_id = ? WHERE id = ?')->execute([$id, $mouId]);
+                    }
+                } catch (Exception $e) {
+                    // ignore association errors but set message
+                    $error = 'Warning: gagal meng-update asosiasi MOU: ' . $e->getMessage();
+                }
+
                 if (!$error) {
                     $stmt = $pdo->prepare('
                         UPDATE projects 
                         SET title = ?, category = ?, description = ?, 
-                            image_url = ?, link = ?, code_link = ?, order_num = ?
+                            image_url = ?, link = ?, code_link = ?, order_num = ?, progress = ?
                         WHERE id = ?
                     ');
 
@@ -77,6 +138,7 @@ try {
                         $link,
                         $code_link,
                         $order_num,
+                        $progress,
                         $id
                     ]);
 
@@ -99,6 +161,22 @@ try {
 }
 
 $categories = ['Web Development', 'Mobile App', 'E-Commerce', 'Creative Tech'];
+// fetch available outgoing letters
+try {
+    $mstmt = $pdo->query('SELECT id, letter_number, title, project_id FROM outgoing_letters ORDER BY created_at DESC');
+    $outgoing_letters = $mstmt->fetchAll();
+} catch (Exception $e) {
+    $outgoing_letters = [];
+}
+
+// get current associated mou id (if any)
+try {
+    $cur = $pdo->prepare('SELECT id FROM outgoing_letters WHERE project_id = ? LIMIT 1');
+    $cur->execute([$project['id']]);
+    $current_mou = $cur->fetchColumn() ?: '';
+} catch (Exception $e) {
+    $current_mou = '';
+}
 ?>
 
 <?php if ($success): ?>
@@ -137,6 +215,23 @@ $categories = ['Web Development', 'Mobile App', 'E-Commerce', 'Creative Tech'];
             </div>
         </div>
 
+        <div style="margin-bottom:1.5rem;">
+            <label style="display:block;margin-bottom:0.5rem;font-weight:600;color:#333;font-size:0.95rem;">Progress (%)</label>
+            <input type="number" name="progress" min="0" max="100" value="<?= intval($project['progress'] ?? 0) ?>" style="width:120px;padding:0.5rem;border:1px solid #ddd;border-radius:4px;">
+            <small style="display:block;color:#999;margin-top:6px">Masukkan persentase progres proyek (0-100)</small>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+            <label style="display:block;margin-bottom:0.5rem;font-weight:600;color:#333;font-size:0.95rem;">Associated MOU (opsional)</label>
+            <select name="mou_id" style="width:100%;padding:0.6rem;border:1px solid #ddd;border-radius:4px">
+                <option value="">-- Tidak ada MOU --</option>
+                <?php foreach ($outgoing_letters as $ol): ?>
+                    <option value="<?= $ol['id'] ?>" <?= $ol['id'] == $current_mou ? 'selected' : '' ?>><?= htmlspecialchars($ol['letter_number'] . ' — ' . $ol['title']) ?><?= $ol['project_id'] && $ol['project_id'] != $project['id'] ? ' (assigned)' : '' ?></option>
+                <?php endforeach; ?>
+            </select>
+            <small style="color:#999;display:block;margin-top:6px">Buat surat baru di <a href="../outgoing_letters/create.php">Surat Keluar</a> lalu pilih di sini.</small>
+        </div>
+
         <div style="margin-bottom: 1.5rem;">
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333; font-size: 0.95rem;">Deskripsi</label>
             <textarea name="description" rows="4" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: inherit; box-sizing: border-box;"><?= htmlspecialchars($project['description'] ?? '') ?></textarea>
@@ -156,6 +251,36 @@ $categories = ['Web Development', 'Mobile App', 'E-Commerce', 'Creative Tech'];
             <input type="file" name="image" accept="image/*" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box;">
             <small style="color: #999;">Format: JPG, PNG, WEBP, GIF | Max: 5MB</small>
             <div id="preview" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div style="margin-bottom:1.5rem;">
+            <label style="display:block;margin-bottom:0.5rem;font-weight:600;color:#333;font-size:0.95rem;">Gallery (max 5 gambar)</label>
+
+            <?php
+            // fetch existing gallery
+            $gstmt = $pdo->prepare('SELECT * FROM project_images WHERE project_id = ? ORDER BY id ASC');
+            $gstmt->execute([$project['id']]);
+            $gallery = $gstmt->fetchAll();
+            ?>
+
+            <?php if (!empty($gallery)): ?>
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;">
+                    <?php foreach ($gallery as $g): ?>
+                        <div style="width:120px;border:1px solid #eee;padding:6px;border-radius:6px;text-align:center;">
+                            <img src="<?= htmlspecialchars($g['image_url']) ?>" style="width:100%;height:70px;object-fit:cover;border-radius:4px;margin-bottom:6px;">
+                            <div style="font-size:12px;color:#666;margin-bottom:6px;">ID: <?= $g['id'] ?></div>
+                            <label style="font-size:13px;display:block;">
+                                <input type="checkbox" name="delete_images[]" value="<?= $g['id'] ?>"> Hapus
+                            </label>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php else: ?>
+                <div style="color:#999;margin-bottom:8px">Belum ada gambar gallery</div>
+            <?php endif; ?>
+
+            <input type="file" name="gallery[]" accept="image/*" multiple style="width:100%;padding:0.5rem;border:1px solid #ddd;border-radius:4px;">
+            <small style="color:#999;display:block;margin-top:6px">Unggah gambar gallery tambahan (maks total 5 gambar).</small>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
