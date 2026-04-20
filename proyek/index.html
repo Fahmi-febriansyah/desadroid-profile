@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="id">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<meta name="robots" content="noindex,nofollow">
+	<title>Sedang dalam perbaikan — Desadroid</title>
+	<style>
+		:root{--bg:#f4f6f9;--card:#ffffff;--accent:#0b69ff;--muted:#6b7280}
+		html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:#111}
+		.wrap{min-height:100%;display:flex;align-items:center;justify-content:center;padding:28px}
+		.card{max-width:920px;width:100%;background:var(--card);padding:36px;border-radius:12px;box-shadow:0 12px 40px rgba(15,23,42,0.06);display:flex;gap:28px;align-items:center}
+		.logo{flex:0 0 120px;text-align:center}
+		.logo img{max-width:100%;height:80px;object-fit:contain}
+		.content{flex:1}
+		h1{margin:0;font-size:24px}
+		p.lead{margin:8px 0 14px;color:var(--muted);font-size:15px}
+		.meta{color:var(--muted);font-size:13px}
+		.actions{margin-top:18px;display:flex;gap:12px;flex-wrap:wrap}
+		.btn{display:inline-block;padding:10px 16px;border-radius:8px;text-decoration:none;font-weight:600}
+		.btn-primary{background:var(--accent);color:#fff}
+		.btn-muted{background:#eef2ff;color:var(--accent);border:1px solid rgba(11,105,255,0.08)}
+		.status{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border-radius:999px;background:#fff6eb;color:#bb6500;font-weight:600;border:1px solid rgba(187,101,0,0.06)}
+		@media (max-width:760px){.card{flex-direction:column;align-items:center;text-align:center}.logo img{height:64px}.content{width:100%}}
+	</style>
+</head>
+<body>
+	<div class="wrap">
+		<div class="card" role="status" aria-live="polite">
+			<div class="logo">
+				<img src="../src/img/logo.png" alt="Logo Perusahaan">
+			</div>
+			<div class="content">
+				<div class="status">Sedang dalam Perbaikan</div>
+				<h1>Kami sedang melakukan pemeliharaan</h1>
+				<p class="lead">Terima kasih atas kesabaran Anda. Tim kami sedang memperbarui konten dan fitur. Situs akan kembali tersedia sesegera mungkin.</p>
+				<div class="meta">Estimasi kembali online: dalam beberapa jam. Untuk kebutuhan mendesak, hubungi admin.</div>
+				<div class="actions">
+					<a class="btn btn-primary" href="../index.php">Kembali ke Beranda</a>
+					<a class="btn btn-muted" href="../contact.php">Hubungi Kami</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
+

@@ -165,7 +165,18 @@ function sendWhatsApp($number, $message) {
 }
 
 // MAIN LOGIC
-$prompt = "Tulis artikel blog teknologi yang SEO-friendly, mendalam, dan menarik. Gunakan teknik copywriting 'hook' di paragraf pertama agar pembaca merasa penasaran dan terus membaca.\n\nStruktur artikel wajib sebagai berikut:\n1. JUDUL: [Buat judul yang sangat menarik (clickbait yang jujur), mengandung kata kunci utama].\n2. KATEGORI: [Pilih satu kategori yang paling relevan, misal: Gadget, AI, Bisnis Digital, atau Cybersecurity].\n3. ISI ARTIKEL:\n   - Gunakan sub-heading (H2 dan H3) untuk membagi poin-poin penting.\n   - Sertakan daftar poin (bullet points) untuk memudahkan pembaca memahami fitur atau manfaat.\n   - Jelaskan konsep teknis dengan bahasa yang sederhana dan mudah dimengerti pemula.\n   - Panjang artikel minimal 600 kata.\n4. KEYWORD: [Satu kata kunci tunggal dalam bahasa Inggris yang paling menggambarkan gambar utama untuk ilustrasi AI].\n\nGunakan gaya bahasa yang profesional namun santai dan otoritatif. Jangan buat intro yang terlalu panjang lebar, langsung masuk ke inti bahasan. Jangan sebutkan kata 'blurred face' di mana pun.";
+$prompt = "Tulis artikel blog teknologi yang SEO-friendly, mendalam, dan menarik.
+ Gunakan teknik copywriting 'hook' di paragraf pertama agar pembaca merasa penasaran dan terus membaca.
+\n\nStruktur artikel wajib sebagai berikut:\n1. JUDUL: [Buat judul yang sangat menarik (clickbait yang jujur),
+ mengandung kata kunci utama].\n2. KATEGORI: [Pilih satu kategori yang paling relevan, 
+misal: Insight teknologi, AI, dan pengembangan software (pilih random)].\n3. ISI ARTIKEL:\n  
+ - Gunakan sub-heading (H2 dan H3) untuk membagi poin-poin penting.\n  
+ - Sertakan daftar poin (bullet points) untuk memudahkan pembaca memahami fitur atau manfaat.\n   
+\- Jelaskan konsep teknis dengan bahasa yang sederhana dan mudah dimengerti pemula.\n  
+ - Panjang artikel minimal 600 kata.\n4. 
+KEYWORD: [Satu kata kunci tunggal dalam bahasa Inggris yang paling menggambarkan gambar utama untuk ilustrasi AI].
+\n\nGunakan gaya bahasa yang profesional namun santai dan otoritatif. Jangan buat intro yang terlalu panjang lebar, langsung masuk ke inti bahasan.
+ Jangan sebutkan kata 'blurred face' di mana pun.";
 
 list($ok, $result) = generateArticle($prompt);
 if (!$ok) {
