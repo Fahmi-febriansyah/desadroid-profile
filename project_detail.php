@@ -22,6 +22,12 @@ if (!$project) {
     exit;
 }
 
+// Jika proyek belum memiliki link eksternal, arahkan ke halaman error/maintenance
+if (empty($project['link'])) {
+    header('Location: error/index.html');
+    exit;
+}
+
 // fetch up to 5 images from project_images table
 try {
     $imgStmt = $pdo->prepare('SELECT image_url FROM project_images WHERE project_id = :id ORDER BY id ASC LIMIT 5');

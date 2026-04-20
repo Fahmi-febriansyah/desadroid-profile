@@ -160,17 +160,20 @@ $projects = [];
 <?= htmlspecialchars($project['category']) ?>
 </span>
 
-<div class="project-overlay">
+			<div class="project-overlay">
 
-<?php if ($project['link']): ?>
-<a href="<?= htmlspecialchars($project['link']) ?>" target="_blank" class="overlay-btn">View</a>
-<?php endif; ?>
+			<?php
+				$hasLink = !empty($project['link']);
+				$viewHref = $hasLink ? htmlspecialchars($project['link']) : 'error/index.html';
+				$viewTarget = $hasLink ? ' target="_blank"' : '';
+			?>
+			<a href="<?= $viewHref ?>"<?= $viewTarget ?> class="overlay-btn"><?= $hasLink ? 'View' : 'Info' ?></a>
 
-<?php if ($project['code_link']): ?>
-<a href="<?= htmlspecialchars($project['code_link']) ?>" target="_blank" class="overlay-btn">Code</a>
-<?php endif; ?>
+			<?php if (!empty($project['code_link'])): ?>
+			<a href="<?= htmlspecialchars($project['code_link']) ?>" target="_blank" class="overlay-btn">Code</a>
+			<?php endif; ?>
 
-</div>
+			</div>
 
 </div>
 
