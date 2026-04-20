@@ -164,7 +164,7 @@ $projects = [];
 
 			<?php
 				$hasLink = !empty($project['link']);
-				$viewHref = $hasLink ? htmlspecialchars($project['link']) : 'error/index.html';
+				$viewHref = $hasLink ? htmlspecialchars($project['link']) : '../error/index.html';
 				$viewTarget = $hasLink ? ' target="_blank"' : '';
 			?>
 			<a href="<?= $viewHref ?>"<?= $viewTarget ?> class="overlay-btn"><?= $hasLink ? 'View' : 'Info' ?></a>
