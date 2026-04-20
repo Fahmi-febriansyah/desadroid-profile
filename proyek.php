@@ -28,6 +28,9 @@ border-radius:10px;
 overflow:hidden;
 box-shadow:0 6px 20px rgba(0,0,0,0.08);
 transition:all .3s ease;
+display:flex;
+flex-direction:column;
+height:100%;
 }
 
 .project-card:hover{
@@ -35,16 +38,8 @@ transform:translateY(-6px);
 box-shadow:0 12px 35px rgba(0,0,0,0.12);
 }
 
-.project-image{
-position:relative;
-}
-
-.project-image img{
-width:100%;
-height:200px;
-object-fit:cover;
-display:block;
-}
+.project-image{position:relative;flex:0}
+.project-image img{width:100%;height:200px;object-fit:cover;display:block}
 
 .project-category{
 position:absolute;
@@ -86,20 +81,9 @@ text-decoration:none;
 font-weight:600;
 }
 
-.project-content{
-padding:20px;
-}
-
-.project-content h4{
-margin-bottom:10px;
-font-size:18px;
-}
-
-.project-content p{
-font-size:14px;
-color:#555;
-margin-bottom:12px;
-}
+.project-content{padding:20px;flex:1;display:flex;flex-direction:column}
+.project-content h4{margin-bottom:10px;font-size:18px}
+.project-content p{font-size:14px;color:#555;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;}
 
 .btn-case{
 text-decoration:none;
@@ -107,7 +91,7 @@ color:#0066cc;
 font-weight:600;
 }
 
-.progress-wrap{margin:10px 0 0}
+.progress-wrap{margin:10px 0 0;margin-top:auto}
 .progress{background:#eef2ff;border-radius:999px;height:10px;overflow:hidden}
 .progress-bar{height:10px;background:linear-gradient(90deg,#0066cc,#00aaff);display:block}
 .progress-label{font-size:12px;color:#444;margin-top:6px}

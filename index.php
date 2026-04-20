@@ -1,6 +1,9 @@
 <?php
 require_once 'config/db.php';
 
+// Inline styles to ensure project cards have equal height and tidy descriptions
+echo "\n<style>\n.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;align-items:stretch}\n.project{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.08);transition:all .3s ease;display:flex;flex-direction:column;height:100%}\n.project img{width:100%;height:200px;object-fit:cover;display:block}\n.project h4{margin:12px 16px 6px;font-size:18px}\n.project p{margin:0 16px 12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:#555}\n.project .btn.tertiary{margin:16px 16px 18px auto}\n@media(max-width:560px){.project img{height:160px}.project p{-webkit-line-clamp:4}}</style>\n";
+ 
 // Get projects from datab   ase
 try {
     $projects_query = $pdo->query('SELECT * FROM projects ORDER BY order_num ASC, created_at DESC');
