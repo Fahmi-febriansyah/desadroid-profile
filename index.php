@@ -1,38 +1,28 @@
 <?php
 require_once 'config/db.php';
 
-// Get projects from datab   ase
+// Get projects from database
 try {
-    $projects_query = $pdo->query('SELECT * FROM projects ORDER BY order_num ASC, created_at DESC');
+    $projects_query = $pdo->query('SELECT * FROM projects ORDER BY order_num ASC, created_at DESC LIMIT 3');
     $projects = $projects_query->fetchAll();
 } catch (Exception $e) {
     $projects = [];
 }
 
-// Get articles from database (limit to 4 for homepage — not too many, not too few)
+// Get articles from database
 try {
-    $articles_query = $pdo->query('SELECT * FROM articles WHERE status = "published" ORDER BY published_date DESC LIMIT 4');
+    $articles_query = $pdo->query('SELECT * FROM articles WHERE status = "published" ORDER BY published_date DESC LIMIT 3');
     $articles = $articles_query->fetchAll();
 } catch (Exception $e) {
     $articles = [];
 }
 
-// Get services from database (limit to 3 for homepage)
+// Get services from database
 try {
-    $services_query = $pdo->query('SELECT * FROM services ORDER BY id ASC LIMIT 3');
+    $services_query = $pdo->query('SELECT * FROM services ORDER BY id ASC LIMIT 6');
     $services = $services_query->fetchAll();
 } catch (Exception $e) {
     $services = [];
-}
-
-// Get testimonials from database
-try {
-    // testimonials table does not have a `status` column in this DB dump,
-    // select all and order by created_at
-    $testimonials_query = $pdo->query('SELECT * FROM testimonials ORDER BY created_at DESC');
-    $testimonials = $testimonials_query->fetchAll();
-} catch (Exception $e) {
-    $testimonials = [];
 }
 ?>
 <?php
@@ -42,297 +32,232 @@ $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseDir === '/') $baseDir = '';
 $canonical = $scheme . '://' . $host . $baseDir . '/';
-?>
-<?php
-// Use universal header
-$pageTitle = 'Desadroid - Jasa Pembuatan Website & Aplikasi Bisnis Profesional';
-$metaDescription = 'Cari jasa pembuatan website dan aplikasi mobile profesional? Desadroid siap membantu transformasi digital bisnis Anda dengan solusi UI/UX inovatif. Konsultasikan di sini!';
+
+$pageTitle = 'Desadroid - Konsultan & Layanan IT Profesional';
+$metaDescription = 'Desadroid menawarkan layanan IT profesional termasuk pembuatan website, aplikasi mobile, desain UI/UX, dan pengembangan sistem untuk bisnis Anda.';
 $metaImage = 'src/img/DESADROID.jpg';
 include 'partials/header.php';
 ?>
 
-    <!-- hero section -->
-    <section id="home" class="hero" data-reveal>
-        <div class="container">
-            <div class="welcome-badge">✨ Selamat datang di desadroid</div>
-            <h1>Jasa Pembuatan Website & Aplikasi Bisnis Profesional | Desadroid IT</h1>
-            <p>Kami membangun produk dan pengalaman digital inovatif untuk web, mobile,
-                dan lebih. Jelajahi masa depan pengembangan digital bersama kami.</p>
-            <div class="cta-buttons">
-                <a href="#projects" class="btn primary">Lihat Proyek</a>
-                <a href="#contact" class="btn secondary">Hubungi Kami</a>
+    <!-- Hero Section -->
+    <section id="home" class="hero-clean" data-reveal>
+        <div class="container hero-split">
+            <div class="hero-text">
+                <span class="hero-label">Agensi Digital Kreatif</span>
+                <h1>Transformasi Digital untuk <span>Masa Depan</span> Bisnis Anda</h1>
+                <p>Kami adalah mitra teknologi yang berdedikasi menciptakan produk digital modern, cepat, dan scalable untuk membantu bisnis Anda berkembang di era digital.</p>
+                <div class="hero-actions">
+                    <a href="#projects" class="btn primary">Lihat Portofolio</a>
+                    <a href="#services" class="btn secondary">Layanan Kami</a>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- about -->
-    <section id="about" class="about" data-reveal>
-        <div class="container">
-            <h2>Tentang desadroid</h2>
-            <p>Mitra tepercaya Anda dalam transformasi digital.</p>
-                <div class="about-content">
-                <?php $aboutImg = (strpos($baseDir . '/src/img/DESADROID.jpg', 'http') === 0) ? $baseDir . '/src/img/DESADROID.jpg' : $baseDir . '/src/img/DESADROID.jpg'; ?>
-                <img src="<?= htmlspecialchars($aboutImg) ?>" style="width: 100%; height: 400px; object-fit: cover;" class="about-image" alt="Tim sedang bekerja" />
-                <div class="text">
-                    <p>Desadroid adalah studio produksi digital yang berdedikasi membantu bisnis menciptakan pengalaman digital berkelas sejak 2025. Kami mengintegrasikan kreativitas desain, keunggulan teknis, dan strategi yang tepat untuk mengakselerasi pertumbuhan serta inovasi bisnis Anda.</p>
-                    <a href="#" class="btn tertiary">Ajukan Proyek</a>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" alt="Tim Desadroid Bekerja" class="main-img">
+                <div class="experience-badge">
+                    <strong>5+</strong> Tahun<br>Pengalaman
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- services -->
-    <section id="services" class="services" data-reveal>
+    <!-- Services Section -->
+    <section id="services" class="services-clean bg-light" data-reveal>
         <div class="container">
-            <h2>Layanan Kami</h2>
-            <div class="service-cards">
+            <div class="section-title">
+                <h2>Layanan Profesional Kami</h2>
+                <p>Solusi teknologi end-to-end yang disesuaikan dengan kebutuhan unik setiap klien.</p>
+            </div>
+            <div class="service-grid-clean">
                 <?php if (!empty($services)): ?>
-                    <?php $delay = 100; foreach ($services as $service): ?>
-                    <div class="card" data-reveal data-reveal-delay="<?= $delay ?>">
-                        <div class="icon" style="font-size: 2rem; margin-bottom: 1rem;">
-                            <?php 
-                                // Map service types to emojis
-                                $icons = [
-                                    'Web Development' => '🌐',
-                                    'Mobile App' => '📱',
-                                    'UX/UI Design' => '🎨',
-                                    'Backend Development' => '⚙️',
-                                    'E-Commerce' => '🛒',
-                                    'Consulting' => '💼'
-                                ];
-                                echo $icons[$service['name']] ?? '✨';
-                            ?>
+                    <?php 
+                    $svgs = [
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>',
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>',
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>',
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect><rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect><line x1="6" y1="6" x2="6.01" y2="6"></line><line x1="6" y1="18" x2="6.01" y2="18"></line></svg>',
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>',
+                        '<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>'
+                    ];
+                    foreach ($services as $index => $service): 
+                        $icon = $svgs[$index % count($svgs)];
+                    ?>
+                    <div class="service-card" data-reveal>
+                        <div class="icon-box">
+                            <?= $icon ?>
                         </div>
                         <h3><?= htmlspecialchars($service['name']) ?></h3>
                         <p><?= htmlspecialchars($service['description']) ?></p>
                     </div>
-                    <?php $delay += 100; endforeach; ?>
+                    <?php endforeach; ?>
                 <?php else: ?>
-                    <div class="card" data-reveal data-reveal-delay="100">
-                        <div class="icon icon-web"></div>
-                        <h3>Pengembangan Web</h3>
-                        <p>Membangun situs responsif dan dapat diakses dengan teknologi modern.</p>
-                    </div>
-                    <div class="card" data-reveal data-reveal-delay="200">
-                        <div class="icon icon-mobile"></div>
-                        <h3>Pengembangan Aplikasi Mobile</h3>
-                        <p>Aplikasi native dan cross-platform dengan UI yang menyenangkan.</p>
-                    </div>
-                    <div class="card" data-reveal data-reveal-delay="300">
-                        <div class="icon icon-design"></div>
-                        <h3>Desain UI/UX</h3>
-                        <p>Solusi desain berfokus pengguna yang meningkatkan keterlibatan dan konversi.</p>
-                    </div>
-                    <div class="card" data-reveal data-reveal-delay="400">
-                        <div class="icon icon-backend"></div>
-                        <h3>Pengembangan Backend</h3>
-                        <p>Sistem server-side kuat dengan skala sebagai prioritas.</p>
-                    </div>
-                    <div class="card" data-reveal data-reveal-delay="500">
-                        <div class="icon icon-ecommerce"></div>
-                        <h3>Solusi E-Commerce</h3>
-                        <p>Implementasi toko online end-to-end dengan pembayaran aman.</p>
-                    </div>
-                    <div class="card" data-reveal data-reveal-delay="600">
-                        <div class="icon icon-consulting"></div>
-                        <h3>Konsultasi Digital</h3>
-                        <p>Strategi, riset, dan perencanaan untuk inisiatif digital Anda.</p>
-                    </div>
-                <?php endif; ?>
-            </div>
-        </div>
-    </section>
-
-    <!-- projects -->
-    <section id="projects" class="projects" data-reveal>
-        <div class="container">
-            <h2>Proyek Kami</h2>
-            <?php if (!empty($projects)): ?>
-            <div class="project-grid">
-                <?php $delay = 100; foreach ($projects as $project): ?>
-                <div class="project" data-reveal data-reveal-delay="<?= $delay ?>">
-                    <div class="category"><?= htmlspecialchars($project['category']) ?></div>
-                    <?php if ($project['image_url']): ?>
-                        <img src="<?= htmlspecialchars($project['image_url']) ?>" style="width: 100%; height: 220px; object-fit: cover;" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
-                    <?php else: ?>
-                        <img src="https://source.unsplash.com/featured/400x250/?<?= urlencode(strtolower($project['category'])) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
-                    <?php endif; ?>
-                    <div class="project-overlay">
-                        <?php if ($project['link']): ?>
-                            <a href="<?= htmlspecialchars($project['link']) ?>" class="overlay-btn" target="_blank">View</a>
-                        <?php endif; ?>
-                        <?php if ($project['code_link']): ?>
-                            <a href="<?= htmlspecialchars($project['code_link']) ?>" class="overlay-btn" target="_blank">Code</a>
-                        <?php endif; ?>
-                    </div>
-                    <h4><?= htmlspecialchars($project['title']) ?></h4>
-                    <?php $shortDesc = mb_strimwidth(trim($project['description'] ?? ''), 0, 140, '...'); ?>
-                    <p><?= htmlspecialchars($shortDesc) ?></p>
-                    <a href="#" class="btn tertiary">Lihat Case Study</a>
-                </div>
-                <?php $delay += 100; endforeach; ?>
-            </div>
-            <?php else: ?>
-            <div style="text-align: center; padding: 3rem; color: var(--text2);">
-                <p style="font-size: 1.1rem; margin-bottom: 1rem;">📋 Belum ada proyek yang ditambahkan</p>
-                <p>Hubungi kami untuk melihat portofolio lengkap kami atau ajukan proyek baru.</p>
-            </div>
-            <?php endif; ?>
-        </div>
-    </section>
-
-    <!-- articles -->
-    <section id="articles" class="articles" data-reveal>
-        <div class="container">
-            <h2>Artikel Terbaru</h2>
-            <div class="article-list">
-                <?php if (!empty($articles)): ?>
-                    <?php $delay = 100; foreach ($articles as $article): ?>
-                    <article data-reveal data-reveal-delay="<?= $delay ?>">
-                        <span class="badge"><?= htmlspecialchars($article['category']) ?></span>
-                        <?php if (!empty($article['featured_image'])): ?>
-                            <?php $img = (preg_match('/^https?:\/\//', $article['featured_image'])) ? $article['featured_image'] : $baseDir . '/' . ltrim($article['featured_image'], '/'); ?>
-                            <img src="<?= htmlspecialchars($img) ?>" style="width: 100%; height: 180px; object-fit: cover;" alt="<?= htmlspecialchars($article['title']) ?>" loading="lazy">
-                        <?php else: ?>
-                            <img src="https://source.unsplash.com/featured/350x200/?<?= urlencode(strtolower($article['category'])) ?>" alt="<?= htmlspecialchars($article['title']) ?>">
-                        <?php endif; ?>
-                        <div class="article-meta">
-                            <span class="date"><?= date('d M Y', strtotime($article['published_date'])) ?></span>
-                            <span class="read-time"><?= $article['read_time'] ?> min read</span>
+                    <!-- Default Services -->
+                    <div class="service-card" data-reveal>
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                         </div>
-                        <h4><?= htmlspecialchars($article['title']) ?></h4>
-                        <p><?= htmlspecialchars($article['excerpt']) ?></p>
-                        <?php
-                        $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-                        if ($baseDir === '/') $baseDir = '';
-                        $articleUrl = $baseDir . '/artikel/' . rawurlencode($article['slug']);
-                        ?>
-                        <a href="<?= htmlspecialchars($articleUrl) ?>" class="read-more">Baca Selanjutnya →</a>
-                    </article>
-                    <?php $delay += 100; endforeach; ?>
-                <?php else: ?>
-                    <div style="text-align: center; padding: 3rem; color: var(--text2); grid-column: 1 / -1;">
-                        <p style="font-size: 1.1rem; margin-bottom: 1rem;">📝 Belum ada artikel yang dipublikasikan</p>
-                        <p>Artikel baru akan ditampilkan di sini. Periksa kembali nanti untuk konten menarik dari tim kami.</p>
+                        <h3>Pengembangan Web</h3>
+                        <p>Pembuatan website responsif, cepat, dan modern yang dirancang khusus untuk memenuhi kebutuhan bisnis Anda.</p>
+                    </div>
+                    <div class="service-card" data-reveal>
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect><line x1="12" y1="18" x2="12.01" y2="18"></line></svg>
+                        </div>
+                        <h3>Aplikasi Mobile</h3>
+                        <p>Pengembangan aplikasi native dan hybrid berkualitas tinggi untuk platform iOS dan Android.</p>
+                    </div>
+                    <div class="service-card" data-reveal>
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg>
+                        </div>
+                        <h3>Desain UI/UX</h3>
+                        <p>Merancang antarmuka pengguna yang intuitif dan menarik untuk pengalaman digital terbaik.</p>
                     </div>
                 <?php endif; ?>
             </div>
         </div>
     </section>
 
-    <!-- clients -->
-    <section id="clients" class="clients" data-reveal>
+    <!-- Projects Section -->
+    <section id="projects" class="projects-clean" data-reveal>
         <div class="container">
-            <h2>Klien Terpercaya Kami</h2>
-            <?php if (!empty($testimonials)): ?>
-            <div class="testimonials-grid">
-                <?php foreach ($testimonials as $client): ?>
-                <div class="testimonial-card" data-reveal>
-                    <div style="display:flex;gap:0.8rem;align-items:flex-start;">
-                        <?php if ($client['image_url']): ?>
-                            <img src="<?= htmlspecialchars($client['image_url']) ?>" alt="<?= htmlspecialchars($client['client_name']) ?>" style="width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid rgba(99,102,241,.15);">
+            <div class="section-title">
+                <h2>Portofolio Kami</h2>
+                <p>Beberapa contoh proyek sukses yang telah kami bangun bersama klien.</p>
+            </div>
+            
+            <?php if (!empty($projects)): ?>
+            <div class="project-grid-clean">
+                <?php foreach ($projects as $project): ?>
+                <div class="project-card-clean" data-reveal>
+                    <div class="project-img">
+                        <?php if ($project['image_url']): ?>
+                            <img src="<?= htmlspecialchars($project['image_url']) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
                         <?php else: ?>
-                            <div style="width:56px;height:56px;background:rgba(99,102,241,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#8b5cf6;font-weight:700;"><?= strtoupper(substr($client['client_name'],0,1)) ?></div>
+                            <img src="https://source.unsplash.com/featured/600x400/?<?= urlencode(strtolower($project['category'])) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
                         <?php endif; ?>
-                        <div>
-                            <div style="font-weight:700;color:var(--accent1);"><?= htmlspecialchars($client['client_name']) ?></div>
-                            <?php if ($client['company']): ?><div style="font-size:0.85rem;color:var(--text2);"><?= htmlspecialchars($client['company']) ?></div><?php endif; ?>
-                            <div style="margin-top:0.5rem;color:var(--text2);font-size:0.95rem;"><?= htmlspecialchars(mb_strimwidth($client['message'],0,140,'...')) ?></div>
-                            <?php if ($client['rating']): ?>
-                                <div style="margin-top:0.5rem;color:#ffb400;">
-                                    <?php for ($i=0;$i<5;$i++): ?>
-                                        <?= $i < intval($client['rating']) ? '★' : '☆' ?>
-                                    <?php endfor; ?>
-                                </div>
+                        <div class="project-overlay">
+                            <?php if ($project['link']): ?>
+                                <a href="<?= htmlspecialchars($project['link']) ?>" class="btn-overlay" target="_blank">Lihat Website</a>
                             <?php endif; ?>
                         </div>
+                    </div>
+                    <div class="project-info">
+                        <span class="project-category"><?= htmlspecialchars($project['category']) ?></span>
+                        <h3><?= htmlspecialchars($project['title']) ?></h3>
+                        <?php $shortDesc = mb_strimwidth(trim($project['description'] ?? ''), 0, 100, '...'); ?>
+                        <p><?= htmlspecialchars($shortDesc) ?></p>
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/proyek' : $baseDirUrl . '/proyek')) ?>" class="btn tertiary">Lihat Semua Portofolio</a>
+            </div>
             <?php else: ?>
-            <div style="text-align: center; padding: 3rem; color: var(--text2);">
-                <p style="font-size: 1.1rem; margin-bottom: 1rem;">🤝 Belum ada testimonial klien</p>
-                <p>Jadilah klien kami dan bagikan pengalaman Anda.</p>
+            <div class="empty-state">
+                <p>Belum ada proyek yang ditampilkan.</p>
             </div>
             <?php endif; ?>
         </div>
     </section>
 
-    <!-- workflow -->
-    <section id="workflow" class="workflow" data-reveal>
+    <!-- Articles Section -->
+    <section id="articles" class="articles-clean bg-light" data-reveal>
         <div class="container">
-            <h2>Bagaimana Kami Bekerja</h2>
-            <div class="steps">
-                <div class="step" data-reveal data-reveal-delay="100">
-                    <div class="icon">💡</div>
-                    <h4>Riset & Discovery</h4>
-                    <p>Memahami kebutuhan, target pasar, dan visi Anda untuk solusi terbaik.</p>
-                </div>
-                <div class="step" data-reveal data-reveal-delay="200">
-                    <div class="icon">🎨</div>
-                    <h4>Desain & Strategi</h4>
-                    <p>Merancang solusi yang inovatif dan sesuai dengan brand Anda.</p>
-                </div>
-                <div class="step" data-reveal data-reveal-delay="300">
-                    <div class="icon">⚡</div>
-                    <h4>Eksekusi & Pengembangan</h4>
-                    <p>Membangun dengan teknologi terkini dan best practices industri.</p>
-                </div>
-                <div class="step" data-reveal data-reveal-delay="400">
-                    <div class="icon">🚀</div>
-                    <h4>Peluncuran & Support</h4>
-                    <p>Meluncurkan produk dan memberikan dukungan berkelanjutan.</p>
-                </div>
+            <div class="section-title">
+                <h2>Berita & Insight Terkini</h2>
+                <p>Pelajari lebih lanjut tentang teknologi, desain, dan tren bisnis digital.</p>
             </div>
-            <a href="#contact" class="btn primary">Mulai Proyek Anda</a>
+            <div class="article-grid-clean">
+                <?php if (!empty($articles)): ?>
+                    <?php foreach ($articles as $article): ?>
+                    <?php
+                        $articleUrl = $baseDir . '/artikel/' . rawurlencode($article['slug']);
+                        $img = (!empty($article['featured_image']) && preg_match('/^https?:\/\//', $article['featured_image'])) ? $article['featured_image'] : (empty($article['featured_image']) ? "https://source.unsplash.com/featured/600x400/?" . urlencode(strtolower($article['category'])) : $baseDir . '/' . ltrim($article['featured_image'], '/'));
+                    ?>
+                    <div class="article-card-clean" data-reveal>
+                        <div class="article-img">
+                            <a href="<?= htmlspecialchars($articleUrl) ?>">
+                                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($article['title']) ?>">
+                            </a>
+                        </div>
+                        <div class="article-body">
+                            <div class="article-meta">
+                                <span class="category"><?= htmlspecialchars($article['category']) ?></span>
+                                <span class="date"><?= date('d M Y', strtotime($article['published_date'])) ?></span>
+                            </div>
+                            <h3><a href="<?= htmlspecialchars($articleUrl) ?>"><?= htmlspecialchars($article['title']) ?></a></h3>
+                            <p><?= htmlspecialchars(mb_strimwidth($article['excerpt'], 0, 90, '...')) ?></p>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <p>Belum ada artikel yang dipublikasikan.</p>
+                    </div>
+                <?php endif; ?>
+            </div>
         </div>
     </section>
 
-    <!-- contact -->
-    <section id="contact" class="contact" data-reveal>
-        <div class="container">
-            <h2>Hubungi Kami</h2>
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <h3>Ayo Bicara</h3>
-                    <p>Kami selalu bersemangat mendengar tentang proyek dan peluang baru. Hubungi kami melalui channel manapun.</p>
-                    <div class="contact-item">
-                        <div class="contact-icon email-icon"></div>
+    <!-- Contact Section -->
+    <section id="contact" class="contact-clean" data-reveal>
+        <div class="container contact-split">
+            <div class="contact-text">
+                <h2>Siap Mengembangkan Bisnis Anda?</h2>
+                <p>Jangan ragu untuk menghubungi kami. Kami siap mendiskusikan kebutuhan proyek Anda dan memberikan solusi teknologi terbaik.</p>
+                
+                <div class="contact-details">
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                        </div>
                         <div>
-                            <div class="contact-label">Email</div>
-                            <div class="contact-value">consulting@desadroid.shop</div>
+                            <h4>Email</h4>
+                            <p>consulting@desadroid.shop</p>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon phone-icon"></div>
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></svg>
+                        </div>
                         <div>
-                            <div class="contact-label">Telepon</div>
-                            <div class="contact-value">+6289669709021</div>
+                            <h4>Telepon / WhatsApp</h4>
+                            <p>+62 896 6970 9021</p>
                         </div>
                     </div>
-                    <div class="contact-item">
-                        <div class="contact-icon location-icon"></div>
+                    <div class="detail-item">
+                        <div class="detail-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                        </div>
                         <div>
-                            <div class="contact-label">Kantor</div>
-                            <div class="contact-value">JW7P+2P Cikeas Udik, Kabupaten Bogor, Jawa Barat</div>
+                            <h4>Lokasi</h4>
+                            <p>Cikeas Udik, Kabupaten Bogor, Jawa Barat</p>
                         </div>
                     </div>
-                    <a href="https://wa.me/6289669709021" class="btn whatsapp-btn" target="_blank">Chat on WhatsApp</a>
                 </div>
-                <form class="contact-form" method="post" action="<?= htmlspecialchars($baseDir . '/send_message.php') ?>">
-                    <input type="text" name="name" placeholder="Nama lengkap" required>
-                    <input type="email" name="email" placeholder="Alamat Email" required>
-                    <input type="text" name="phone" placeholder="Telepon (opsional)">
-                    <textarea name="message" placeholder="Pesan" rows="5" required></textarea>
-                    <button type="submit" class="btn primary">Kirim Pesan</button>
-                </form>
             </div>
-            <div class="map">
-                <!-- Placeholder map -->
-                <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d991.2628275958328!2d106.9363426!3d-6.3873803!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e699592e27d4a99%3A0xd951adc24903faa!2sPojok%20cell!5e0!3m2!1sid!2sid!4v1773116030996!5m2!1sid!2sid"
-                    width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            
+            <div class="contact-form-card">
+                <form method="post" action="<?= htmlspecialchars($baseDir . '/send_message.php') ?>">
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap</label>
+                        <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Alamat Email</label>
+                        <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Nomor Telepon (Opsional)</label>
+                        <input type="text" id="phone" name="phone" placeholder="Masukkan nomor telepon">
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Pesan Anda</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Ceritakan kebutuhan proyek Anda" required></textarea>
+                    </div>
+                    <button type="submit" class="btn primary btn-submit">Kirim Pesan Sekarang</button>
+                </form>
             </div>
         </div>
     </section>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - Psikologi Kita</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html" class="sidebar-logo">
+                <div class="icon-box"><i class="fas fa-shield-halved"></i></div>
+                <span>AdminPanel</span>
+            </a>
+        </div>
+        
+        <div class="sidebar-menu">
+            <div class="menu-label">Menu Utama</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="index.html" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i>
+                        <span>Data Pasien</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-user-md"></i>
+                        <span>Data Psikolog</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-calendar-check"></i>
+                        <span>Jadwal Konsultasi</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="menu-label" style="margin-top: 24px;">Laporan & Sistem</div>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <span>Transaksi</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-cog"></i>
+                        <span>Pengaturan</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="sidebar-footer">
+            <a href="../user/index.html" class="nav-link" style="color: #ef4444;">
+                <i class="fas fa-sign-out-alt" style="color: #ef4444;"></i>
+                <span>Keluar</span>
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-wrapper">
+        
+        <!-- TOP NAVBAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <button class="toggle-sidebar" id="toggleSidebar">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Cari pasien, psikolog, atau jadwal...">
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <button class="action-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge"></span>
+                </button>
+                
+                <div class="admin-profile">
+                    <div class="admin-avatar">AD</div>
+                    <div class="admin-info">
+                        <span class="admin-name">Administrator</span>
+                        <span class="admin-role">Super Admin</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <div class="content">
+            <div class="page-header">
+                <div class="page-title">
+                    <h1>Ringkasan Sistem</h1>
+                    <p>Pantau aktivitas platform Psikologi Kita hari ini.</p>
+                </div>
+                <button class="btn btn-primary">
+                    <i class="fas fa-plus"></i> Tambah Psikolog
+                </button>
+            </div>
+
+            <!-- STATS GRID -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-details">
+                        <h3>Total Pasien</h3>
+                        <div class="stat-number">1,245</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 12% bulan ini
+                        </div>
+                    </div>
+                    <div class="stat-icon icon-blue">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-details">
+                        <h3>Total Psikolog</h3>
+                        <div class="stat-number">48</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 2 psikolog baru
+                        </div>
+                    </div>
+                    <div class="stat-icon icon-emerald">
+                        <i class="fas fa-user-md"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-details">
+                        <h3>Sesi Aktif</h3>
+                        <div class="stat-number">34</div>
+                        <div class="stat-trend trend-down">
+                            <i class="fas fa-arrow-down"></i> 5% dari minggu lalu
+                        </div>
+                    </div>
+                    <div class="stat-icon icon-amber">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-details">
+                        <h3>Pendapatan</h3>
+                        <div class="stat-number">Rp 15.4M</div>
+                        <div class="stat-trend trend-up">
+                            <i class="fas fa-arrow-up"></i> 8% minggu ini
+                        </div>
+                    </div>
+                    <div class="stat-icon icon-primary">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DASHBOARD GRID -->
+            <div class="dashboard-grid">
+                
+                <!-- RECENT CONSULTATIONS TABLE -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Konsultasi Terbaru</h2>
+                        <a href="#" class="card-action">Lihat Semua <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Pasien</th>
+                                    <th>Psikolog</th>
+                                    <th>Tanggal</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar" style="background:#e0e7ff;color:#4f46e5">BS</div>
+                                            <div class="user-info">
+                                                <strong>Budi Santoso</strong>
+                                                <span>budi@gmail.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Dr. Ratna Sari, M.Psi</td>
+                                    <td>12 Mei 2026</td>
+                                    <td><span class="status status-success">Selesai</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar" style="background:#dcfce7;color:#16a34a">SA</div>
+                                            <div class="user-info">
+                                                <strong>Siti Aminah</strong>
+                                                <span>siti.aminah@yahoo.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Ahmad Budiman, M.Psi</td>
+                                    <td>12 Mei 2026</td>
+                                    <td><span class="status status-info">Berjalan</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar" style="background:#fef3c7;color:#d97706">RR</div>
+                                            <div class="user-info">
+                                                <strong>Reza Rahadian</strong>
+                                                <span>reza.r@outlook.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Sinta Permata, M.Psi</td>
+                                    <td>13 Mei 2026</td>
+                                    <td><span class="status status-warning">Menunggu</span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar" style="background:#fce7f3;color:#db2777">AL</div>
+                                            <div class="user-info">
+                                                <strong>Ayu Lestari</strong>
+                                                <span>ayu.les@gmail.com</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Dr. Ratna Sari, M.Psi</td>
+                                    <td>13 Mei 2026</td>
+                                    <td><span class="status status-warning">Menunggu</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- UPCOMING SCHEDULES -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Jadwal Hari Ini</h2>
+                        <a href="#" class="card-action"><i class="fas fa-calendar-alt"></i></a>
+                    </div>
+                    <div class="schedule-list">
+                        
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <strong>09:00</strong>
+                                <span>WIB</span>
+                            </div>
+                            <div class="schedule-info">
+                                <h4>Budi Santoso</h4>
+                                <p><i class="fas fa-video" style="color: #10b981;"></i> Video Call (Dr. Ratna Sari)</p>
+                            </div>
+                        </div>
+
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <strong>10:30</strong>
+                                <span>WIB</span>
+                            </div>
+                            <div class="schedule-info">
+                                <h4>Siti Aminah</h4>
+                                <p><i class="fas fa-phone-alt" style="color: #3b82f6;"></i> Voice Call (Ahmad Budiman)</p>
+                            </div>
+                        </div>
+
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <strong>13:00</strong>
+                                <span>WIB</span>
+                            </div>
+                            <div class="schedule-info">
+                                <h4>Reza Rahadian</h4>
+                                <p><i class="fas fa-comments" style="color: #f59e0b;"></i> Chat (Sinta Permata)</p>
+                            </div>
+                        </div>
+
+                        <div class="schedule-item">
+                            <div class="schedule-time">
+                                <strong>15:00</strong>
+                                <span>WIB</span>
+                            </div>
+                            <div class="schedule-info">
+                                <h4>Ayu Lestari</h4>
+                                <p><i class="fas fa-video" style="color: #10b981;"></i> Video Call (Dr. Ratna Sari)</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <script src="assets/js/script.js"></script>
+</body>
+</html>

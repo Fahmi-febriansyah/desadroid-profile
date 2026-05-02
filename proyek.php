@@ -1,97 +1,89 @@
 <?php
 require_once 'config/db.php';
+$pageTitle = 'Portofolio Proyek - Desadroid';
+$metaDescription = 'Lihat berbagai proyek sukses yang telah diselesaikan oleh Desadroid. Dari website e-commerce hingga aplikasi mobile enterprise.';
 include 'partials/header.php';
 ?>
 
-<section class="projects-section" style="padding:5rem 0;" data-reveal>
+<?php 
+$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); 
+if ($baseDir === '/') $baseDir = ''; 
+$baseDirSegments = array_filter(explode('/', ltrim($baseDir, '/')), function($s){ return $s !== ''; }); 
+$baseDirUrl = ''; 
+if (!empty($baseDirSegments)) { 
+    $baseDirUrl = '/' . implode('/', array_map('rawurlencode', $baseDirSegments)); 
+} 
 
-<div class="container">
-
-<div class="section-title">
-<h2>Proyek Kami</h2>
-</div>
-
-<?php
 try {
-$projects_query = $pdo->query("SELECT * FROM projects ORDER BY order_num ASC, created_at DESC");
-$projects = $projects_query->fetchAll();
+    $projects_query = $pdo->query("SELECT * FROM projects ORDER BY order_num ASC, created_at DESC");
+    $projects = $projects_query->fetchAll();
 } catch (Exception $e) {
-$projects = [];
+    $projects = [];
 }
 ?>
 
-<?php if (!empty($projects)): ?>
+<!-- Projects Hero -->
+<section class="page-hero text-center" data-reveal>
+    <div class="container">
+        <span class="hero-label">Karya Kami</span>
+        <h1>Portofolio <span class="text-gradient">Terbaik</span> Kami</h1>
+        <p class="hero-subtitle mx-auto">Setiap baris kode dan setiap piksel desain kami buat dengan dedikasi tinggi untuk menghasilkan produk digital berkualitas.</p>
+    </div>
+</section>
 
-<div class="project-grid">
-
-<?php $delay = 100; foreach ($projects as $project): ?>
-
-<div class="project-card" data-reveal data-reveal-delay="<?= $delay ?>">
-
-<div class="project-image">
-
-<?php if ($project['image_url']): ?>
-<img src="<?= htmlspecialchars($project['image_url']) ?>" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
-<?php else: ?>
-<img src="https://source.unsplash.com/400x250/?<?= urlencode(strtolower($project['category'])) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
-<?php endif; ?>
-
-<span class="project-category">
-<?= htmlspecialchars($project['category']) ?>
-</span>
-
-			<div class="project-overlay">
-
-			<?php
-				$hasLink = !empty($project['link']);
-				$viewHref = $hasLink ? htmlspecialchars($project['link']) : '../error/index.html';
-				$viewTarget = $hasLink ? ' target="_blank"' : '';
-			?>
-			<a href="<?= $viewHref ?>"<?= $viewTarget ?> class="overlay-btn"><?= $hasLink ? 'View' : 'Info' ?></a>
-
-			<?php if (!empty($project['code_link'])): ?>
-			<a href="<?= htmlspecialchars($project['code_link']) ?>" target="_blank" class="overlay-btn">Code</a>
-			<?php endif; ?>
-
-			</div>
-
-</div>
-
-<div class="project-content">
-
-<h4><?= htmlspecialchars($project['title']) ?></h4>
-
-<?php $short = mb_strimwidth(trim($project['description'] ?? ''), 0, 140, '...'); ?>
-<p><?= htmlspecialchars($short) ?></p>
-
-<div class="progress-wrap">
-	<?php $progress = isset($project['progress']) ? intval($project['progress']) : 0; ?>
-	<div class="progress" aria-hidden="true">
-		<span class="progress-bar" style="width: <?= $progress ?>%;"></span>
-	</div>
-	<div class="progress-label"><?= $progress ?>% Selesai</div>
-	<a href="project_detail.php?id=<?= intval($project['id']) ?>" class="btn-case">Lihat Case Study</a>
-</div>
-
-</div>
-
-</div>
-
-<?php $delay += 100; endforeach; ?>
-
-</div>
-
-<?php else: ?>
-
-<div class="empty-project">
-<p class="empty-title">📋 Belum ada proyek yang ditambahkan</p>
-<p>Hubungi kami untuk melihat portofolio lengkap atau mengajukan proyek baru.</p>
-</div>
-
-<?php endif; ?>
-
-</div>
-
+<section class="projects-page bg-light" data-reveal>
+    <div class="container">
+        <?php if (!empty($projects)): ?>
+        <div class="project-grid-clean">
+            <?php foreach ($projects as $project): ?>
+            <div class="project-card-clean" data-reveal>
+                <div class="project-img">
+                    <?php if ($project['image_url']): ?>
+                        <img src="<?= htmlspecialchars($project['image_url']) ?>" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
+                    <?php else: ?>
+                        <img src="https://source.unsplash.com/featured/600x400/?<?= urlencode(strtolower($project['category'])) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
+                    <?php endif; ?>
+                    <div class="project-overlay">
+                        <?php
+                            $hasLink = !empty($project['link']);
+                            $viewHref = $hasLink ? htmlspecialchars($project['link']) : '#';
+                            $viewTarget = $hasLink ? ' target="_blank"' : '';
+                        ?>
+                        <a href="<?= $viewHref ?>"<?= $viewTarget ?> class="btn-overlay"><?= $hasLink ? 'Lihat Website' : 'Info' ?></a>
+                        <?php if (!empty($project['code_link'])): ?>
+                            <a href="<?= htmlspecialchars($project['code_link']) ?>" target="_blank" class="btn-overlay" style="margin-left:10px;">Source Code</a>
+                        <?php endif; ?>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <span class="project-category"><?= htmlspecialchars($project['category']) ?></span>
+                    <h3><?= htmlspecialchars($project['title']) ?></h3>
+                    <?php $short = mb_strimwidth(trim($project['description'] ?? ''), 0, 100, '...'); ?>
+                    <p><?= htmlspecialchars($short) ?></p>
+                    
+                    <div class="project-progress mt-3">
+                        <?php $progress = isset($project['progress']) ? intval($project['progress']) : 0; ?>
+                        <div class="progress-info">
+                            <span>Status Proyek</span>
+                            <strong><?= $progress ?>% Selesai</strong>
+                        </div>
+                        <div class="progress-bar-bg">
+                            <div class="progress-bar-fill" style="width: <?= $progress ?>%;"></div>
+                        </div>
+                    </div>
+                    
+                    <a href="<?= htmlspecialchars($baseDirUrl . '/project_detail.php?id=' . intval($project['id'])) ?>" class="btn secondary" style="width:100%; margin-top:1.5rem;">Lihat Case Study</a>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+        <?php else: ?>
+        <div class="empty-state">
+            <p>📋 Belum ada proyek yang ditambahkan.</p>
+            <p style="font-size: 0.95rem; margin-top: 0.5rem; color: var(--text2);">Hubungi kami untuk melihat portofolio lengkap atau mengajukan proyek baru.</p>
+        </div>
+        <?php endif; ?>
+    </div>
 </section>
 
 <?php include 'partials/footer.php'; ?>
