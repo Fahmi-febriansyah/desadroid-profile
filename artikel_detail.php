@@ -93,165 +93,7 @@ if (!empty($article['featured_image'])) {
 <meta name="twitter:card" content="summary_large_image">
 
 
-<style>
-
-.article-wrap{
-max-width:900px;
-margin:auto;
-padding:70px 20px;
-}
-
-.article-title{
-font-size:38px;
-font-weight:700;
-line-height:1.3;
-margin-bottom:15px;
-}
-
-.article-meta{
-display:flex;
-gap:15px;
-color:#666;
-font-size:14px;
-margin-bottom:25px;
-}
-
-.hero-img{
-width:100%;
-aspect-ratio:16/9;
-overflow:hidden;
-border-radius:12px;
-}
-
-.hero-img img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.img-caption{
-font-size:12px;
-color:#777;
-margin-top:6px;
-}
-
-.share-bar{
-display:flex;
-gap:12px;
-overflow-x:auto;
-padding:10px 0;
-margin:20px 0;
-}
-
-.share-btn{
-display:flex;
-align-items:center;
-gap:6px;
-padding:8px 12px;
-background:#f1f5f9;
-border-radius:6px;
-font-size:14px;
-cursor:pointer;
-white-space:nowrap;
-}
-
-.share-btn img{
-width:18px;
-height:18px;
-}
-
-.article-content{
-font-size:19px;
-line-height:1.9;
-color:#333;
-margin-top:20px;
-}
-
-.article-content p{
-margin-bottom:22px;
-}
-
-.article-content a{
-color:#0066cc;
-font-weight:600;
-text-decoration:none;
-}
-
-.article-content a:hover{
-text-decoration:underline;
-}
-
-.read-more-box{
-border-left:4px solid #0066cc;
-background:#f8fafc;
-padding:14px;
-margin:30px 0;
-}
-
-.related{
-margin-top:60px;
-}
-
-.related-grid{
-display:grid;
-grid-template-columns:1fr 1fr 1fr;
-gap:20px;
-}
-
-.related-card{
-background:#fff;
-border-radius:10px;
-overflow:hidden;
-box-shadow:0 5px 20px rgba(0,0,0,0.05);
-}
-
-.related-img{
-width:100%;
-aspect-ratio:16/9;
-overflow:hidden;
-}
-
-.related-img img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-.related-body{
-padding:12px;
-}
-
-.related-title{
-font-weight:600;
-font-size:14px;
-line-height:1.4;
-}
-
-.related-title a{
-text-decoration:none;
-color:#111;
-}
-
-.related-title a:hover{
-color:#0066cc;
-}
-
-@media(max-width:900px){
-
-.related-grid{
-grid-template-columns:1fr;
-}
-
-.article-title{
-font-size:28px;
-}
-
-}
-
-</style>
-
-
-<section class="article-wrap">
+<section class="article-wrap" data-reveal>
 
 
 <h1 class="article-title">
@@ -279,22 +121,19 @@ Ilustrasi teknologi Desadroid
 <div class="share-bar">
 
 <div class="share-btn" onclick="copyLink()">
-<img src="/src/icon/share.png">
-Copy
+📋 Copy
 </div>
 
 <a class="share-btn"
 href="https://wa.me/?text=<?=urlencode($canonical)?>"
 target="_blank">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/whatsapp.svg">
-WhatsApp
+💬 WhatsApp
 </a>
 
 <a class="share-btn"
 href="https://www.facebook.com/sharer/sharer.php?u=<?=urlencode($canonical)?>"
 target="_blank">
-<img src="https://cdn.jsdelivr.net/npm/simple-icons@v11/icons/facebook.svg">
-Facebook
+📘 Facebook
 </a>
 
 </div>
@@ -333,7 +172,7 @@ echo $content;
 
 
 
-<div class="related">
+<div class="related" data-reveal>
 
 <h3>Artikel Terkait</h3>
 

@@ -12,7 +12,8 @@ if (!empty($baseDirSegments)) {
 }
 ?>
 
-    <footer class="footer" data-aos="fade-in">
+    <footer class="footer" data-reveal>
+        <div class="footer-glow"></div>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section about">
@@ -60,7 +61,6 @@ if (!empty($baseDirSegments)) {
     </footer>
 
     <!-- Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/aos@3.0.0-beta.6/dist/aos.js"></script>
     <script src="<?= htmlspecialchars(($baseDirUrl === '' ? '/src/js/main.js' : $baseDirUrl . '/src/js/main.js')) ?>"></script>
 
     <!-- Tawk.to Live Chat -->

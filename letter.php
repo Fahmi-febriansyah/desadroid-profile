@@ -25,25 +25,25 @@ if (!$letter) {
 include 'partials/header.php';
 ?>
 
-<section class="container" style="padding:3rem 0">
-    <h1><?= htmlspecialchars($letter['letter_number'] . ' — ' . $letter['title']) ?></h1>
-    <div style="color:#666;margin-bottom:12px">Diterbitkan: <?= date('d M Y', strtotime($letter['created_at'])) ?></div>
-    <div style="background:#fff;padding:1.2rem;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06)">
+<section class="article-wrap" data-reveal>
+    <h1 class="article-title"><?= htmlspecialchars($letter['letter_number'] . ' — ' . $letter['title']) ?></h1>
+    <div style="color:var(--text2);margin-bottom:12px">Diterbitkan: <?= date('d M Y', strtotime($letter['created_at'])) ?></div>
+    <div class="article-content" style="background:var(--surface);padding:1.5rem;border-radius:var(--radius);border:1px solid rgba(255,255,255,.06)">
         <?= $letter['content'] ?>
     </div>
 
     <?php if (!empty($letter['attachments'])): ?>
-        <div style="margin-top:1rem">
-            <h3>Lampiran</h3>
+        <div style="margin-top:1.5rem">
+            <h3 style="color:var(--text);margin-bottom:.5rem">Lampiran</h3>
             <?php
             $files = explode(';', $letter['attachments']);
             foreach ($files as $f): if (trim($f)==='') continue; $url = htmlspecialchars($f); ?>
-                <div><a href="<?= $url ?>" target="_blank"><?= basename($f) ?></a></div>
+                <div style="margin-bottom:.5rem"><a href="<?= $url ?>" target="_blank"><?= basename($f) ?></a></div>
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
 
-    <div style="margin-top:1.2rem"><a href="proyek.php">← Kembali ke Proyek</a></div>
+    <div style="margin-top:1.5rem"><a href="proyek.php" class="back-link">← Kembali ke Proyek</a></div>
 </section>
 
 <?php include 'partials/footer.php'; ?>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar - Psikologi Kita</title>
+    <meta name="description" content="Daftar akun Psikologi Kita secara gratis dan mulai konsultasi dengan psikolog profesional bersertifikat.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="assets/css/auth.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-wrapper register-wrapper">
+            <!-- LEFT SIDE - BRANDING -->
+            <div class="auth-left">
+                <div class="auth-brand">
+                    <div class="brand-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h1>Psikologi Kita</h1>
+                    <p>Kesehatan Mental Adalah Prioritas</p>
+                </div>
+                <div class="auth-benefits">
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Daftar Gratis & Mudah</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Akses Langsung ke Psikolog</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Privasi Data Terjamin</span>
+                    </div>
+                    <div class="benefit-item">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Mulai Konsultasi Hari Ini</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT SIDE - REGISTER FORM -->
+            <div class="auth-right">
+                <div class="auth-box">
+                    <h2>Buat Akun Baru ✨</h2>
+                    <p class="auth-subtitle">Daftar dan mulai konsultasi sekarang</p>
+
+                    <form id="registerForm" class="auth-form" novalidate>
+                        <!-- Row 1: Nama Depan & Belakang -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">Nama Depan</label>
+                                <input 
+                                    type="text" 
+                                    id="firstName" 
+                                    name="firstName" 
+                                    placeholder="Nama depan Anda"
+                                    required
+                                >
+                                <span class="error-message" id="firstNameError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Nama Belakang</label>
+                                <input 
+                                    type="text" 
+                                    id="lastName" 
+                                    name="lastName" 
+                                    placeholder="Nama belakang Anda"
+                                    required
+                                >
+                                <span class="error-message" id="lastNameError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Row 2: Email -->
+                        <div class="form-group">
+                            <label for="regEmail">Email</label>
+                            <input 
+                                type="email" 
+                                id="regEmail" 
+                                name="email" 
+                                placeholder="Masukkan email Anda"
+                                required
+                            >
+                            <span class="error-message" id="regEmailError"></span>
+                        </div>
+
+                        <!-- Row 3: Nomor HP -->
+                        <div class="form-group">
+                            <label for="phone">Nomor Telepon</label>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone" 
+                                placeholder="Masukkan nomor HP Anda"
+                                required
+                            >
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+
+                        <!-- Row 4: Tanggal Lahir & Jenis Kelamin -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="birthDate">Tanggal Lahir</label>
+                                <input 
+                                    type="date" 
+                                    id="birthDate" 
+                                    name="birthDate" 
+                                    required
+                                >
+                                <span class="error-message" id="birthDateError"></span>
+                            </div>
+                            <div class="form-group">
+                                <label for="gender">Jenis Kelamin</label>
+                                <select id="gender" name="gender" required>
+                                    <option value="">Pilih jenis kelamin</option>
+                                    <option value="male">Laki-laki</option>
+                                    <option value="female">Perempuan</option>
+                                    <option value="other">Lainnya</option>
+                                </select>
+                                <span class="error-message" id="genderError"></span>
+                            </div>
+                        </div>
+
+                        <!-- Row 5: Password -->
+                        <div class="form-group">
+                            <label for="regPassword">Password</label>
+                            <div class="password-field">
+                                <input 
+                                    type="password" 
+                                    id="regPassword" 
+                                    name="password" 
+                                    placeholder="Buat password yang kuat"
+                                    required
+                                >
+                                <button type="button" class="toggle-password" onclick="toggleRegPassword()">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="error-message" id="regPasswordError"></span>
+                            <small class="password-hint">Minimal 8 karakter, mengandung huruf besar, huruf kecil, dan angka</small>
+                        </div>
+
+                        <!-- Row 6: Konfirmasi Password -->
+                        <div class="form-group">
+                            <label for="confirmPassword">Konfirmasi Password</label>
+                            <div class="password-field">
+                                <input 
+                                    type="password" 
+                                    id="confirmPassword" 
+                                    name="confirmPassword" 
+                                    placeholder="Ulangi password Anda"
+                                    required
+                                >
+                                <button type="button" class="toggle-password" onclick="toggleConfirmPassword()">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                            </div>
+                            <span class="error-message" id="confirmPasswordError"></span>
+                        </div>
+
+                        <!-- Row 7: Terms & Conditions -->
+                        <label class="terms-checkbox">
+                            <input type="checkbox" name="terms" required>
+                            <span>Saya setuju dengan <a href="#">Syarat & Ketentuan</a> dan <a href="#">Kebijakan Privasi</a></span>
+                        </label>
+                        <span class="error-message" id="termsError"></span>
+
+                        <button type="submit" class="auth-button">Daftar</button>
+                    </form>
+
+                    <div class="auth-footer">
+                        <p>Sudah punya akun? <a href="login.html">Masuk di sini</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/auth.js"></script>
+</body>
+</html>

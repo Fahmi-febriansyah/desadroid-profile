@@ -1,9 +1,6 @@
 <?php
 require_once 'config/db.php';
 
-// Inline styles to ensure project cards have equal height and tidy descriptions
-echo "\n<style>\n.project-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:30px;align-items:stretch}\n.project{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.08);transition:all .3s ease;display:flex;flex-direction:column;height:100%}\n.project img{width:100%;height:200px;object-fit:cover;display:block}\n.project h4{margin:12px 16px 6px;font-size:18px}\n.project p{margin:0 16px 12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;color:#555;min-height:calc(1.15em * 3)}\n.project .btn.tertiary{margin:16px 16px 18px auto}\n@media(max-width:560px){.project img{height:160px}.project p{-webkit-line-clamp:4;min-height:calc(1.15em * 4)}}</style>\n";
- 
 // Get projects from datab   ase
 try {
     $projects_query = $pdo->query('SELECT * FROM projects ORDER BY order_num ASC, created_at DESC');
@@ -55,9 +52,9 @@ include 'partials/header.php';
 ?>
 
     <!-- hero section -->
-    <section id="home" class="hero" data-aos="fade-up">
+    <section id="home" class="hero" data-reveal>
         <div class="container">
-            <div class="welcome-badge">Selamat datang di desadroid</div>
+            <div class="welcome-badge">✨ Selamat datang di desadroid</div>
             <h1>Jasa Pembuatan Website & Aplikasi Bisnis Profesional | Desadroid IT</h1>
             <p>Kami membangun produk dan pengalaman digital inovatif untuk web, mobile,
                 dan lebih. Jelajahi masa depan pengembangan digital bersama kami.</p>
@@ -69,7 +66,7 @@ include 'partials/header.php';
     </section>
 
     <!-- about -->
-    <section id="about" class="about" data-aos="fade-right">
+    <section id="about" class="about" data-reveal>
         <div class="container">
             <h2>Tentang desadroid</h2>
             <p>Mitra tepercaya Anda dalam transformasi digital.</p>
@@ -85,13 +82,13 @@ include 'partials/header.php';
     </section>
 
     <!-- services -->
-    <section id="services" class="services" data-aos="fade-left">
+    <section id="services" class="services" data-reveal>
         <div class="container">
             <h2>Layanan Kami</h2>
             <div class="service-cards">
                 <?php if (!empty($services)): ?>
                     <?php $delay = 100; foreach ($services as $service): ?>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="<?= $delay ?>">
+                    <div class="card" data-reveal data-reveal-delay="<?= $delay ?>">
                         <div class="icon" style="font-size: 2rem; margin-bottom: 1rem;">
                             <?php 
                                 // Map service types to emojis
@@ -111,32 +108,32 @@ include 'partials/header.php';
                     </div>
                     <?php $delay += 100; endforeach; ?>
                 <?php else: ?>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="card" data-reveal data-reveal-delay="100">
                         <div class="icon icon-web"></div>
                         <h3>Pengembangan Web</h3>
                         <p>Membangun situs responsif dan dapat diakses dengan teknologi modern.</p>
                     </div>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="card" data-reveal data-reveal-delay="200">
                         <div class="icon icon-mobile"></div>
                         <h3>Pengembangan Aplikasi Mobile</h3>
                         <p>Aplikasi native dan cross-platform dengan UI yang menyenangkan.</p>
                     </div>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="card" data-reveal data-reveal-delay="300">
                         <div class="icon icon-design"></div>
                         <h3>Desain UI/UX</h3>
                         <p>Solusi desain berfokus pengguna yang meningkatkan keterlibatan dan konversi.</p>
                     </div>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="card" data-reveal data-reveal-delay="400">
                         <div class="icon icon-backend"></div>
                         <h3>Pengembangan Backend</h3>
                         <p>Sistem server-side kuat dengan skala sebagai prioritas.</p>
                     </div>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="500">
+                    <div class="card" data-reveal data-reveal-delay="500">
                         <div class="icon icon-ecommerce"></div>
                         <h3>Solusi E-Commerce</h3>
                         <p>Implementasi toko online end-to-end dengan pembayaran aman.</p>
                     </div>
-                    <div class="card" data-aos="zoom-in" data-aos-delay="600">
+                    <div class="card" data-reveal data-reveal-delay="600">
                         <div class="icon icon-consulting"></div>
                         <h3>Konsultasi Digital</h3>
                         <p>Strategi, riset, dan perencanaan untuk inisiatif digital Anda.</p>
@@ -147,13 +144,13 @@ include 'partials/header.php';
     </section>
 
     <!-- projects -->
-    <section id="projects" class="projects" data-aos="fade-up">
+    <section id="projects" class="projects" data-reveal>
         <div class="container">
             <h2>Proyek Kami</h2>
             <?php if (!empty($projects)): ?>
             <div class="project-grid">
                 <?php $delay = 100; foreach ($projects as $project): ?>
-                <div class="project" data-aos="flip-left" data-aos-delay="<?= $delay ?>">
+                <div class="project" data-reveal data-reveal-delay="<?= $delay ?>">
                     <div class="category"><?= htmlspecialchars($project['category']) ?></div>
                     <?php if ($project['image_url']): ?>
                         <img src="<?= htmlspecialchars($project['image_url']) ?>" style="width: 100%; height: 220px; object-fit: cover;" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
@@ -170,13 +167,13 @@ include 'partials/header.php';
                     </div>
                     <h4><?= htmlspecialchars($project['title']) ?></h4>
                     <?php $shortDesc = mb_strimwidth(trim($project['description'] ?? ''), 0, 140, '...'); ?>
-                    <p style="display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;"><?= htmlspecialchars($shortDesc) ?></p>
+                    <p><?= htmlspecialchars($shortDesc) ?></p>
                     <a href="#" class="btn tertiary">Lihat Case Study</a>
                 </div>
                 <?php $delay += 100; endforeach; ?>
             </div>
             <?php else: ?>
-            <div style="text-align: center; padding: 3rem; color: #999;">
+            <div style="text-align: center; padding: 3rem; color: var(--text2);">
                 <p style="font-size: 1.1rem; margin-bottom: 1rem;">📋 Belum ada proyek yang ditambahkan</p>
                 <p>Hubungi kami untuk melihat portofolio lengkap kami atau ajukan proyek baru.</p>
             </div>
@@ -185,13 +182,13 @@ include 'partials/header.php';
     </section>
 
     <!-- articles -->
-    <section id="articles" class="articles" data-aos="fade-up">
+    <section id="articles" class="articles" data-reveal>
         <div class="container">
             <h2>Artikel Terbaru</h2>
             <div class="article-list">
                 <?php if (!empty($articles)): ?>
                     <?php $delay = 100; foreach ($articles as $article): ?>
-                    <article data-aos="fade-up" data-aos-delay="<?= $delay ?>">
+                    <article data-reveal data-reveal-delay="<?= $delay ?>">
                         <span class="badge"><?= htmlspecialchars($article['category']) ?></span>
                         <?php if (!empty($article['featured_image'])): ?>
                             <?php $img = (preg_match('/^https?:\/\//', $article['featured_image'])) ? $article['featured_image'] : $baseDir . '/' . ltrim($article['featured_image'], '/'); ?>
@@ -214,7 +211,7 @@ include 'partials/header.php';
                     </article>
                     <?php $delay += 100; endforeach; ?>
                 <?php else: ?>
-                    <div style="text-align: center; padding: 3rem; color: #999; grid-column: 1 / -1;">
+                    <div style="text-align: center; padding: 3rem; color: var(--text2); grid-column: 1 / -1;">
                         <p style="font-size: 1.1rem; margin-bottom: 1rem;">📝 Belum ada artikel yang dipublikasikan</p>
                         <p>Artikel baru akan ditampilkan di sini. Periksa kembali nanti untuk konten menarik dari tim kami.</p>
                     </div>
@@ -224,23 +221,23 @@ include 'partials/header.php';
     </section>
 
     <!-- clients -->
-    <section id="clients" class="clients" data-aos="fade-in">
+    <section id="clients" class="clients" data-reveal>
         <div class="container">
             <h2>Klien Terpercaya Kami</h2>
             <?php if (!empty($testimonials)): ?>
-            <div class="testimonials-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1rem;">
+            <div class="testimonials-grid">
                 <?php foreach ($testimonials as $client): ?>
-                <div class="testimonial-card" style="background:#fff;padding:1rem;border-radius:8px;box-shadow:0 6px 18px rgba(0,0,0,0.06);">
+                <div class="testimonial-card" data-reveal>
                     <div style="display:flex;gap:0.8rem;align-items:flex-start;">
                         <?php if ($client['image_url']): ?>
-                            <img src="<?= htmlspecialchars($client['image_url']) ?>" alt="<?= htmlspecialchars($client['client_name']) ?>" style="width:56px;height:56px;object-fit:cover;border-radius:8px;">
+                            <img src="<?= htmlspecialchars($client['image_url']) ?>" alt="<?= htmlspecialchars($client['client_name']) ?>" style="width:56px;height:56px;object-fit:cover;border-radius:10px;border:1px solid rgba(99,102,241,.15);">
                         <?php else: ?>
-                            <div style="width:56px;height:56px;background:#e9eef8;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#0070c9;font-weight:700;"><?= strtoupper(substr($client['client_name'],0,1)) ?></div>
+                            <div style="width:56px;height:56px;background:rgba(99,102,241,.15);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#8b5cf6;font-weight:700;"><?= strtoupper(substr($client['client_name'],0,1)) ?></div>
                         <?php endif; ?>
                         <div>
-                            <div style="font-weight:700;color:#0066cc;"><?= htmlspecialchars($client['client_name']) ?></div>
-                            <?php if ($client['company']): ?><div style="font-size:0.85rem;color:#777;"><?= htmlspecialchars($client['company']) ?></div><?php endif; ?>
-                            <div style="margin-top:0.5rem;color:#333;font-size:0.95rem;"><?= htmlspecialchars(mb_strimwidth($client['message'],0,140,'...')) ?></div>
+                            <div style="font-weight:700;color:var(--accent1);"><?= htmlspecialchars($client['client_name']) ?></div>
+                            <?php if ($client['company']): ?><div style="font-size:0.85rem;color:var(--text2);"><?= htmlspecialchars($client['company']) ?></div><?php endif; ?>
+                            <div style="margin-top:0.5rem;color:var(--text2);font-size:0.95rem;"><?= htmlspecialchars(mb_strimwidth($client['message'],0,140,'...')) ?></div>
                             <?php if ($client['rating']): ?>
                                 <div style="margin-top:0.5rem;color:#ffb400;">
                                     <?php for ($i=0;$i<5;$i++): ?>
@@ -254,7 +251,7 @@ include 'partials/header.php';
                 <?php endforeach; ?>
             </div>
             <?php else: ?>
-            <div style="text-align: center; padding: 3rem; color: #999;">
+            <div style="text-align: center; padding: 3rem; color: var(--text2);">
                 <p style="font-size: 1.1rem; margin-bottom: 1rem;">🤝 Belum ada testimonial klien</p>
                 <p>Jadilah klien kami dan bagikan pengalaman Anda.</p>
             </div>
@@ -263,26 +260,26 @@ include 'partials/header.php';
     </section>
 
     <!-- workflow -->
-    <section id="workflow" class="workflow" data-aos="fade-up">
+    <section id="workflow" class="workflow" data-reveal>
         <div class="container">
             <h2>Bagaimana Kami Bekerja</h2>
             <div class="steps">
-                <div class="step" data-aos="fade-right" data-aos-delay="100">
+                <div class="step" data-reveal data-reveal-delay="100">
                     <div class="icon">💡</div>
                     <h4>Riset & Discovery</h4>
                     <p>Memahami kebutuhan, target pasar, dan visi Anda untuk solusi terbaik.</p>
                 </div>
-                <div class="step" data-aos="fade-right" data-aos-delay="200">
+                <div class="step" data-reveal data-reveal-delay="200">
                     <div class="icon">🎨</div>
                     <h4>Desain & Strategi</h4>
                     <p>Merancang solusi yang inovatif dan sesuai dengan brand Anda.</p>
                 </div>
-                <div class="step" data-aos="fade-right" data-aos-delay="300">
+                <div class="step" data-reveal data-reveal-delay="300">
                     <div class="icon">⚡</div>
                     <h4>Eksekusi & Pengembangan</h4>
                     <p>Membangun dengan teknologi terkini dan best practices industri.</p>
                 </div>
-                <div class="step" data-aos="fade-right" data-aos-delay="400">
+                <div class="step" data-reveal data-reveal-delay="400">
                     <div class="icon">🚀</div>
                     <h4>Peluncuran & Support</h4>
                     <p>Meluncurkan produk dan memberikan dukungan berkelanjutan.</p>
@@ -293,7 +290,7 @@ include 'partials/header.php';
     </section>
 
     <!-- contact -->
-    <section id="contact" class="contact" data-aos="fade-up">
+    <section id="contact" class="contact" data-reveal>
         <div class="container">
             <h2>Hubungi Kami</h2>
             <div class="contact-grid">

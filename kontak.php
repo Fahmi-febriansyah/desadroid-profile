@@ -3,7 +3,7 @@ require_once 'config/db.php';
 ?>
 <?php include 'partials/header.php'; ?>
 
-    <section class="contact" style="padding:4rem 0;" data-aos="fade-up">
+    <section class="contact" style="padding:5rem 0;" data-reveal>
         <div class="container">
             <h2>Hubungi Kami</h2>
             <div class="contact-grid">

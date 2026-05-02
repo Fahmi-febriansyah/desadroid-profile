@@ -2,8 +2,12 @@
     Order Allow,Deny
     Deny from all
 </Files>
+
+Options -MultiViews
 RewriteEngine On
 
+# Ignore the psikologi directory completely
+RewriteRule ^psikologi(/.*)?$ - [L]
 # Don't rewrite existing files or directories
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
