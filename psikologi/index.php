@@ -1,5 +1,5 @@
 <?php
-// Redirect ke halaman login secara default
-header("Location: login.html");
+// Redirect ke login.php
+header("Location: login.php");
 exit;
 ?>
