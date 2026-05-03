@@ -208,6 +208,8 @@ section{padding:80px 0}
     .stats-clean{justify-content:center;}
     .values-grid{grid-template-columns:repeat(2,1fr);}
     .workflow-grid{grid-template-columns:repeat(2,1fr);}
+    .project-grid-clean{grid-template-columns:repeat(2,1fr);}
+    .article-grid-clean{grid-template-columns:repeat(2,1fr);}
 }
 @media(max-width:768px){
     section{padding:60px 0;}

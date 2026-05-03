@@ -65,7 +65,8 @@ if (!empty($metaImage)) {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="<?= htmlspecialchars(($baseDirUrl === '' ? '' : $baseDirUrl) . '/src/css/style.css') ?>">
+    <?php $cssVersion = file_exists(dirname(__DIR__) . '/src/css/style.css') ? filemtime(dirname(__DIR__) . '/src/css/style.css') : '1.0'; ?>
+    <link rel="stylesheet" href="<?= htmlspecialchars(($baseDirUrl === '' ? '' : $baseDirUrl) . '/src/css/style.css?v=' . $cssVersion) ?>">
 </head>
 <body>
     <header class="navbar">

@@ -61,7 +61,8 @@ if (!empty($baseDirSegments)) {
     </footer>
 
     <!-- Scripts -->
-    <script src="<?= htmlspecialchars(($baseDirUrl === '' ? '/src/js/main.js' : $baseDirUrl . '/src/js/main.js')) ?>"></script>
+    <?php $jsVersion = file_exists(dirname(__DIR__) . '/src/js/main.js') ? filemtime(dirname(__DIR__) . '/src/js/main.js') : '1.0'; ?>
+    <script src="<?= htmlspecialchars(($baseDirUrl === '' ? '/src/js/main.js' : $baseDirUrl . '/src/js/main.js') . '?v=' . $jsVersion) ?>"></script>
 
     <!-- Tawk.to Live Chat -->
     <!--Start of Tawk.to Script-->
