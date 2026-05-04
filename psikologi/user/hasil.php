@@ -2,11 +2,9 @@
 session_start();
 include '../koneksi.php';
 
-// Ambil data hasil (dari session atau dari ID URL)
 if (isset($_GET['id'])) {
     $id_konsultasi = intval($_GET['id']);
     
-    // Cek apakah konsultasi ini milik user yang sedang login (opsional tapi bagus untuk keamanan)
     $extra_where = "";
     if (isset($_SESSION['id_user'])) {
         $extra_where = " AND id_user = " . intval($_SESSION['id_user']);
@@ -23,7 +21,6 @@ if (isset($_GET['id'])) {
     $kategori = $konsul['kategori'];
     $tanggal = $konsul['tanggal'];
     
-    // Ambil nilai per aspek dari DB
     $nilai_per_aspek = array();
     $aspek_q = mysqli_query($koneksi, "SELECT ha.*, a.kode_aspek, a.nama_aspek 
                                        FROM hasil_aspek ha 
@@ -38,14 +35,12 @@ if (isset($_GET['id'])) {
         );
     }
     
-    // Ambil rekomendasi
-    $rekomendasi = 'Tidak ada rekomendasi';
+    $catatan = 'Tidak ada catatan';
     $rekom_q = mysqli_query($koneksi, "SELECT * FROM rekomendasi WHERE kategori = '" . mysqli_real_escape_string($koneksi, $kategori) . "' LIMIT 1");
     if ($rek = mysqli_fetch_assoc($rekom_q)) {
-        $rekomendasi = $rek['isi'];
+        $catatan = $rek['isi'];
     }
     
-    // Jalankan ulang trace rule trace
     $rule_terpicu = array();
     $rule_q = mysqli_query($koneksi, "SELECT * FROM rule ORDER BY id_rule ASC");
     while ($rule = mysqli_fetch_assoc($rule_q)) {
@@ -81,7 +76,7 @@ if (isset($_GET['id'])) {
     $id_konsultasi = $hasil['id_konsultasi'];
     $total_skor = $hasil['total_skor'];
     $kategori = $hasil['kategori'];
-    $rekomendasi = $hasil['rekomendasi'];
+    $catatan = $hasil['rekomendasi'] ?? $hasil['catatan'] ?? 'Tidak ada catatan';
     $nilai_per_aspek = $hasil['nilai_per_aspek'];
     $rule_terpicu = $hasil['rule_terpicu'];
     $tanggal = $hasil['tanggal'];
@@ -90,7 +85,6 @@ if (isset($_GET['id'])) {
     exit();
 }
 
-// Ambil data user jika login
 $nama_user = 'Pasien / Pengguna';
 $umur_user = '-';
 $jk_user = '-';
@@ -103,8 +97,7 @@ if (isset($_SESSION['id_user'])) {
     }
 }
 
-// Tentukan warna badge berdasarkan kategori
-$badge_color = '#10b981'; // hijau default
+$badge_color = '#10b981'; 
 $badge_bg = 'rgba(16,185,129,0.1)';
 if (strpos($kategori, 'ringan') !== false) {
     $badge_color = '#f59e0b';
@@ -112,25 +105,19 @@ if (strpos($kategori, 'ringan') !== false) {
 } elseif (strpos($kategori, 'sedang') !== false) {
     $badge_color = '#f97316';
     $badge_bg = 'rgba(249,115,22,0.1)';
-} elseif (strpos($kategori, 'berat') !== false && strpos($kategori, 'sangat') === false) {
+} elseif (strpos($kategori, 'berat') !== false && strpos($kategori, 'sekali') === false) {
     $badge_color = '#ef4444';
     $badge_bg = 'rgba(239,68,68,0.1)';
-} elseif (strpos($kategori, 'sangat berat') !== false) {
+} elseif (strpos($kategori, 'berat sekali') !== false) {
     $badge_color = '#dc2626';
     $badge_bg = 'rgba(220,38,38,0.1)';
 }
 
-// Skor maksimal = jumlah indikator x 4
-$skor_max = count($nilai_per_aspek) > 0 ? 56 : 56; // 14 aspek x 4 (tapi 18 indikator x 4 = 72 sebenarnya)
-// Karena HARS standar menggunakan 14 aspek, skor maks = 14 * 4 = 56
-// Tapi karena kita punya 18 indikator, skor maks = 18 * 4 = 72
-// Kita ikuti rule_kategori yang max_skor = 56, jadi kita cap di 56
-$skor_max = 72; // 18 indikator * 4
+$skor_max = 56; 
 
 $page_title = 'Hasil Konsultasi HARS - Psikologi Kita';
 $extra_css = '
 <style>
-    /* Halaman hasil - tampilan surat medis */
     .hasil-wrapper {
         padding: 100px 24px 60px;
         background: #f1f5f9;
@@ -144,7 +131,6 @@ $extra_css = '
         position: relative;
     }
 
-    /* KOP Surat */
     .kop-surat {
         padding: 30px 40px 20px;
         border-bottom: 3px solid #1e293b;
@@ -184,7 +170,6 @@ $extra_css = '
         margin-top: 2px;
     }
 
-    /* Body Surat */
     .surat-body {
         padding: 30px 40px;
     }
@@ -207,7 +192,6 @@ $extra_css = '
         margin: 0;
     }
 
-    /* Info Pasien */
     .info-pasien {
         margin-bottom: 25px;
     }
@@ -232,7 +216,6 @@ $extra_css = '
         color: #475569;
     }
 
-    /* Hasil Diagnosis */
     .diagnosis-box {
         background: #f8fafc;
         border: 1px solid #e2e8f0;
@@ -256,7 +239,6 @@ $extra_css = '
         color: #64748b;
     }
 
-    /* Tabel Aspek */
     .tabel-aspek {
         width: 100%;
         border-collapse: collapse;
@@ -296,7 +278,6 @@ $extra_css = '
         transition: width 0.3s;
     }
 
-    /* Rule Section */
     .section-title {
         font-size: 1rem;
         font-weight: 700;
@@ -344,27 +325,25 @@ $extra_css = '
         color: #1e293b;
     }
 
-    /* Rekomendasi */
-    .rekomendasi-box {
+    .catatan-box {
         background: #eef2ff;
         border-left: 4px solid #6366f1;
         padding: 18px 20px;
         border-radius: 0 8px 8px 0;
         margin-bottom: 25px;
     }
-    .rekomendasi-box h4 {
+    .catatan-box h4 {
         font-size: 0.95rem;
         color: #4338ca;
         margin: 0 0 6px;
     }
-    .rekomendasi-box p {
+    .catatan-box p {
         font-size: 0.95rem;
         color: #475569;
         margin: 0;
         line-height: 1.6;
     }
 
-    /* TTD */
     .ttd-section {
         display: flex;
         justify-content: flex-end;
@@ -392,7 +371,6 @@ $extra_css = '
         color: #64748b;
     }
 
-    /* Catatan kaki */
     .catatan-kaki {
         padding: 15px 40px;
         background: #f8fafc;
@@ -402,7 +380,6 @@ $extra_css = '
         line-height: 1.5;
     }
 
-    /* Tombol Aksi - sembunyikan saat print */
     .aksi-wrapper {
         max-width: 800px;
         margin: 24px auto 0;
@@ -497,9 +474,7 @@ include 'header.php';
 ?>
 
     <div class="hasil-wrapper">
-        <!-- SURAT MEDIS -->
         <div class="surat-medis" id="suratMedis">
-            <!-- KOP SURAT -->
             <div class="kop-surat">
                 <div class="kop-logo">
                     <i class="fas fa-brain"></i>
@@ -511,14 +486,12 @@ include 'header.php';
                 </div>
             </div>
 
-            <!-- BODY SURAT -->
             <div class="surat-body">
                 <div class="surat-judul">
                     <h3>Laporan Hasil Skrining Kecemasan</h3>
-                    <p>Hamilton Anxiety Rating Scale (HARS) — Forward Chaining Method</p>
+                    <p>Hamilton Anxiety Rating Scale (HARS)</p>
                 </div>
 
-                <!-- Info Pasien -->
                 <div class="info-pasien">
                     <table>
                         <tr>
@@ -549,7 +522,6 @@ include 'header.php';
                     </table>
                 </div>
 
-                <!-- Hasil Diagnosis -->
                 <div class="diagnosis-box">
                     <p class="diagnosis-label">Hasil Diagnosis Tingkat Kecemasan</p>
                     <p class="diagnosis-kategori" style="color: <?php echo $badge_color; ?>;">
@@ -558,7 +530,6 @@ include 'header.php';
                     <p class="diagnosis-skor">Total Skor: <strong><?php echo $total_skor; ?></strong> / <?php echo $skor_max; ?></p>
                 </div>
 
-                <!-- Tabel Detail Per Aspek -->
                 <p class="section-title">Detail Nilai Per Aspek HARS</p>
                 <table class="tabel-aspek">
                     <thead>
@@ -594,32 +565,13 @@ include 'header.php';
                     </tbody>
                 </table>
 
-                <!-- Proses Forward Chaining -->
-                <p class="section-title">Proses Inferensi Forward Chaining</p>
-                <div class="rule-list">
-                    <?php foreach ($rule_terpicu as $rule): ?>
-                    <div class="rule-item">
-                        <span class="rule-badge <?php echo $rule['terpicu'] ? 'aktif' : 'tidak'; ?>">
-                            <?php echo $rule['terpicu'] ? 'AKTIF' : 'TIDAK'; ?>
-                        </span>
-                        <span class="rule-kondisi">
-                            <strong><?php echo $rule['kode_rule']; ?>:</strong> 
-                            IF <?php echo $rule['kondisi']; ?> 
-                            (aktual: <?php echo $rule['nilai_aktual']; ?>)
-                        </span>
-                        <span class="rule-hasil">→ <?php echo $rule['hasil']; ?></span>
-                    </div>
-                    <?php endforeach; ?>
+
+                <p class="section-title">Catatan</p>
+                <div class="catatan-box">
+                    <h4><i class="fas fa-sticky-note"></i> Catatan Hasil Konsultasi</h4>
+                    <p><?php echo htmlspecialchars($catatan); ?></p>
                 </div>
 
-                <!-- Rekomendasi -->
-                <p class="section-title">Rekomendasi</p>
-                <div class="rekomendasi-box">
-                    <h4><i class="fas fa-lightbulb"></i> Saran Penanganan</h4>
-                    <p><?php echo htmlspecialchars($rekomendasi); ?></p>
-                </div>
-
-                <!-- TTD -->
                 <div class="ttd-section">
                     <div class="ttd-box">
                         <p class="tanggal">Yogyakarta, <?php echo date('d F Y', strtotime($tanggal)); ?></p>
@@ -629,15 +581,13 @@ include 'header.php';
                 </div>
             </div>
 
-            <!-- Catatan Kaki -->
             <div class="catatan-kaki">
                 <strong>Catatan:</strong> Hasil skrining ini bersifat penilaian awal dan bukan diagnosis klinis. 
                 Untuk penanganan lebih lanjut, silakan konsultasikan dengan psikolog atau psikiater profesional. 
-                Dokumen ini dihasilkan secara otomatis oleh sistem pakar berbasis Forward Chaining.
+                Dokumen ini dihasilkan secara otomatis oleh sistem pakar.
             </div>
         </div>
 
-        <!-- Tombol Aksi -->
         <div class="aksi-wrapper">
             <button class="btn-aksi btn-print" onclick="window.print();">
                 <i class="fas fa-print"></i> Cetak / Simpan PDF
@@ -655,8 +605,5 @@ include 'header.php';
     </div>
 
 <?php 
-// Hapus data session setelah ditampilkan agar tidak bisa di-refresh ulang
-// (biarkan dulu supaya user bisa print)
-// unset($_SESSION['hasil_konsultasi']); 
 include 'footer.php'; 
 ?>

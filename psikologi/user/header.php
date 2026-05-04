@@ -4,11 +4,9 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 include 'cek_login.php';
 
-// Tentukan halaman aktif untuk highlight menu
 $current_page = basename($_SERVER['PHP_SELF']);
 $page_title = isset($page_title) ? $page_title : 'Psikologi Kita - Konsultasi Psikologi Online';
 
-// Data user dari session
 $user_nama = isset($_SESSION['nama']) ? $_SESSION['nama'] : 'User';
 $user_email = isset($_SESSION['email']) ? $_SESSION['email'] : '';
 $user_initial = strtoupper(substr($user_nama, 0, 1));
@@ -28,7 +26,6 @@ $user_initial = strtoupper(substr($user_nama, 0, 1));
     <?php if(isset($extra_css)) echo $extra_css; ?>
 </head>
 <body>
-    <!-- NAVBAR -->
     <nav class="navbar" id="navbar">
         <div class="navbar-container">
             <a href="index.php" class="navbar-logo">
@@ -43,7 +40,6 @@ $user_initial = strtoupper(substr($user_nama, 0, 1));
                 <li><a href="index.php#kontak" class="nav-link">Kontak</a></li>
             </ul>
             <div class="nav-right">
-                <!-- PROFILE DROPDOWN -->
                 <div class="profile-dropdown" id="profileDropdown">
                     <button class="profile-btn" id="profileBtn">
                         <div class="profile-avatar" id="profileAvatar"><?php echo $user_initial; ?></div>

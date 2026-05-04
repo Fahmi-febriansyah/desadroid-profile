@@ -66,7 +66,7 @@ include 'header.php';
         </div>
 
         <p>Silakan jawab pertanyaan pada halaman selanjutnya dengan jujur sesuai dengan kondisi yang Anda rasakan akhir-akhir ini.</p>
-        <p>Hasil dari kuesioner ini akan memberikan gambaran mengenai tingkat kecemasan yang Anda alami (Ringan, Sedang, atau Berat) dan rekomendasi penanganan yang sesuai.</p>
+        <p>Hasil dari kuesioner ini akan memberikan gambaran mengenai tingkat kecemasan yang Anda alami (Ringan, Sedang, atau Berat) dan catatan penanganan yang sesuai.</p>
 
         <label class="checkbox-container">
             <input type="checkbox" id="cekSetuju">
