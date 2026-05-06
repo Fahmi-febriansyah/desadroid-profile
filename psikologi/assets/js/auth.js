@@ -1,8 +1,5 @@
-// ============================================
-// AUTH.JS - LOGIN & REGISTER FORM HANDLER
-// ============================================
 
-// ===== PASSWORD TOGGLE =====
+
 function togglePassword() {
     const passwordInput = document.getElementById('password');
     const toggleBtn = event.target.closest('.toggle-password');
@@ -31,36 +28,32 @@ function togglePassword_toggle(input, btn) {
     }
 }
 
-// ===== FORM VALIDATION =====
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const phoneRegex = /^(\+62|62|0)[0-9]{9,12}$/;
 const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{8,}$/;
 
-// LOGIN FORM VALIDATION
 const loginForm = document.getElementById('loginForm');
 if (loginForm) {
     loginForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        // Redirect to user dashboard directly
+
         window.location.href = './user/index.html';
     });
 }
 
-// REGISTER FORM VALIDATION
 const registerForm = document.getElementById('registerForm');
 if (registerForm) {
     registerForm.addEventListener('submit', function(e) {
         e.preventDefault();
-        // Redirect to login directly
+
         window.location.href = './login.html';
     });
 }
 
-// ===== HELPER FUNCTIONS =====
 function showError(fieldId, message) {
     const errorElement = document.getElementById(fieldId + 'Error');
     const formGroup = document.getElementById(fieldId).closest('.form-group');
-    
+
     if (errorElement) {
         errorElement.textContent = message;
         errorElement.classList.add('show');
@@ -71,7 +64,7 @@ function showError(fieldId, message) {
 function clearError(fieldId) {
     const errorElement = document.getElementById(fieldId + 'Error');
     const formGroup = document.getElementById(fieldId).closest('.form-group');
-    
+
     if (errorElement) {
         errorElement.textContent = '';
         errorElement.classList.remove('show');
@@ -83,11 +76,11 @@ function calculateAge(birthDate) {
     const today = new Date();
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
-    
+
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
-    
+
     return age;
 }
 
@@ -97,9 +90,8 @@ function generatePatientId() {
     return 'PSY' + timestamp + random;
 }
 
-// ===== CLEAR ERROR ON INPUT =====
 document.addEventListener('DOMContentLoaded', function() {
-    // For login form
+
     if (loginForm) {
         const inputs = loginForm.querySelectorAll('input');
         inputs.forEach(input => {
@@ -109,8 +101,7 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }
-    
-    // For register form
+
     if (registerForm) {
         const inputs = registerForm.querySelectorAll('input, select');
         inputs.forEach(input => {
@@ -126,8 +117,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ===== SAMPLE DATA =====
-// Sample users dalam localStorage (untuk demo)
 function initSampleData() {
     if (!localStorage.getItem('users')) {
         const sampleUsers = [
@@ -167,11 +156,8 @@ function initSampleData() {
     }
 }
 
-// Initialize sample data on page load
 document.addEventListener('DOMContentLoaded', initSampleData);
 
-// ===== DEMO LOGIN =====
-// Uncomment untuk test login dengan data sample
 function demoLogin() {
     const users = JSON.parse(localStorage.getItem('users')) || [];
     if (users.length > 0) {
@@ -181,5 +167,3 @@ function demoLogin() {
     }
 }
 
-// Uncomment line berikut jika ingin menjalankan demoLogin
-// document.addEventListener('DOMContentLoaded', demoLogin);

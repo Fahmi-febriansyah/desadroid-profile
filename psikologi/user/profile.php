@@ -3,13 +3,11 @@ session_start();
 include '../koneksi.php';
 include 'cek_login.php';
 
-// Ambil data user terbaru dari database
 $id_user = $_SESSION['id_user'];
 $query = "SELECT * FROM users WHERE id_user = $id_user LIMIT 1";
 $result = mysqli_query($koneksi, $query);
 $user = mysqli_fetch_assoc($result);
 
-// Proses update profil
 $pesan = '';
 $error = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -18,24 +16,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $jenis_kelamin = mysqli_real_escape_string($koneksi, $_POST['jenis_kelamin']);
     $password_baru = $_POST['password_baru'];
 
-    // Update query
     $update = "UPDATE users SET nama = '$nama', umur = $umur, jenis_kelamin = '$jenis_kelamin'";
-    
-    // Jika password diisi, update juga
+
     if (!empty($password_baru)) {
         $update .= ", password = '$password_baru'";
     }
-    
+
     $update .= " WHERE id_user = $id_user";
 
     if (mysqli_query($koneksi, $update)) {
-        // Update session
         $_SESSION['nama'] = $nama;
         $_SESSION['umur'] = $umur;
         $_SESSION['jenis_kelamin'] = $jenis_kelamin;
         $pesan = "Profil berhasil diperbarui!";
-        
-        // Refresh data
         $result = mysqli_query($koneksi, "SELECT * FROM users WHERE id_user = $id_user LIMIT 1");
         $user = mysqli_fetch_assoc($result);
     } else {
@@ -48,7 +41,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b, #312e81);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
         color: #fff;
         text-align: center;
     }
@@ -74,7 +67,7 @@ $extra_css = '
         text-align: center;
         margin-bottom: 30px;
         padding-bottom: 24px;
-        border-bottom: 1px solid #e2e8f0;
+        border-bottom: 1px solid #f1f5f9;
     }
     .avatar-big {
         width: 80px;
@@ -106,13 +99,13 @@ $extra_css = '
     .form-control {
         width: 100%;
         padding: 12px 16px;
-        border: 1px solid #cbd5e1;
+        border: 1px solid #e2e8f0;
         border-radius: 8px;
         font-family: inherit;
         font-size: 1rem;
         transition: all 0.3s;
         box-sizing: border-box;
-        background: #f8fafc;
+        background: #fff;
     }
     .form-control:focus {
         outline: none;
@@ -122,7 +115,7 @@ $extra_css = '
     }
     .form-control[readonly] {
         background: #f1f5f9;
-        color: #94a3b8;
+        color: #64748b;
         cursor: not-allowed;
     }
     .form-row {
@@ -149,8 +142,8 @@ $extra_css = '
         text-align: center;
     }
     .alert-error {
-        background: #fef2f2;
-        color: #dc2626;
+        background: #fee2e2;
+        color: #991b1b;
         padding: 12px;
         border-radius: 8px;
         margin-bottom: 20px;
@@ -159,7 +152,7 @@ $extra_css = '
     select.form-control {
         cursor: pointer;
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'12\' height=\'12\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%2364748b\' stroke-width=\'2.5\'%3E%3Cpolyline points=\'6 9 12 15 18 9\'%3E%3C/polyline%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
         background-repeat: no-repeat;
         background-position: right 14px center;
         padding-right: 40px;
@@ -184,7 +177,7 @@ include 'header.php';
         <div class="container-profile">
             <div class="avatar-section">
                 <div class="avatar-big"><?php echo strtoupper(substr($user['nama'], 0, 1)); ?></div>
-                <p>ID Pasien: #<?php echo str_pad($user['id_user'], 5, '0', STR_PAD_LEFT); ?></p>
+                <p>ID User: #<?php echo str_pad($user['id_user'], 5, '0', STR_PAD_LEFT); ?></p>
             </div>
 
             <?php if ($pesan): ?>

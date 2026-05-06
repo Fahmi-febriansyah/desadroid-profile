@@ -7,7 +7,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b, #312e81);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
         color: #fff;
         text-align: center;
     }
@@ -92,7 +92,7 @@ include 'header.php';
 
     <div class="psikolog-wrapper">
         <div class="psikolog-grid">
-            <!-- Psikolog 1 -->
+
             <div class="psikolog-card">
                 <img src="https://images.unsplash.com/photo-1559839734-2b71f1536783?q=80&w=1470&auto=format&fit=crop" alt="Psikolog 1" class="psikolog-img">
                 <div class="psikolog-info">
@@ -107,7 +107,6 @@ include 'header.php';
                 </div>
             </div>
 
-            <!-- Psikolog 2 -->
             <div class="psikolog-card">
                 <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1464&auto=format&fit=crop" alt="Psikolog 2" class="psikolog-img">
                 <div class="psikolog-info">
@@ -122,7 +121,6 @@ include 'header.php';
                 </div>
             </div>
 
-            <!-- Psikolog 3 -->
             <div class="psikolog-card">
                 <img src="https://images.unsplash.com/photo-1594824476967-48c8b964273f?q=80&w=1374&auto=format&fit=crop" alt="Psikolog 3" class="psikolog-img">
                 <div class="psikolog-info">

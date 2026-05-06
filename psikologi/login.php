@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="auth-container">
         <div class="auth-wrapper">
-            <!-- LEFT SIDE - BRANDING -->
+
             <div class="auth-left">
                 <div class="auth-brand">
                     <div class="brand-icon">
@@ -67,7 +67,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
-            <!-- RIGHT SIDE - LOGIN FORM -->
             <div class="auth-right">
                 <div class="auth-box">
                     <h2>Selamat Datang! 👋</h2>

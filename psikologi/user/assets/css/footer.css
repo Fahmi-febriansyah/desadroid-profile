@@ -1,4 +1,4 @@
-/* FOOTER STYLES */
+
 .footer {
     background: linear-gradient(135deg, var(--text-dark) 0%, #34495e 100%);
     color: white;
@@ -92,7 +92,6 @@
     color: var(--accent-color);
 }
 
-/* RESPONSIVE DESIGN */
 @media (max-width: 768px) {
     .footer {
         padding: 40px 15px 20px;

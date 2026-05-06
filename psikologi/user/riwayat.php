@@ -5,7 +5,6 @@ include 'cek_login.php';
 
 $id_user = $_SESSION['id_user'];
 
-// Ambil semua riwayat konsultasi user
 $query = "SELECT * FROM konsultasi WHERE id_user = $id_user ORDER BY tanggal DESC";
 $result = mysqli_query($koneksi, $query);
 
@@ -14,7 +13,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b, #312e81);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
         color: #fff;
         text-align: center;
     }
@@ -96,7 +95,7 @@ $extra_css = '
     .badge-ringan { background: #fef3c7; color: #92400e; }
     .badge-sedang { background: #ffedd5; color: #9a3412; }
     .badge-berat { background: #fee2e2; color: #991b1b; }
-    .badge-sangat { background: #fecaca; color: #7f1d1d; }
+    .badge-sangat { background: #7f1d1d; color: #fff; }
     .empty-state {
         text-align: center;
         padding: 80px 20px;
@@ -110,11 +109,11 @@ $extra_css = '
         margin-bottom: 16px;
     }
     .empty-state h3 {
-        color: #64748b;
+        color: #1e293b;
         margin-bottom: 8px;
     }
     .empty-state p {
-        color: #94a3b8;
+        color: #64748b;
         margin-bottom: 24px;
     }
     .btn-detail {
@@ -123,8 +122,8 @@ $extra_css = '
         gap: 6px;
         margin-top: 12px;
         padding: 6px 14px;
-        background: #eef2ff;
-        color: #6366f1;
+        background: #f1f5f9;
+        color: #475569;
         text-decoration: none;
         font-weight: 600;
         font-size: 0.8rem;
@@ -132,8 +131,8 @@ $extra_css = '
         transition: all 0.2s;
     }
     .btn-detail:hover {
-        background: #6366f1;
-        color: #fff;
+        background: #e2e8f0;
+        color: #1e293b;
     }
     @media (max-width: 600px) {
         .riwayat-card {
@@ -167,7 +166,6 @@ include 'header.php';
             <?php if (mysqli_num_rows($result) > 0): ?>
                 <?php $no = 1; while ($row = mysqli_fetch_assoc($result)): ?>
                 <?php
-                    // Badge warna berdasarkan kategori
                     $badge_class = 'badge-normal';
                     if (strpos($row['kategori'], 'ringan') !== false) $badge_class = 'badge-ringan';
                     elseif (strpos($row['kategori'], 'sedang') !== false) $badge_class = 'badge-sedang';
@@ -177,11 +175,11 @@ include 'header.php';
                 <div class="riwayat-card">
                     <div class="riwayat-no"><?php echo $no; ?></div>
                     <div class="riwayat-info">
-                        <h4>Skrining HARS #<?php echo str_pad($row['id_konsultasi'], 5, '0', STR_PAD_LEFT); ?></h4>
+                        <h4>Skrining HARS #<?php echo $row['id_konsultasi']; ?></h4>
                         <p><span class="badge-kategori <?php echo $badge_class; ?>"><?php echo $row['kategori']; ?></span></p>
                     </div>
                     <div class="riwayat-meta">
-                        <div class="riwayat-skor"><?php echo $row['total_skor']; ?> <span style="font-size:0.8rem; font-weight:400; color:#94a3b8;">/ 72</span></div>
+                        <div class="riwayat-skor"><?php echo $row['total_skor']; ?> <span style="font-size:0.8rem; font-weight:400; color:#94a3b8;">/ 56</span></div>
                         <div class="riwayat-tanggal"><?php echo date('d M Y, H:i', strtotime($row['tanggal'])); ?></div>
                         <a href="hasil.php?id=<?php echo $row['id_konsultasi']; ?>" class="btn-detail">
                             <i class="fas fa-external-link-alt"></i> Lihat Detail & Print

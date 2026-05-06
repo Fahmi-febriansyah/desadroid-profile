@@ -12,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $umur = intval($_POST['umur']);
     $jenis_kelamin = mysqli_real_escape_string($koneksi, $_POST['jenis_kelamin']);
 
-    // Cek email sudah terdaftar atau belum
     $cek = mysqli_query($koneksi, "SELECT id_user FROM users WHERE email = '$email'");
     if (mysqli_num_rows($cek) > 0) {
         $error = "Email sudah terdaftar! Silakan gunakan email lain.";
@@ -42,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="auth-container">
         <div class="auth-wrapper register-wrapper">
-            <!-- LEFT SIDE - BRANDING -->
+
             <div class="auth-left">
                 <div class="auth-brand">
                     <div class="brand-icon">
@@ -71,7 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 </div>
             </div>
 
-            <!-- RIGHT SIDE - REGISTER FORM -->
             <div class="auth-right">
                 <div class="auth-box">
                     <h2>Buat Akun Baru ✨</h2>

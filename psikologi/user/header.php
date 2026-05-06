@@ -29,7 +29,7 @@ $user_initial = strtoupper(substr($user_nama, 0, 1));
     <nav class="navbar" id="navbar">
         <div class="navbar-container">
             <a href="index.php" class="navbar-logo">
-                <div class="logo-icon"><i class="fas fa-brain"></i></div>
+                <img src="../logo.png" alt="Logo" style="height: 40px; margin-right: 10px;">
                 <span>Psikologi<strong>Kita</strong></span>
             </a>
             <ul class="nav-menu" id="navMenu">

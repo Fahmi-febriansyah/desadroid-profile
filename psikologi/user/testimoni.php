@@ -7,7 +7,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b, #312e81);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
         color: #fff;
         text-align: center;
     }
@@ -41,7 +41,7 @@ $extra_css = '
     .form-control {
         width: 100%;
         padding: 12px 16px;
-        border: 1px solid #cbd5e1;
+        border: 1px solid #e2e8f0;
         border-radius: 8px;
         font-family: inherit;
         font-size: 1rem;
@@ -85,7 +85,6 @@ include 'header.php';
                 unset($_SESSION['pesan']);
             }
 
-            // Cek apakah sudah pernah isi testimoni
             $sudah_testi = false;
             if (isset($_SESSION['id_user'])) {
                 $id_u = intval($_SESSION['id_user']);

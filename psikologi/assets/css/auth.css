@@ -1,6 +1,5 @@
-/* ===== AUTH PAGES - PREMIUM REDESIGN ===== */
 
-/* COLOR VARIABLES - Matching User Dashboard */
+
 :root {
     --primary: #6366f1;
     --primary-dark: #4f46e5;
@@ -22,7 +21,6 @@
     --radius: 16px;
 }
 
-/* GLOBAL STYLES */
 * {
     margin: 0;
     padding: 0;
@@ -42,7 +40,6 @@ body {
     overflow-x: hidden;
 }
 
-/* AUTH CONTAINER */
 .auth-container {
     min-height: 100vh;
     display: flex;
@@ -53,7 +50,6 @@ body {
     overflow: hidden;
 }
 
-/* ===== ANIMATED BACKGROUND SHAPES ===== */
 .auth-container::before {
     content: '';
     position: absolute;
@@ -78,7 +74,6 @@ body {
     animation: float 6s ease-in-out infinite 1s;
 }
 
-/* WRAPPER */
 .auth-wrapper {
     display: grid;
     grid-template-columns: 1fr 1.1fr;
@@ -103,7 +98,6 @@ body {
     max-width: 1200px;
 }
 
-/* ===== LEFT SIDE - BRANDING ===== */
 .auth-left {
     background: linear-gradient(160deg, rgba(99, 102, 241, 0.3) 0%, rgba(124, 58, 237, 0.2) 50%, rgba(168, 85, 247, 0.15) 100%);
     color: white;
@@ -141,7 +135,6 @@ body {
     animation: float 9s ease-in-out infinite 2s;
 }
 
-/* BRAND */
 .auth-brand {
     position: relative;
     z-index: 2;
@@ -178,7 +171,6 @@ body {
     font-weight: 400;
 }
 
-/* BENEFITS */
 .auth-benefits {
     position: relative;
     z-index: 2;
@@ -226,7 +218,6 @@ body {
     border-radius: 8px;
 }
 
-/* ===== RIGHT SIDE - FORM ===== */
 .auth-right {
     padding: 48px 44px;
     display: flex;
@@ -257,7 +248,6 @@ body {
     font-weight: 400;
 }
 
-/* ===== FORM STYLES ===== */
 .auth-form {
     display: flex;
     flex-direction: column;
@@ -322,7 +312,6 @@ body {
     padding-right: 40px;
 }
 
-/* PASSWORD FIELD */
 .password-field {
     position: relative;
     display: flex;
@@ -364,7 +353,6 @@ body {
     line-height: 1.4;
 }
 
-/* ERROR MESSAGES */
 .error-message {
     color: var(--error-color);
     font-size: 0.82rem;
@@ -386,7 +374,6 @@ body {
     box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.08);
 }
 
-/* FORM OPTIONS */
 .form-options {
     display: flex;
     justify-content: space-between;
@@ -426,7 +413,6 @@ body {
     text-decoration: underline;
 }
 
-/* TERMS CHECKBOX */
 .terms-checkbox {
     display: flex;
     align-items: flex-start;
@@ -457,7 +443,6 @@ body {
     text-decoration: underline;
 }
 
-/* ===== BUTTONS ===== */
 .auth-button {
     padding: 14px 32px;
     border: none;
@@ -511,7 +496,6 @@ body {
     transform: none;
 }
 
-/* DIVIDER */
 .auth-divider {
     display: flex;
     align-items: center;
@@ -530,7 +514,6 @@ body {
     background: linear-gradient(90deg, transparent, var(--border), transparent);
 }
 
-/* SOCIAL BUTTON */
 .social-button {
     padding: 13px 28px;
     border: 2px solid var(--border);
@@ -567,7 +550,6 @@ body {
     background-clip: text;
 }
 
-/* AUTH FOOTER */
 .auth-footer {
     text-align: center;
     margin-top: 28px;
@@ -587,7 +569,6 @@ body {
     text-decoration: underline;
 }
 
-/* ===== RESPONSIVE ===== */
 @media (max-width: 1024px) {
     .auth-wrapper {
         grid-template-columns: 1fr;
@@ -779,7 +760,6 @@ body {
     }
 }
 
-/* ===== ANIMATIONS ===== */
 @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-25px); }
@@ -831,7 +811,6 @@ body {
     80% { transform: translateX(4px); }
 }
 
-/* SUCCESS STATE */
 .form-group.success input,
 .form-group.success select {
     border-color: var(--success-color);

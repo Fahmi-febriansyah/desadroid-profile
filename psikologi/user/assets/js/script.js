@@ -1,4 +1,4 @@
-// ===== NAVBAR SCROLL EFFECT =====
+
 window.addEventListener('scroll', function() {
     var navbar = document.getElementById('navbar');
     if (navbar) {
@@ -10,7 +10,6 @@ window.addEventListener('scroll', function() {
     }
 });
 
-// ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     anchor.addEventListener('click', function(e) {
         var href = this.getAttribute('href');
@@ -26,7 +25,6 @@ document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
     });
 });
 
-// ===== HAMBURGER MENU =====
 document.addEventListener('DOMContentLoaded', function() {
     var hamburger = document.getElementById('hamburger');
     var navMenu = document.getElementById('navMenu');
@@ -39,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ===== PROFILE DROPDOWN =====
 document.addEventListener('DOMContentLoaded', function() {
     var profileBtn = document.getElementById('profileBtn');
     var dropdownMenu = document.getElementById('dropdownMenu');
@@ -51,7 +48,6 @@ document.addEventListener('DOMContentLoaded', function() {
             dropdownMenu.classList.toggle('active');
         });
 
-        // Tutup dropdown saat klik di luar
         document.addEventListener('click', function(e) {
             if (!e.target.closest('.profile-dropdown')) {
                 profileBtn.classList.remove('active');
@@ -61,7 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// ===== SCROLL ANIMATIONS =====
 document.addEventListener('DOMContentLoaded', function() {
     var observerOptions = {
         threshold: 0.1,

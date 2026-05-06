@@ -1,6 +1,5 @@
-/* PROFILE PAGE STYLES */
 
-/* PROFILE SECTION */
+
 .profile-section {
     background: var(--bg-white);
     padding: 100px 20px 80px;
@@ -36,7 +35,6 @@
     align-items: start;
 }
 
-/* PROFILE PICTURE */
 .profile-picture-box {
     display: flex;
     flex-direction: column;
@@ -78,7 +76,6 @@
     transform: translateY(-2px);
 }
 
-/* PROFILE FORM */
 .profile-form {
     display: flex;
     flex-direction: column;
@@ -134,7 +131,6 @@
     font-size: 0.85rem;
 }
 
-/* FORM ACTIONS */
 .form-actions {
     display: flex;
     gap: 15px;
@@ -193,7 +189,6 @@
     transform: translateY(-2px);
 }
 
-/* SUCCESS MESSAGE */
 .success-message {
     padding: 15px 20px;
     background-color: rgba(16, 185, 129, 0.1);
@@ -209,7 +204,6 @@
     animation: slideInDown 0.5s ease-out;
 }
 
-/* RESPONSIVE */
 @media (max-width: 768px) {
     .profile-section {
         padding: 80px 15px 60px;

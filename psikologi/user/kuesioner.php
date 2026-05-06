@@ -12,7 +12,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b, #312e81);
+        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
         color: #fff;
         text-align: center;
     }
@@ -36,7 +36,7 @@ $extra_css = '
     }
 
     .petunjuk-box {
-        background: #f8fafc;
+        background: #f0f7ff;
         border: 1px solid #e2e8f0;
         border-radius: 12px;
         padding: 24px;
@@ -52,7 +52,7 @@ $extra_css = '
     }
     .petunjuk-box p {
         font-size: 0.95rem;
-        color: #475569;
+        color: #64748b;
         margin-bottom: 20px;
         line-height: 1.6;
     }
@@ -64,7 +64,7 @@ $extra_css = '
     .info-item h4 {
         font-size: 0.85rem;
         text-transform: uppercase;
-        color: #64748b;
+        color: #6366f1;
         letter-spacing: 1px;
         margin-bottom: 8px;
     }
@@ -75,7 +75,7 @@ $extra_css = '
     }
     .info-item li {
         font-size: 0.9rem;
-        color: #1e293b;
+        color: #475569;
         padding: 3px 0;
         display: flex;
         justify-content: space-between;
@@ -90,8 +90,8 @@ $extra_css = '
         border-bottom: none;
     }
     .aspect-header {
-        background: #eef2ff;
-        color: #4338ca;
+        background: #1e293b;
+        color: #fff;
         padding: 12px 20px;
         border-radius: 8px;
         margin-bottom: 20px;
@@ -106,7 +106,7 @@ $extra_css = '
     }
     .aspect-badge {
         font-size: 0.75rem;
-        background: #fff;
+        background: #6366f1;
         padding: 4px 10px;
         border-radius: 20px;
         font-weight: 600;
@@ -119,7 +119,7 @@ $extra_css = '
     .pertanyaan-teks {
         font-weight: 500;
         margin-bottom: 12px;
-        color: #334155;
+        color: #1e293b;
         font-size: 1rem;
     }
     .opsi-jawaban {
@@ -141,7 +141,7 @@ $extra_css = '
     }
     .opsi-label:hover {
         background: #f8fafc;
-        border-color: #cbd5e1;
+        border-color: #6366f1;
     }
     .opsi-label input[type="radio"] {
         accent-color: #6366f1;
@@ -151,7 +151,7 @@ $extra_css = '
         font-weight: 600;
     }
     .opsi-label:has(input:checked) {
-        background: #eef2ff;
+        background: #f0f7ff;
         border-color: #6366f1;
     }
 
@@ -180,7 +180,7 @@ $extra_css = '
     .loading-spinner {
         width: 60px;
         height: 60px;
-        border: 5px solid #e2e8f0;
+        border: 5px solid #f1f5f9;
         border-top: 5px solid #6366f1;
         border-radius: 50%;
         animation: spin 0.9s linear infinite;
@@ -225,7 +225,7 @@ include 'header.php';
             <div class="petunjuk-box">
                 <h3><i class="fas fa-info-circle"></i> Petunjuk Pengisian</h3>
                 <p>Pilihlah jawaban yang paling sesuai dengan kondisi yang kamu rasakan dalam satu minggu terakhir. Tidak ada jawaban benar atau salah. Jawablah sesuai keadaan yang kamu alami.</p>
-                
+
                 <div class="info-grid">
                     <div class="info-item">
                         <h4>Skor Jawaban</h4>
@@ -257,7 +257,7 @@ include 'header.php';
                 if(mysqli_num_rows($result) > 0) {
                     while($row = mysqli_fetch_assoc($result)) {
                         if ($current_aspect != $row['nama_aspek']) {
-                            if ($current_aspect != '') echo '</div>'; // Tutup group sebelumnya
+                            if ($current_aspect != '') echo '</div>'; 
                             $current_aspect = $row['nama_aspek'];
                             $aspect_count++;
                             echo '<div class="aspect-group">';
@@ -288,7 +288,7 @@ include 'header.php';
                 </div>
                 <?php
                     }
-                    echo '</div>'; // Tutup group terakhir
+                    echo '</div>'; 
                 }
                 ?>
                 <div class="btn-submit-wrapper">

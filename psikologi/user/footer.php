@@ -33,9 +33,8 @@
                 <div class="footer-links">
                     <h4>Kontak</h4>
                     <ul>
-                        <li><a href="mailto:info@psikologikita.id"><i class="fas fa-envelope"></i> info@psikologikita.id</a></li>
                         <li><a href="tel:+62274555123"><i class="fas fa-phone"></i> (0274) 555-1234</a></li>
-                        <li><a href="index.php#kontak"><i class="fas fa-map-pin"></i> Yogyakarta, ID</a></li>
+                        <li><a href="index.php#kontak"><i class="fas fa-map-pin"></i> Jakarta, ID</a></li>
                     </ul>
                 </div>
             </div>

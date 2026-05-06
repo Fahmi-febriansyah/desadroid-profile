@@ -11,18 +11,18 @@ $extra_css = '
         box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
     .container-konsul h2 {
-        color: #333;
+        color: #1e293b;
         border-bottom: 2px solid #6366f1;
         padding-bottom: 10px;
         margin-bottom: 20px;
     }
     .container-konsul p {
-        color: #555;
+        color: #64748b;
         line-height: 1.6;
         margin-bottom: 15px;
     }
     .box-info {
-        background-color: #f8f9fa;
+        background-color: #f0f7ff;
         border-left: 4px solid #6366f1;
         padding: 15px;
         margin-bottom: 20px;
@@ -31,7 +31,7 @@ $extra_css = '
         display: block;
         margin: 20px 0;
         padding: 15px;
-        background: #eef2ff;
+        background: #f8fafc;
         border-radius: 5px;
         cursor: pointer;
     }
@@ -48,7 +48,7 @@ $extra_css = '
         text-align: center;
     }
     .btn-mulai.disabled {
-        background-color: #ccc;
+        background-color: #cbd5e1;
         cursor: not-allowed;
         pointer-events: none;
     }
@@ -59,7 +59,7 @@ include 'header.php';
 
     <div class="container-konsul">
         <h2>Persiapan Konsultasi (HARS)</h2>
-        
+
         <div class="box-info">
             <strong>Apa itu Tes HARS?</strong><br>
             Hamilton Anxiety Rating Scale (HARS) adalah instrumen yang digunakan untuk menilai tingkat kecemasan seseorang. Tes ini mengukur 14 parameter gejala kecemasan seperti perasaan cemas, ketegangan, ketakutan, gangguan tidur, dan gejala fisik lainnya.
