@@ -22,6 +22,14 @@ try {
     die('Database Error: ' . $e->getMessage());
 }
 
+// Compatibility: buat juga koneksi mysqli karena banyak file di project
+// masih menggunakan fungsi mysqli_* (mis. mysqli_query, mysqli_real_escape_string)
+$koneksi = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+if (!$koneksi) {
+    die('MySQLi Connection Error: ' . mysqli_connect_error());
+}
+mysqli_set_charset($koneksi, 'utf8mb4');
+
 // Session Configuration
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
