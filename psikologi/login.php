@@ -48,7 +48,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="auth-right">
                 <div class="auth-box">
-                    <h2>Selamat Datang! 👋</h2>
+                    <h2>Selamat Datang</h2>
                     <p class="auth-subtitle">Masuk ke akun Anda untuk melanjutkan mendeteksi awal gangguan Kecemasan pada diri Anda</p>
 
                     <?php if (isset($error)): ?>

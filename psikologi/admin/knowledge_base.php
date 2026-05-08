@@ -3,9 +3,7 @@ $page_title = "Basis Pengetahuan - Admin Psikologi";
 $active_menu = "system";
 include '../koneksi.php';
 
-// --- HANDLE POST ACTIONS ---
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // 1. Aspek Actions
     if (isset($_POST['save_aspek'])) {
         $id = intval($_POST['id_aspek']);
         $kode = mysqli_real_escape_string($koneksi, $_POST['kode_aspek']);
@@ -18,7 +16,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: knowledge_base.php?tab=aspek&status=success"); exit();
     }
 
-    // 2. Indikator Actions
     if (isset($_POST['save_indikator'])) {
         $id = intval($_POST['id_indikator']);
         $id_aspek = intval($_POST['id_aspek']);
@@ -31,13 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: knowledge_base.php?tab=aspek&status=success"); exit();
     }
 
-    // 3. Rule Actions (UPGRADED TO DROPDOWN COMBINATION)
     if (isset($_POST['save_rule'])) {
         $id = intval($_POST['id_rule']);
         $kode = mysqli_real_escape_string($koneksi, $_POST['kode_rule']);
         $hasil = mysqli_real_escape_string($koneksi, $_POST['hasil']);
         
-        // Gabungkan 3 input dropdown/angka jadi satu string kondisi
+        
         $aspek_kode = $_POST['rule_aspek_kode'];
         $operator = $_POST['rule_operator'];
         $nilai = $_POST['rule_nilai'];
@@ -51,7 +47,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: knowledge_base.php?tab=rules&status=success"); exit();
     }
 
-    // 4. Rule Kategori Actions
     if (isset($_POST['save_kat'])) {
         $id = intval($_POST['id_kategori']);
         $min = intval($_POST['min_skor']);
@@ -61,7 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header("Location: knowledge_base.php?tab=results&status=success"); exit();
     }
 
-    // 5. Rekomendasi Actions
     if (isset($_POST['save_rekom'])) {
         $id = intval($_POST['id_rekomendasi']);
         $kat = mysqli_real_escape_string($koneksi, $_POST['kategori']);
@@ -71,7 +65,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// --- HANDLE DELETE ACTIONS ---
 if (isset($_GET['delete_aspek'])) {
     $id = intval($_GET['delete_aspek']);
     mysqli_query($koneksi, "DELETE FROM indikator WHERE id_aspek = $id");
@@ -89,7 +82,6 @@ if (isset($_GET['delete_rule'])) {
     header("Location: knowledge_base.php?tab=rules&status=deleted"); exit();
 }
 
-// --- FETCH DATA ---
 $aspek_list = array();
 $aspeks = mysqli_query($koneksi, "SELECT * FROM aspek_hars ORDER BY id_aspek ASC");
 while($row = mysqli_fetch_assoc($aspeks)) { $aspek_list[] = $row; }
@@ -148,7 +140,6 @@ include 'header.php';
     <button class="tab-btn <?php echo ($current_tab == 'results') ? 'active' : ''; ?>" onclick="switchTab('results')">Kategori & Saran</button>
 </div>
 
-<!-- SECTION 1: ASPEK & INDIKATOR -->
 <div id="tab-aspek" class="tab-content <?php echo ($current_tab == 'aspek') ? 'active' : ''; ?>">
     <div style="margin-bottom: 20px; display: flex; justify-content: flex-end; gap: 10px;">
         <a href="print_data.php?type=knowledge_aspek" target="_blank" class="btn" style="background: #1e293b; color: #fff;">
@@ -193,7 +184,6 @@ include 'header.php';
     <?php endforeach; ?>
 </div>
 
-<!-- SECTION 2: RULES -->
 <div id="tab-rules" class="tab-content <?php echo ($current_tab == 'rules') ? 'active' : ''; ?>">
     <div class="card">
         <div class="card-header">
@@ -235,7 +225,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- SECTION 3: KATEGORI & SARAN -->
 <div id="tab-results" class="tab-content <?php echo ($current_tab == 'results') ? 'active' : ''; ?>">
     <div style="display: grid; grid-template-columns: 1fr 1.5fr; gap: 24px;">
         <div class="card">
@@ -280,9 +269,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- --- ALL MODALS --- -->
-
-<!-- Aspek Modal -->
 <div id="aspekModal" class="modal">
     <div class="modal-content">
         <h2 id="aspekModalTitle">Aspek HARS</h2>
@@ -295,7 +281,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Indikator Modal -->
 <div id="indModal" class="modal">
     <div class="modal-content">
         <h2 id="indModalTitle">Pertanyaan/Gejala</h2>
@@ -308,7 +293,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Rule Modal (UPGRADED WITH DROPDOWNS) -->
 <div id="ruleModal" class="modal">
     <div class="modal-content">
         <h2 id="ruleModalTitle">Aturan Keputusan</h2>
@@ -350,7 +334,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Kategori Modal -->
 <div id="katModal" class="modal">
     <div class="modal-content">
         <h2>Atur Ambang Skor</h2>
@@ -366,7 +349,6 @@ include 'header.php';
     </div>
 </div>
 
-<!-- Rekomendasi Modal -->
 <div id="rekomModal" class="modal">
     <div class="modal-content">
         <h2>Edit Rekomendasi</h2>
@@ -414,7 +396,6 @@ include 'header.php';
         document.getElementById('kode_rule').value = data ? data.kode_rule : '';
         document.getElementById('hasil_rule').value = data ? data.hasil : '';
         
-        // Parse kondisi string (A1 >= 3) balik ke dropdowns
         if (data && data.kondisi) {
             const parts = data.kondisi.split(' ');
             if (parts.length >= 3) {
@@ -427,7 +408,6 @@ include 'header.php';
         }
 
         if (data && data.kode_rule && data.kode_rule.match(/^R(1[6-9]|20)$/)) {
-            // Jika ini rule kategori, beri peringatan atau arahkan ke tab sebelah
             if(!confirm('Aturan ini (R16-R20) lebih baik dikelola di tab "Kategori & Saran" agar sinkron dengan ambang skor. Tetap lanjut edit di sini?')) {
                 switchTab('results');
                 return;

@@ -1,10 +1,7 @@
 <?php
-// Jangan lupa start session biar data kuesioner tadi bisa dibaca
 session_start();
-// Koneksi ke database wajib hukumnya
 include '../koneksi.php';
 
-// Cek kalo datanya diliat dari riwayat (pake ID) atau abis ngerjain kuesioner
 if (isset($_GET['id'])) {
     $id_konsultasi = intval($_GET['id']);
     

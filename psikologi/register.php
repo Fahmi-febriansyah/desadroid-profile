@@ -72,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="auth-right">
                 <div class="auth-box">
-                    <h2>Buat Akun Baru ✨</h2>
+                    <h2>Buat Akun Baru </h2>
                     <p class="auth-subtitle">Daftar dan mulai konsultasi sekarang</p>
 
                     <?php if ($error): ?>

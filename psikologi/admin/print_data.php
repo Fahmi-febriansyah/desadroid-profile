@@ -157,7 +157,6 @@ if ($type == 'users') {
         <?php elseif ($type == 'knowledge' || $type == 'knowledge_aspek' || $type == 'knowledge_rules' || $type == 'knowledge_results'): ?>
             
             <?php if ($type == 'knowledge' || $type == 'knowledge_aspek'): ?>
-            <!-- 1. ASPEK & INDIKATOR -->
             <div style="border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 20px;">
                 <h4 style="margin: 0; color: #6366f1;">I. ASPEK & INDIKATOR GEJALA</h4>
             </div>
@@ -189,7 +188,6 @@ if ($type == 'users') {
             <?php endif; ?>
 
             <?php if ($type == 'knowledge' || $type == 'knowledge_rules'): ?>
-            <!-- 2. ATURAN (RULES) -->
             <div style="border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top: 20px; margin-bottom: 20px;">
                 <h4 style="margin: 0; color: #6366f1;">II. ATURAN KEPUTUSAN (FORWARD CHAINING)</h4>
             </div>
@@ -234,7 +232,6 @@ if ($type == 'users') {
             <?php endif; ?>
 
             <?php if ($type == 'knowledge' || $type == 'knowledge_results'): ?>
-            <!-- 3. KATEGORI & SARAN -->
             <div style="border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-top: 40px; margin-bottom: 20px;">
                 <h4 style="margin: 0; color: #6366f1;">III. AMBANG SKOR & REKOMENDASI HASIL</h4>
             </div>
