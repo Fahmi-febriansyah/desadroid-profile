@@ -12,7 +12,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
         color: #fff;
         text-align: center;
     }
@@ -64,7 +64,7 @@ $extra_css = '
     .info-item h4 {
         font-size: 0.85rem;
         text-transform: uppercase;
-        color: #6366f1;
+        color: #f97316;
         letter-spacing: 1px;
         margin-bottom: 8px;
     }
@@ -106,7 +106,7 @@ $extra_css = '
     }
     .aspect-badge {
         font-size: 0.75rem;
-        background: #6366f1;
+        background: #f97316;
         padding: 4px 10px;
         border-radius: 20px;
         font-weight: 600;
@@ -141,18 +141,18 @@ $extra_css = '
     }
     .opsi-label:hover {
         background: #f8fafc;
-        border-color: #6366f1;
+        border-color: #f97316;
     }
     .opsi-label input[type="radio"] {
-        accent-color: #6366f1;
+        accent-color: #f97316;
     }
     .opsi-label input[type="radio"]:checked + span {
-        color: #6366f1;
+        color: #f97316;
         font-weight: 600;
     }
     .opsi-label:has(input:checked) {
         background: #f0f7ff;
-        border-color: #6366f1;
+        border-color: #f97316;
     }
 
     .btn-submit-wrapper {
@@ -181,7 +181,7 @@ $extra_css = '
         width: 60px;
         height: 60px;
         border: 5px solid #f1f5f9;
-        border-top: 5px solid #6366f1;
+        border-top: 5px solid #f97316;
         border-radius: 50%;
         animation: spin 0.9s linear infinite;
     }

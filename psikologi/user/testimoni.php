@@ -7,7 +7,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
         color: #fff;
         text-align: center;
     }
@@ -51,8 +51,8 @@ $extra_css = '
     }
     .form-control:focus {
         outline: none;
-        border-color: #6366f1;
-        box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+        border-color: #f97316;
+        box-shadow: 0 0 0 3px rgba(249,115,22,0.1);
     }
     .btn-submit-wrapper {
         margin-top: 30px;

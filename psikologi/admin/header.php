@@ -24,8 +24,8 @@ if(!isset($_SESSION['id_admin'])) {
     <aside class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <a href="index.php" class="sidebar-logo">
-                <div class="icon-box"><i class="fas fa-shield-halved"></i></div>
-                <span>AdminPanel</span>
+                <img src="../logo.png" alt="Logo" style="height: 35px; width: auto;">
+                <span>Psikologi Kita</span>
             </a>
         </div>
         
@@ -53,7 +53,7 @@ if(!isset($_SESSION['id_admin'])) {
                 <li class="nav-item">
                     <a href="consultations.php" class="nav-link <?php echo ($active_menu == 'consultations') ? 'active' : ''; ?>">
                         <i class="fas fa-calendar-check"></i>
-                        <span>Data Konsultasi</span>
+                        <span>Data Riwayat Deteksi Pengguna</span>
                     </a>
                 </li>
                 <li class="nav-item">

@@ -13,7 +13,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
         color: #fff;
         text-align: center;
     }
@@ -49,7 +49,7 @@ $extra_css = '
         width: 48px;
         height: 48px;
         border-radius: 12px;
-        background: linear-gradient(135deg, #6366f1, #7c3aed);
+        background: linear-gradient(135deg, #f97316, #ea580c);
         color: #fff;
         display: flex;
         align-items: center;
@@ -156,44 +156,60 @@ include 'header.php';
 
     <div class="page-header">
         <div class="section-container">
-            <h1>Riwayat Konsultasi</h1>
-            <p>Lihat semua hasil skrining kecemasan Anda sebelumnya</p>
+            <h1>Riwayat Deteksi Kecemasan</h1>
+            <p>Lihat semua hasil skrining kecemasan Anda sebelumnya dalam satu tempat</p>
         </div>
     </div>
 
     <div class="riwayat-wrapper">
-        <div class="container-riwayat">
+        <div class="container-riwayat" style="max-width: 1000px;">
             <?php if (mysqli_num_rows($result) > 0): ?>
-                <?php $no = 1; while ($row = mysqli_fetch_assoc($result)): ?>
-                <?php
-                    $badge_class = 'badge-normal';
-                    if (strpos($row['kategori'], 'ringan') !== false) $badge_class = 'badge-ringan';
-                    elseif (strpos($row['kategori'], 'sedang') !== false) $badge_class = 'badge-sedang';
-                    elseif (strpos($row['kategori'], 'sangat') !== false) $badge_class = 'badge-sangat';
-                    elseif (strpos($row['kategori'], 'berat') !== false) $badge_class = 'badge-berat';
-                ?>
-                <div class="riwayat-card">
-                    <div class="riwayat-no"><?php echo $no; ?></div>
-                    <div class="riwayat-info">
-                        <h4>Skrining HARS #<?php echo $row['id_konsultasi']; ?></h4>
-                        <p><span class="badge-kategori <?php echo $badge_class; ?>"><?php echo $row['kategori']; ?></span></p>
-                    </div>
-                    <div class="riwayat-meta">
-                        <div class="riwayat-skor"><?php echo $row['total_skor']; ?> <span style="font-size:0.8rem; font-weight:400; color:#94a3b8;">/ 56</span></div>
-                        <div class="riwayat-tanggal"><?php echo date('d M Y, H:i', strtotime($row['tanggal'])); ?></div>
-                        <a href="hasil.php?id=<?php echo $row['id_konsultasi']; ?>" class="btn-detail">
-                            <i class="fas fa-external-link-alt"></i> Lihat Detail & Print
-                        </a>
+                <div style="background: #fff; padding: 30px; border-radius: 16px; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);">
+                    <div style="overflow-x: auto;">
+                        <table style="width: 100%; border-collapse: collapse; min-width: 600px;">
+                            <thead>
+                                <tr style="border-bottom: 2px solid #f1f5f9; text-align: left;">
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">No</th>
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">ID Skrining</th>
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Tanggal</th>
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Total Skor</th>
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Kategori Diagnosis</th>
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php $no = 1; while ($row = mysqli_fetch_assoc($result)): ?>
+                                <?php
+                                    $badge_class = 'badge-normal';
+                                    if (strpos($row['kategori'], 'ringan') !== false) $badge_class = 'badge-ringan';
+                                    elseif (strpos($row['kategori'], 'sedang') !== false) $badge_class = 'badge-sedang';
+                                    elseif (strpos($row['kategori'], 'sangat') !== false) $badge_class = 'badge-sangat';
+                                    elseif (strpos($row['kategori'], 'berat') !== false) $badge_class = 'badge-berat';
+                                ?>
+                                <tr style="border-bottom: 1px solid #f1f5f9; transition: 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
+                                    <td style="padding: 15px; font-weight: 600; color: #1e293b;"><?php echo $no++; ?></td>
+                                    <td style="padding: 15px; color: #475569;">#<?php echo str_pad($row['id_konsultasi'], 5, '0', STR_PAD_LEFT); ?></td>
+                                    <td style="padding: 15px; color: #475569;"><?php echo format_indo($row['tanggal']); ?></td>
+                                    <td style="padding: 15px;"><strong style="font-size: 1.1rem; color: #f97316;"><?php echo $row['total_skor']; ?></strong> <span style="font-size: 0.75rem; color: #94a3b8;">/ 56</span></td>
+                                    <td style="padding: 15px;"><span class="badge-kategori <?php echo $badge_class; ?>"><?php echo strtoupper($row['kategori']); ?></span></td>
+                                    <td style="padding: 15px;">
+                                        <a href="hasil.php?id=<?php echo $row['id_konsultasi']; ?>" class="btn-detail" style="margin:0;">
+                                            <i class="fas fa-eye"></i> Lihat Hasil
+                                        </a>
+                                    </td>
+                                </tr>
+                                <?php endwhile; ?>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <?php $no++; endwhile; ?>
             <?php else: ?>
                 <div class="empty-state">
                     <i class="fas fa-clipboard-list"></i>
                     <h3>Belum Ada Riwayat</h3>
                     <p>Anda belum pernah melakukan skrining kecemasan.</p>
                     <a href="konsultasi.php" class="btn btn-primary">
-                        <i class="fas fa-comments"></i> Mulai Konsultasi Sekarang
+                        <i class="fas fa-comments"></i> Mulai Deteksi Sekarang
                     </a>
                 </div>
             <?php endif; ?>

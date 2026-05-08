@@ -39,6 +39,8 @@ include 'header.php';
     .btn-delete:hover { background: #ef4444; color: #fff; }
     .btn-edit { background: #e0e7ff; color: #6366f1; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; border: none; cursor: pointer; }
     .btn-edit:hover { background: #6366f1; color: #fff; }
+    .btn-print-row { background: #f8fafc; color: #1e293b; border: 1px solid #e2e8f0; width: 32px; height: 32px; border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: all 0.2s; cursor: pointer; text-decoration: none; }
+    .btn-print-row:hover { background: #1e293b; color: #fff; border-color: #1e293b; }
 
     .search-box { position: relative; width: 300px; }
     .search-box i { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #64748b; }
@@ -69,7 +71,7 @@ include 'header.php';
     <div class="card-header">
         <div style="display: flex; align-items: center; gap: 15px;">
             <h2>Daftar Pengguna Terdaftar</h2>
-            <a href="print_data.php?type=users" target="_blank" class="btn-add" style="background: #1e293b; text-decoration: none;">
+            <a href="print_data.php?type=users" target="_blank" class="btn-add" style="background: #1e293b; color: #fff; text-decoration: none; display: flex; align-items: center; gap: 8px;">
                 <i class="fas fa-print"></i> Cetak Laporan
             </a>
         </div>
@@ -110,6 +112,9 @@ include 'header.php';
                     <td><?php echo date('d/m/Y', strtotime($row['created_at'])); ?></td>
                     <td>
                         <div class="action-btns">
+                            <a href="print_data.php?type=users" target="_blank" class="btn-print-row" title="Cetak Data User">
+                                <i class="fas fa-print"></i>
+                            </a>
                             <button class="btn-edit" 
                                 onclick="openEditModal(<?php echo htmlspecialchars(json_encode($row)); ?>)">
                                 <i class="fas fa-edit"></i>

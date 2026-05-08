@@ -95,7 +95,7 @@ include 'header.php';
                         </div>
                     </td>
                     <td><div class="testi-content">"<?php echo htmlspecialchars($row['isi']); ?>"</div></td>
-                    <td><?php echo date('d/m/Y', strtotime($row['tanggal'])); ?></td>
+                    <td><?php echo format_indo($row['tanggal'], 'd M Y'); ?></td>
                     <td>
                         <?php if($row['status'] == 'tampil'): ?>
                             <span class="status status-success"><i class="fas fa-check-circle"></i> Tampil</span>

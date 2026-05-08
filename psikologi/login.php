@@ -41,36 +41,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="auth-left">
                 <div class="auth-brand">
-                    <div class="brand-icon">
-                        <i class="fas fa-brain"></i>
-                    </div>
+                    <img src="logo.png" alt="Logo" style="height: 60px; margin-bottom: 15px;">
                     <h1>Psikologi Kita</h1>
-                    <p>Kesehatan Mental Adalah Prioritas</p>
-                </div>
-                <div class="auth-benefits">
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Konsultasi dengan Psikolog Profesional</span>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Rahasia & Aman Terjamin</span>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Layanan 24/7 Online</span>
-                    </div>
-                    <div class="benefit-item">
-                        <i class="fas fa-check-circle"></i>
-                        <span>Harga Terjangkau & Fleksibel</span>
-                    </div>
                 </div>
             </div>
 
             <div class="auth-right">
                 <div class="auth-box">
                     <h2>Selamat Datang! 👋</h2>
-                    <p class="auth-subtitle">Masuk ke akun Anda untuk melanjutkan konsultasi</p>
+                    <p class="auth-subtitle">Masuk ke akun Anda untuk melanjutkan mendeteksi awal gangguan Kecemasan pada diri Anda</p>
 
                     <?php if (isset($error)): ?>
                     <div style="background:#fef2f2; color:#dc2626; padding:12px; border-radius:8px; margin-bottom:16px; font-size:0.9rem; text-align:center;">

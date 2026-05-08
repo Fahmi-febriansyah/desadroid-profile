@@ -61,7 +61,7 @@ include 'header.php';
                 </div>
                 <div class="services-grid" style="grid-template-columns: 1fr; max-width: 500px; margin: 0 auto;">
                     <div class="service-card">
-                        <div class="service-icon-wrap color-indigo"><i class="fas fa-brain"></i></div>
+                        <div class="service-icon-wrap color-primary"><i class="fas fa-brain"></i></div>
                         <h4>Konsultasi Psikologi (HARS)</h4>
                         <p>Atasi stress, kecemasan, dan gangguan kesehatan mental dengan skrining tingkat kecemasan awal menggunakan metode Hamilton Anxiety Rating Scale.</p>
                         <a href="konsultasi.php" class="service-link">Mulai Konsultasi <i class="fas fa-arrow-right"></i></a>
@@ -91,7 +91,7 @@ include 'header.php';
                             <p class="testi-text">"<?php echo htmlspecialchars($testi['isi']); ?>"</p>
                             <div class="stars">★★★★★</div>
                             <div class="testi-author">
-                                <div class="testi-avatar" style="background:#6366f1;"><?php echo $initial; ?></div>
+                                <div class="testi-avatar" style="background:#f97316;"><?php echo $initial; ?></div>
                                 <div>
                                     <h4><?php echo htmlspecialchars($testi['nama']); ?></h4>
                                     <p>Pengguna Terverifikasi</p>

@@ -172,16 +172,18 @@ include 'header.php';
     <div class="surat-medis">
         <!-- Bagian Kop Surat -->
         <div class="kop-surat">
-            <div class="kop-logo"><i class="fas fa-brain"></i></div>
+            <div class="kop-logo" style="background: transparent;">
+                <img src="../logo.png" alt="Logo" style="height: 50px; width: auto;">
+            </div>
             <div class="kop-info">
-                <h2>PSIKOLOGI KITA</h2>
-                <p>Layanan Konsultasi Psikologi Online | Yogyakarta</p>
+                <h2 style="color: #f97316;">PSIKOLOGI KITA</h2>
+                <p>Lembaga Konsultan dan terapi Psikologi</p>
             </div>
         </div>
 
         <div class="surat-body">
             <div class="surat-judul">
-                <h3>Hasil Skrining Kecemasan (HARS)</h3>
+                <h3><?php echo isset($_GET['id']) ? 'Arsip Hasil Deteksi Kecemasan' : 'Hasil Skrining Kecemasan (HARS)'; ?></h3>
                 <p>No. Konsultasi: #<?php echo str_pad($id_konsultasi, 5, '0', STR_PAD_LEFT); ?></p>
             </div>
 
@@ -191,7 +193,7 @@ include 'header.php';
                     <tr><td>Nama Pasien</td><td>: <?php echo htmlspecialchars($nama_user); ?></td></tr>
                     <tr><td>Usia</td><td>: <?php echo $umur_user; ?></td></tr>
                     <tr><td>Jenis Kelamin</td><td>: <?php echo $jk_user; ?></td></tr>
-                    <tr><td>Tanggal Periksa</td><td>: <?php echo date('d F Y, H:i', strtotime($tanggal)); ?></td></tr>
+                    <tr><td>Tanggal Periksa</td><td>: <?php echo format_indo($tanggal, 'd F Y, H:i'); ?></td></tr>
                 </table>
             </div>
 
@@ -201,6 +203,21 @@ include 'header.php';
                 <p class="diagnosis-kategori" style="color: <?php echo $badge_color; ?>;"><?php echo strtoupper($kategori); ?></p>
                 <p style="font-size: 1rem; color: #1e293b;">Total Skor: <strong><?php echo $total_skor; ?></strong> / 56</p>
             </div>
+
+            <!-- Aspek Terindikasi Tinggi -->
+            <?php
+            $aspek_tinggi = array_filter($nilai_per_aspek, function($a) { return $a['nilai'] >= 3; });
+            if (!empty($aspek_tinggi)):
+            ?>
+            <p class="section-title">Aspek Terindikasi Tinggi</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
+                <?php foreach($aspek_tinggi as $asp): ?>
+                    <div style="background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">
+                        <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($asp['nama_aspek']); ?> (Skor: <?php echo $asp['nilai']; ?>)
+                    </div>
+                <?php endforeach; ?>
+            </div>
+            <?php endif; ?>
 
 
 
@@ -212,9 +229,13 @@ include 'header.php';
             </div>
 
             <!-- Tanda Tangan buat Laporan -->
-            <div class="ttd-section">
+            <div class="ttd-section" style="display: flex; justify-content: space-between; align-items: flex-end; margin-top: 50px;">
+                <div class="ttd-box" style="text-align: center; width: 200px;">
+                    <p style="color: #64748b; margin-bottom: 60px;">Klien Psikologi Kita</p>
+                    <p style="font-weight: 700; border-top: 1px solid #1e293b; padding-top: 4px;"><?php echo htmlspecialchars($nama_user); ?></p>
+                </div>
                 <div class="ttd-box">
-                    <p style="color: #64748b; margin-bottom: 60px;">Jakarta, <?php echo date('d F Y', strtotime($tanggal)); ?></p>
+                    <p style="color: #64748b; margin-bottom: 60px;">Jakarta, <?php echo format_indo($tanggal, 'd F Y'); ?></p>
                     <p style="font-weight: 700; border-top: 1px solid #1e293b; padding-top: 4px;">PSIKOLOGI KITA</p>
                     <p style="font-size: 0.8rem; color: #64748b;">Layanan Konsultasi Psikologi</p>
                 </div>

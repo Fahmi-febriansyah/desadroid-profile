@@ -15,9 +15,15 @@ if (isset($_GET['hapus'])) {
 $search = isset($_GET['search']) ? mysqli_real_escape_string($koneksi, $_GET['search']) : '';
 $where = $search ? "WHERE u.nama LIKE '%$search%' OR k.kategori LIKE '%$search%'" : "";
 
-$query = "SELECT k.*, u.nama as nama_user, u.email as email_user 
+$query = "SELECT k.*, u.nama as nama_user, u.email as email_user,
+          (SELECT GROUP_CONCAT(a.nama_aspek SEPARATOR ', ') 
+           FROM hasil_aspek ha 
+           JOIN aspek_hars a ON ha.id_aspek = a.id_aspek 
+           WHERE ha.id_konsultasi = k.id_konsultasi AND ha.nilai_aspek >= 3) as aspek_terindikasi,
+          r.isi as rekomendasi
           FROM konsultasi k 
           JOIN users u ON k.id_user = u.id_user 
+          LEFT JOIN rekomendasi r ON k.kategori = r.kategori
           $where 
           ORDER BY k.tanggal DESC";
 $result = mysqli_query($koneksi, $query);
@@ -38,7 +44,7 @@ include 'header.php';
 
     .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); align-items: center; justify-content: center; }
     .modal.show { display: flex; }
-    .modal-content { background: #fff; padding: 32px; border-radius: 16px; width: 90%; max-width: 600px; animation: modalSlideUp 0.3s; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+    .modal-content { background: #fff; padding: 32px; border-radius: 16px; width: 90%; max-width: 800px; max-height: 90vh; overflow-y: auto; animation: modalSlideUp 0.3s; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
     @keyframes modalSlideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     .modal-header { margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #f1f5f9; padding-bottom: 16px; }
     .modal-header h2 { font-size: 1.25rem; font-weight: 700; }
@@ -78,8 +84,10 @@ include 'header.php';
                     <th>No</th>
                     <th>Pengguna</th>
                     <th>Tanggal</th>
-                    <th>Total Skor</th>
+                    <th>Skor</th>
                     <th>Kategori</th>
+                    <th>Aspek Terindikasi</th>
+                    <th>Rekomendasi</th>
                     <th>Aksi</th>
                 </tr>
             </thead>
@@ -96,7 +104,7 @@ include 'header.php';
                             </div>
                         </div>
                     </td>
-                    <td><?php echo date('d/m/Y H:i', strtotime($row['tanggal'])); ?></td>
+                    <td><?php echo format_indo($row['tanggal']); ?></td>
                     <td><strong style="font-size: 1.1rem;"><?php echo $row['total_skor']; ?></strong></td>
                     <td>
                         <?php 
@@ -105,6 +113,16 @@ include 'header.php';
                             if(strpos(strtolower($row['kategori']), 'normal') !== false) $status_class = 'status-success';
                         ?>
                         <span class="status <?php echo $status_class; ?>"><?php echo $row['kategori']; ?></span>
+                    </td>
+                    <td>
+                        <div style="max-width: 200px; font-size: 0.85rem; color: #64748b;">
+                            <?php echo $row['aspek_terindikasi'] ? $row['aspek_terindikasi'] : '<span style="color:#94a3b8;">Tidak ada aspek dominan</span>'; ?>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="max-width: 250px; font-size: 0.85rem; color: #64748b; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;" title="<?php echo htmlspecialchars($row['rekomendasi']); ?>">
+                            <?php echo $row['rekomendasi'] ? htmlspecialchars($row['rekomendasi']) : '-'; ?>
+                        </div>
                     </td>
                     <td>
                         <div class="action-btns">
@@ -121,7 +139,7 @@ include 'header.php';
                     </td>
                 </tr>
                 <?php endwhile; else: ?>
-                <tr><td colspan="6"><div class="empty-state"><i class="fas fa-calendar-times"></i><p>Tidak ada data konsultasi ditemukan.</p></div></td></tr>
+                <tr><td colspan="8"><div class="empty-state"><i class="fas fa-calendar-times"></i><p>Tidak ada data konsultasi ditemukan.</p></div></td></tr>
                 <?php endif; ?>
             </tbody>
         </table>

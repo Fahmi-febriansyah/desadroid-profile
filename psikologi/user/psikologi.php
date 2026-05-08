@@ -7,7 +7,7 @@ $extra_css = '
 <style>
     .page-header {
         padding: 120px 0 60px;
-        background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+        background: linear-gradient(135deg, #ea580c 0%, #f97316 100%);
         color: #fff;
         text-align: center;
     }
@@ -52,7 +52,7 @@ $extra_css = '
         margin-bottom: 5px;
     }
     .psikolog-info .spesialis {
-        color: #6366f1;
+        color: #f97316;
         font-weight: 600;
         font-size: 0.9rem;
         margin-bottom: 15px;

@@ -12,7 +12,7 @@ $extra_css = '
     }
     .container-konsul h2 {
         color: #1e293b;
-        border-bottom: 2px solid #6366f1;
+        border-bottom: 2px solid #f97316;
         padding-bottom: 10px;
         margin-bottom: 20px;
     }
@@ -23,7 +23,7 @@ $extra_css = '
     }
     .box-info {
         background-color: #f0f7ff;
-        border-left: 4px solid #6366f1;
+        border-left: 4px solid #f97316;
         padding: 15px;
         margin-bottom: 20px;
     }
@@ -40,7 +40,7 @@ $extra_css = '
     }
     .btn-mulai {
         display: inline-block;
-        background-color: #6366f1;
+        background-color: #f97316;
         color: #fff;
         padding: 10px 20px;
         text-decoration: none;

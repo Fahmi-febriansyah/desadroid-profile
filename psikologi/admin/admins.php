@@ -93,7 +93,7 @@ include 'header.php';
             <button class="btn-add" onclick="openAddModal()">
                 <i class="fas fa-plus"></i> Tambah Admin
             </button>
-            <a href="print_data.php?type=admins" target="_blank" class="btn-add" style="background: #1e293b; text-decoration: none;">
+            <a href="print_data.php?type=admins" target="_blank" class="btn-add" style="background: #1e293b; color: #fff; text-decoration: none;">
                 <i class="fas fa-print"></i> Cetak Laporan
             </a>
         </div>

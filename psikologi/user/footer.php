@@ -3,8 +3,8 @@
             <div class="footer-content">
                 <div class="footer-brand">
                     <div class="footer-logo">
-                        <div class="logo-icon"><i class="fas fa-brain"></i></div>
-                        <span>Psikologi<strong>Kita</strong></span>
+                        <img src="../logo.png" alt="Logo" style="height: 35px; margin-right: 10px;">
+                        <span style="color: #f97316;">Psikologi Kita <strong>Konsulting</strong></span>
                     </div>
                     <p>Platform konsultasi psikologi online terpercaya untuk kesehatan mental Anda.</p>
                     <div class="social-links">
@@ -27,7 +27,7 @@
                     <h4>Layanan</h4>
                     <ul>
                         <li><a href="konsultasi.php">Konsultasi Psikologi</a></li>
-                        <li><a href="riwayat.php">Riwayat Konsultasi</a></li>
+                        <li><a href="riwayat.php">Riwayat Deteksi Kecemasan</a></li>
                     </ul>
                 </div>
                 <div class="footer-links">

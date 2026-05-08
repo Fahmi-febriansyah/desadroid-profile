@@ -22,7 +22,8 @@ $query_testi = "SELECT t.*, u.nama as nama_user
 $result_testi = mysqli_query($koneksi, $query_testi);
 ?>
 
-<div class="page-header">
+<div class="page-header" style="display: flex; align-items: center; gap: 20px;">
+    <img src="../logo.png" alt="Logo" style="height: 60px; width: auto;">
     <div class="page-title">
         <h1>Ringkasan Sistem</h1>
         <p>Pantau aktivitas platform Psikologi Kita hari ini.</p>
@@ -113,7 +114,7 @@ $result_testi = mysqli_query($koneksi, $query_testi);
                                     </div>
                                 </div>
                             </td>
-                            <td><?php echo date('d M Y', strtotime($row['tanggal'])); ?></td>
+                            <td><?php echo format_indo($row['tanggal'], 'd M Y'); ?></td>
                             <td><?php echo $row['total_skor']; ?></td>
                             <td>
                                 <?php 
@@ -144,7 +145,7 @@ $result_testi = mysqli_query($koneksi, $query_testi);
                 <div class="schedule-item">
                     <div class="schedule-time">
                         <strong><?php echo date('d', strtotime($row['tanggal'])); ?></strong>
-                        <span><?php echo date('M', strtotime($row['tanggal'])); ?></span>
+                        <span><?php echo format_indo($row['tanggal'], 'M'); ?></span>
                     </div>
                     <div class="schedule-info">
                         <h4><?php echo htmlspecialchars($row['nama_user']); ?></h4>

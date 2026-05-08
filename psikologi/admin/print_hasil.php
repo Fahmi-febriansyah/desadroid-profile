@@ -99,7 +99,7 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
                     <tr><td>Email</td><td>: <?php echo htmlspecialchars($data['email']); ?></td></tr>
                     <tr><td>Usia</td><td>: <?php echo $data['umur']; ?> tahun</td></tr>
                     <tr><td>Jenis Kelamin</td><td>: <?php echo ($data['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan'); ?></td></tr>
-                    <tr><td>Tanggal Periksa</td><td>: <?php echo date('d F Y, H:i', strtotime($tanggal)); ?></td></tr>
+                    <tr><td>Tanggal Periksa</td><td>: <?php echo format_indo($tanggal, 'd F Y, H:i'); ?></td></tr>
                 </table>
             </div>
 
@@ -117,7 +117,7 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
 
             <div class="ttd-section">
                 <div class="ttd-box">
-                    <p style="color: #64748b; margin-bottom: 60px;">Jakarta, <?php echo date('d F Y', strtotime($tanggal)); ?></p>
+                    <p style="color: #64748b; margin-bottom: 60px;">Jakarta, <?php echo format_indo($tanggal, 'd F Y'); ?></p>
                     <p style="font-weight: 700; border-top: 1px solid #1e293b; padding-top: 4px;">PSIKOLOGI KITA</p>
                     <p style="font-size: 0.8rem; color: #64748b;">Layanan Konsultasi Psikologi</p>
                 </div>

@@ -70,8 +70,8 @@ if ($type == 'users') {
 
     <div class="container">
         <div class="kop-surat">
-            <div class="kop-logo" style="background: #6366f1;">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg>
+            <div class="kop-logo" style="background: transparent;">
+                <img src="../logo.png" alt="Logo" style="width: 50px; height: auto;">
             </div>
             <div class="kop-info">
                 <h2>PSIKOLOGI KITA</h2>
