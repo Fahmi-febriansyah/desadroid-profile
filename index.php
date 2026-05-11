@@ -9,14 +9,6 @@ try {
     $projects = [];
 }
 
-// Get articles from database
-try {
-    $articles_query = $pdo->query('SELECT * FROM articles WHERE status = "published" ORDER BY published_date DESC LIMIT 3');
-    $articles = $articles_query->fetchAll();
-} catch (Exception $e) {
-    $articles = [];
-}
-
 // Get services from database
 try {
     $services_query = $pdo->query('SELECT * FROM services ORDER BY id ASC LIMIT 6');
@@ -32,44 +24,36 @@ $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseDir === '/') $baseDir = '';
 $canonical = $scheme . '://' . $host . $baseDir . '/';
 
-$pageTitle = 'Desadroid - IT Consulting & Digital Excellence';
-$metaDescription = 'Premium IT consulting services specializing in modern web development, mobile apps, and digital transformation.';
+$pageTitle = 'Desadroid - Strategic IT Consulting';
+$metaDescription = 'Professional IT consulting and digital transformation services.';
 include 'partials/header.php';
 ?>
 
-<div class="custom-cursor"></div>
-
-<!-- Hero Section V2 -->
-<section class="hero-v2" id="home">
-    <div class="hero-bg-mesh"></div>
+<!-- Hero Section V3 (Light Mode) -->
+<section class="hero-v3" id="home">
     <div class="container">
-        <div class="hero-content-v2">
-            <span class="reveal-text" style="color: var(--accent); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 1rem; display: block;">IT Consulting & Strategy</span>
-            <h1 class="reveal-text">Elevate Your <br><span class="gradient-text">Digital Vision</span></h1>
-            <p class="reveal-text">We build high-performance digital products and provide strategic IT consulting to transform your business into a market leader.</p>
-            <div class="hero-btns-v2 reveal-text">
-                <a href="#projects" class="btn-premium primary">Our Projects</a>
-                <a href="#contact" class="btn-premium secondary">Contact Us</a>
-            </div>
-        </div>
-        <div class="hero-image-v2">
-            <img src="src/img/hero.png" alt="Tech Vision" class="floating-img">
+        <span class="badge reveal-text">Innovative IT Solutions</span>
+        <h1 class="reveal-text">Partnering for Your <br><span class="gradient-text">Digital Success</span></h1>
+        <p class="reveal-text">We provide expert IT consulting and build high-quality digital products to help your business scale and thrive in a competitive landscape.</p>
+        <div class="hero-actions-v3 reveal-text">
+            <a href="#projects" class="btn-premium primary">View Our Work</a>
+            <a href="#contact" class="btn-premium secondary">Consult Now</a>
         </div>
     </div>
 </section>
 
-<!-- Services Section V2 -->
-<section class="services-v2" id="services">
+<!-- Services Section V3 -->
+<section class="section-v3" id="services" style="background-color: var(--bg-light);">
     <div class="container">
-        <div class="section-header">
-            <span>Our Services</span>
-            <h2>Innovative Solutions</h2>
+        <div class="section-title-v3">
+            <h2>Our Expertise</h2>
+            <p style="color: var(--text-muted); max-width: 600px; margin: 0 auto;">Tailored technology solutions designed to solve complex business challenges.</p>
         </div>
-        <div class="service-grid-v2">
+        <div class="grid-v3">
             <?php 
-            $icons = ['⚡', '📱', '🎨', '☁️', '🛒', '🔐'];
+            $icons = ['💻', '📱', '🎨', '🚀', '📊', '🛡️'];
             foreach ($services as $i => $s): ?>
-                <div class="service-card-v2 reveal-card">
+                <div class="card-v3 reveal-card">
                     <span class="icon"><?= $icons[$i % count($icons)] ?></span>
                     <h3><?= htmlspecialchars($s['name']) ?></h3>
                     <p><?= htmlspecialchars($s['description']) ?></p>
@@ -79,24 +63,23 @@ include 'partials/header.php';
     </div>
 </section>
 
-<!-- Projects Section V2 -->
-<section class="projects-v2" id="projects">
+<!-- Projects Section V3 -->
+<section class="section-v3" id="projects">
     <div class="container">
-        <div class="section-header" style="text-align: left;">
-            <span>Case Studies</span>
-            <h2>Recent Works</h2>
+        <div class="section-title-v3" style="text-align: left;">
+            <h2>Recent Projects</h2>
         </div>
-        <div class="project-list-v2">
+        <div class="project-list-v3">
             <?php foreach ($projects as $p): ?>
-                <div class="project-card-v2 reveal-project">
-                    <div class="project-visual-v2">
+                <div class="project-card-v3 reveal-project">
+                    <div class="project-img-v3">
                         <img src="<?= !empty($p['image_url']) ? $p['image_url'] : 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800' ?>" alt="<?= htmlspecialchars($p['title']) ?>">
                     </div>
-                    <div class="project-info-v2">
-                        <span class="project-tag"><?= htmlspecialchars($p['category']) ?></span>
-                        <h3><?= htmlspecialchars($p['title']) ?></h3>
-                        <p><?= htmlspecialchars(mb_strimwidth(strip_tags($p['description']), 0, 150, '...')) ?></p>
-                        <a href="proyek/<?= $p['slug'] ?>" class="btn-premium secondary" style="margin-left: 0; margin-top: 2rem;">Explore Project</a>
+                    <div class="project-info-v3">
+                        <span style="color: var(--primary-color); font-weight: 700; text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px;"><?= htmlspecialchars($p['category']) ?></span>
+                        <h3 style="font-size: 2rem; margin: 1rem 0;"><?= htmlspecialchars($p['title']) ?></h3>
+                        <p style="color: var(--text-muted); margin-bottom: 2rem;"><?= htmlspecialchars(mb_strimwidth(strip_tags($p['description']), 0, 150, '...')) ?></p>
+                        <a href="proyek/<?= $p['slug'] ?>" class="btn-premium secondary" style="margin-left: 0;">Explore Details</a>
                     </div>
                 </div>
             <?php endforeach; ?>
@@ -104,73 +87,16 @@ include 'partials/header.php';
     </div>
 </section>
 
-<!-- Footer V2 -->
-<footer class="footer-v2">
-    <div class="container">
-        <div class="footer-grid">
-            <div class="footer-about">
-                <h4>desadroid.</h4>
-                <p>Architecting the digital future with precision and creativity. Your premium partner in IT excellence.</p>
-            </div>
-            <div class="footer-links">
-                <h5>Navigation</h5>
-                <ul>
-                    <li><a href="#home">Home</a></li>
-                    <li><a href="#services">Services</a></li>
-                    <li><a href="#projects">Projects</a></li>
-                    <li><a href="#contact">Contact</a></li>
-                </ul>
-            </div>
-            <div class="footer-links">
-                <h5>Social</h5>
-                <ul>
-                    <li><a href="#">LinkedIn</a></li>
-                    <li><a href="#">Twitter</a></li>
-                    <li><a href="#">Instagram</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom" style="text-align: center; border-top: 1px solid var(--border); padding-top: 2rem; color: var(--text-secondary); font-size: 0.9rem;">
-            &copy; <?= date('Y') ?> Desadroid. All rights reserved.
-        </div>
-    </div>
-</footer>
-
 <script>
-// GSAP Animations
+// GSAP Initialization
 gsap.registerPlugin(ScrollTrigger);
-
-// Initialize Lenis
-const lenis = new Lenis();
-function raf(time) {
-  lenis.raf(time);
-  requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
-
-// Cursor Animation
-const cursor = document.querySelector('.custom-cursor');
-document.addEventListener('mousemove', (e) => {
-    gsap.to(cursor, {
-        x: e.clientX - 10,
-        y: e.clientY - 10,
-        duration: 0.2
-    });
-});
 
 // Reveal Animations
 gsap.from('.reveal-text', {
-    y: 50,
+    y: 30,
     opacity: 0,
-    duration: 1.2,
-    stagger: 0.2,
-    ease: 'power4.out'
-});
-
-gsap.from('.floating-img', {
-    x: 100,
-    opacity: 0,
-    duration: 1.5,
+    duration: 1,
+    stagger: 0.15,
     ease: 'power3.out'
 });
 
@@ -179,12 +105,12 @@ gsap.utils.toArray('.reveal-card').forEach(card => {
     gsap.from(card, {
         scrollTrigger: {
             trigger: card,
-            start: 'top 85%'
+            start: 'top 90%'
         },
-        y: 60,
+        y: 40,
         opacity: 0,
-        duration: 1,
-        ease: 'power3.out'
+        duration: 0.8,
+        ease: 'power2.out'
     });
 });
 
@@ -192,19 +118,19 @@ gsap.utils.toArray('.reveal-project').forEach(project => {
     gsap.from(project, {
         scrollTrigger: {
             trigger: project,
-            start: 'top 80%'
+            start: 'top 85%'
         },
-        y: 100,
+        y: 60,
         opacity: 0,
-        duration: 1.2,
-        ease: 'power3.out'
+        duration: 1,
+        ease: 'power2.out'
     });
 });
 
-// Navbar Scroll Effect
+// Navbar effect
 window.addEventListener('scroll', () => {
     const nav = document.querySelector('.navbar');
-    if (window.scrollY > 50) {
+    if (window.scrollY > 40) {
         nav.classList.add('scrolled');
     } else {
         nav.classList.remove('scrolled');

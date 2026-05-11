@@ -75,7 +75,6 @@ if (!empty($metaImage)) {
     <!-- GSAP & Animation Libraries -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
 
     <?php $cssVersion = file_exists(dirname(__DIR__) . '/src/css/style.css') ? filemtime(dirname(__DIR__) . '/src/css/style.css') : '1.0'; ?>
     <link rel="stylesheet" href="<?= htmlspecialchars(($baseDirUrl === '' ? '' : $baseDirUrl) . '/src/css/style.css?v=' . $cssVersion) ?>">
