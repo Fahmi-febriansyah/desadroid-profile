@@ -75,7 +75,7 @@ $user = mysqli_fetch_assoc($user_q);
 
         <div class="info-pasien">
             <table>
-                <tr><td>Nama Pengguna</td><td>: <?php echo htmlspecialchars($user['nama']); ?></td></tr>
+                <tr><td>Nama Pengguna</td><td>: Klien Psikologi Kita</td></tr>
                 <tr><td>Email</td><td>: <?php echo htmlspecialchars($user['email']); ?></td></tr>
                 <tr><td>Usia</td><td>: <?php echo $user['umur']; ?> tahun</td></tr>
                 <tr><td>Jenis Kelamin</td><td>: <?php echo ($user['jenis_kelamin'] == 'L') ? 'Laki-laki' : 'Perempuan'; ?></td></tr>
@@ -131,7 +131,7 @@ $user = mysqli_fetch_assoc($user_q);
             <div class="ttd" style="text-align: center; width: 220px;">
                 <p>&nbsp;</p>
                 <p style="margin-bottom: 70px;">Pengguna,</p>
-                <p><strong><?php echo htmlspecialchars($user['nama']); ?></strong></p>
+                <p><strong>Klien Psikologi Kita</strong></p>
             </div>
             <div class="ttd" style="text-align: center; width: 220px;">
                 <p>Jakarta, <?php echo format_indo(date('Y-m-d H:i:s'), 'd F Y'); ?></p>

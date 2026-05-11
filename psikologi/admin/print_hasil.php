@@ -37,7 +37,7 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Cetak Laporan - <?php echo $data['nama']; ?></title>
+    <title>Cetak Laporan - Klien Psikologi Kita</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; color: #1e293b; line-height: 1.5; margin: 0; padding: 0; background: #fff; font-size: 14px; }
@@ -95,7 +95,7 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
 
             <div class="info-pasien">
                 <table>
-                    <tr><td>Nama Pasien</td><td>: <?php echo htmlspecialchars($data['nama']); ?></td></tr>
+                    <tr><td>Nama Pasien</td><td>: Klien Psikologi Kita</td></tr>
                     <tr><td>Email</td><td>: <?php echo htmlspecialchars($data['email']); ?></td></tr>
                     <tr><td>Usia</td><td>: <?php echo $data['umur']; ?> tahun</td></tr>
                     <tr><td>Jenis Kelamin</td><td>: <?php echo ($data['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan'); ?></td></tr>

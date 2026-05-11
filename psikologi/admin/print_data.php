@@ -100,7 +100,7 @@ if ($type == 'users') {
                     <?php $no=1; while($row = mysqli_fetch_assoc($query)): ?>
                     <tr>
                         <td><?php echo $no++; ?></td>
-                        <td><strong><?php echo htmlspecialchars($row['nama']); ?></strong></td>
+                        <td><strong>Klien Psikologi Kita</strong></td>
                         <td><?php echo htmlspecialchars($row['email']); ?></td>
                         <td><?php echo $row['umur']; ?> Thn</td>
                         <td><?php echo ($row['jenis_kelamin'] == 'L' ? 'Laki-laki' : 'Perempuan'); ?></td>
