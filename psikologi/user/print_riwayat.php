@@ -63,7 +63,7 @@ $user = mysqli_fetch_assoc($user_q);
                 <img src="../logo.png" alt="Logo" style="width: 50px; height: auto;">
             </div>
             <div class="kop-info">
-                <h2>PSIKOLOGI KITA</h2>
+                <h2 style="color: #1e293b;">PSIKOLOGI KITA</h2>
                 <p>Layanan Konsultasi Psikologi Online | Jakarta, Indonesia</p>
             </div>
         </div>
@@ -99,7 +99,7 @@ $user = mysqli_fetch_assoc($user_q);
                 while ($row = mysqli_fetch_assoc($result)): 
                     // Ambil aspek terindikasi tinggi
                     $id_konsul = $row['id_konsultasi'];
-                    $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsul ORDER BY ha.nilai_aspek DESC LIMIT 2");
+                    $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsul AND ha.nilai_aspek >= 2 ORDER BY ha.nilai_aspek DESC");
                     $aspek_tinggi = [];
                     while($asp = mysqli_fetch_assoc($aspek_q)) {
                         $aspek_tinggi[] = $asp['nama_aspek'];
@@ -127,8 +127,13 @@ $user = mysqli_fetch_assoc($user_q);
             </tbody>
         </table>
 
-        <div class="footer">
-            <div class="ttd">
+        <div class="footer" style="display: flex; justify-content: space-between; margin-top: 50px;">
+            <div class="ttd" style="text-align: center; width: 220px;">
+                <p>&nbsp;</p>
+                <p style="margin-bottom: 70px;">Pengguna,</p>
+                <p><strong><?php echo htmlspecialchars($user['nama']); ?></strong></p>
+            </div>
+            <div class="ttd" style="text-align: center; width: 220px;">
                 <p>Jakarta, <?php echo format_indo(date('Y-m-d H:i:s'), 'd F Y'); ?></p>
                 <p style="margin-bottom: 70px;">Administrator,</p>
                 <p><strong>PSIKOLOGI KITA</strong></p>

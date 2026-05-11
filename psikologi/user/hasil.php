@@ -173,7 +173,7 @@ include 'header.php';
                 <img src="../logo.png" alt="Logo" style="height: 50px; width: auto;">
             </div>
             <div class="kop-info">
-                <h2 style="color: #f97316;">PSIKOLOGI KITA</h2>
+                <h2 style="color: #1e293b;">PSIKOLOGI KITA</h2>
                 <p>Lembaga Konsultan dan terapi Psikologi</p>
             </div>
         </div>
@@ -203,9 +203,9 @@ include 'header.php';
 
             <!-- Aspek Terindikasi Tinggi -->
             <?php
-            // Ambil top 2 aspek tertinggi
+            // Ambil semua aspek yang terindikasi (nilai >= 2)
             usort($nilai_per_aspek, function($a, $b) { return $b['nilai'] - $a['nilai']; });
-            $aspek_tinggi = array_slice($nilai_per_aspek, 0, 2);
+            $aspek_tinggi = array_filter($nilai_per_aspek, function($asp) { return $asp['nilai'] >= 2; });
             if (!empty($aspek_tinggi)):
             ?>
             <p class="section-title">Aspek Terindikasi Tinggi</p>

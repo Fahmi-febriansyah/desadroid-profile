@@ -82,7 +82,7 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
                 <img src="../logo.png" alt="Logo" style="width: 50px; height: auto;">
             </div>
             <div class="kop-info">
-                <h2>PSIKOLOGI KITA</h2>
+                <h2 style="color: #1e293b;">PSIKOLOGI KITA</h2>
                 <p>Layanan Konsultasi Psikologi Online | Jakarta, Indonesia</p>
             </div>
         </div>
@@ -110,7 +110,7 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
             </div>
 
             <?php
-            $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek, ha.nilai_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsultasi ORDER BY ha.nilai_aspek DESC LIMIT 2");
+            $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek, ha.nilai_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsultasi AND ha.nilai_aspek >= 2 ORDER BY ha.nilai_aspek DESC");
             if (mysqli_num_rows($aspek_q) > 0):
             ?>
             <p class="section-title" style="-webkit-print-color-adjust: exact; border-bottom: 2px solid #6366f1 !important;">Aspek Terindikasi Tinggi</p>

@@ -4,7 +4,7 @@
                 <div class="footer-brand">
                     <div class="footer-logo">
                         <img src="../logo.png" alt="Logo" style="height: 35px; margin-right: 10px;">
-                        <span style="color: #f97316;">Psikologi Kita <strong>Konsulting</strong></span>
+                        <span style="color: #1e293b;">Psikologi Kita <strong>Konsulting</strong></span>
                     </div>
                     <p>Platform konsultasi psikologi online terpercaya untuk kesehatan mental Anda.</p>
                     <div class="social-links">

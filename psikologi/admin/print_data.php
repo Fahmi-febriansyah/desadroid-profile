@@ -24,7 +24,7 @@ if ($type == 'users') {
     elseif ($type == 'knowledge_rules') $subtitle = "Aturan Keputusan (Forward Chaining)";
     elseif ($type == 'knowledge_results') $subtitle = "Kategori Kecemasan dan Rekomendasi Hasil";
     else $subtitle = "Laporan Lengkap Sistem Pakar";
-    $query_aspek = mysqli_query($koneksi, "SELECT * FROM aspek_hars ORDER BY kode_aspek ASC");
+    $query_aspek = mysqli_query($koneksi, "SELECT * FROM aspek_hars ORDER BY CAST(SUBSTRING(kode_aspek, 2) AS UNSIGNED) ASC");
 }
 ?>
 <!DOCTYPE html>
@@ -197,7 +197,7 @@ if ($type == 'users') {
                 </thead>
                 <tbody>
                     <?php 
-                    $rules_q1 = mysqli_query($koneksi, "SELECT * FROM rule WHERE kode_rule REGEXP '^R([1-9]|1[0-4])$' ORDER BY id_rule ASC");
+                    $rules_q1 = mysqli_query($koneksi, "SELECT * FROM rule WHERE kode_rule REGEXP '^R[1-9]$|^R1[0-4]$' ORDER BY CAST(SUBSTRING(kode_rule, 2) AS UNSIGNED) ASC");
                     while($rule = mysqli_fetch_assoc($rules_q1)):
                     ?>
                     <tr>
@@ -216,7 +216,7 @@ if ($type == 'users') {
                 </thead>
                 <tbody>
                     <?php 
-                    $rules_q2 = mysqli_query($koneksi, "SELECT * FROM rule WHERE kode_rule REGEXP '^R(1[6-9]|20)$' ORDER BY id_rule ASC");
+                    $rules_q2 = mysqli_query($koneksi, "SELECT * FROM rule WHERE kode_rule REGEXP '^R1[6-9]$|^R20$' ORDER BY CAST(SUBSTRING(kode_rule, 2) AS UNSIGNED) ASC");
                     while($rule = mysqli_fetch_assoc($rules_q2)):
                     ?>
                     <tr>
