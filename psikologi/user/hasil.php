@@ -207,13 +207,24 @@ include 'header.php';
             if (!empty($aspek_tinggi)):
             ?>
             <p class="section-title">Aspek Terindikasi Tinggi</p>
-            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
-                <?php foreach($aspek_tinggi as $asp): ?>
-                    <div style="background: #fee2e2; border: 1px solid #fecaca; color: #991b1b; padding: 8px 16px; border-radius: 8px; font-size: 0.85rem; font-weight: 600;">
-                        <i class="fas fa-exclamation-triangle"></i> <?php echo htmlspecialchars($asp['nama_aspek']); ?> (Skor: <?php echo $asp['nilai']; ?>)
-                    </div>
-                <?php endforeach; ?>
-            </div>
+            <table class="tabel-aspek" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 30px;">
+                <thead>
+                    <tr>
+                        <th style="width: 50px;">No</th>
+                        <th>Aspek / Gejala</th>
+                        <th style="width: 150px; text-align: center;">Skor Keparahan</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php $no = 1; foreach($aspek_tinggi as $asp): ?>
+                    <tr>
+                        <td><?php echo $no++; ?></td>
+                        <td><i class="fas fa-exclamation-triangle" style="color: #ef4444; margin-right: 6px;"></i> <?php echo htmlspecialchars($asp['nama_aspek']); ?></td>
+                        <td style="text-align: center; color: #ef4444; font-weight: bold;"><?php echo $asp['nilai']; ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
             <?php endif; ?>
 
 
@@ -247,5 +258,13 @@ include 'header.php';
         <a href="index.php" class="btn-aksi btn-ulang" style="background:#6366f1; color:#fff; border:none;"><i class="fas fa-home"></i> Beranda</a>
     </div>
 </div>
+
+<?php if(isset($_GET['print']) && $_GET['print'] == 1): ?>
+<script>
+    window.onload = function() {
+        window.print();
+    }
+</script>
+<?php endif; ?>
 
 <?php include 'footer.php'; ?>

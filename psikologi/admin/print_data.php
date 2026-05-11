@@ -116,7 +116,6 @@ if ($type == 'users') {
                     <tr>
                         <th style="width: 40px;">No</th>
                         <th>Nama Admin</th>
-                        <th>Username</th>
                         <th>Email</th>
                     </tr>
                 </thead>
@@ -125,7 +124,6 @@ if ($type == 'users') {
                     <tr>
                         <td><?php echo $no++; ?></td>
                         <td><strong><?php echo htmlspecialchars($row['nama']); ?></strong></td>
-                        <td><?php echo htmlspecialchars($row['username']); ?></td>
                         <td><?php echo htmlspecialchars($row['email']); ?></td>
                     </tr>
                     <?php endwhile; ?>

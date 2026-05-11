@@ -1,9 +1,12 @@
 <?php
+date_default_timezone_set('Asia/Jakarta');
 define('DB_HOST', 'localhost');
-
-define('DB_USER', 'desadroi_fahmi');
-define('DB_PASS', 'desadroid123');
-define('DB_NAME', 'desadroi_konsul');
+// define('DB_USER', 'root');
+// define('DB_PASS', '');
+// define('DB_NAME', 'konsul'); 
+    define('DB_USER', 'desadroi_fahmi');
+    define('DB_PASS', 'desadroid123');
+    define('DB_NAME', 'desadroi_konsul');
 
 try {
 

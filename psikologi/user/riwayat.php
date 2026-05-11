@@ -158,6 +158,11 @@ include 'header.php';
         <div class="section-container">
             <h1>Riwayat Deteksi Kecemasan</h1>
             <p>Lihat semua hasil skrining kecemasan Anda sebelumnya dalam satu tempat</p>
+            <div style="margin-top: 20px;">
+                <a href="print_riwayat.php" target="_blank" class="btn btn-primary" style="background: #1e293b; border: none; padding: 10px 20px; border-radius: 8px; color: white; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-print"></i> Cetak Semua Riwayat
+                </a>
+            </div>
         </div>
     </div>
 
@@ -174,6 +179,7 @@ include 'header.php';
                                     <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Tanggal</th>
                                     <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Total Skor</th>
                                     <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Kategori Diagnosis</th>
+                                    <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Aspek Terindikasi Tinggi</th>
                                     <th style="padding: 15px; color: #64748b; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px;">Aksi</th>
                                 </tr>
                             </thead>
@@ -185,6 +191,14 @@ include 'header.php';
                                     elseif (strpos($row['kategori'], 'sedang') !== false) $badge_class = 'badge-sedang';
                                     elseif (strpos($row['kategori'], 'sangat') !== false) $badge_class = 'badge-sangat';
                                     elseif (strpos($row['kategori'], 'berat') !== false) $badge_class = 'badge-berat';
+                                    
+                                    // Ambil aspek terindikasi tinggi
+                                    $id_konsul = $row['id_konsultasi'];
+                                    $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsul AND ha.nilai_aspek >= 3");
+                                    $aspek_tinggi = [];
+                                    while($asp = mysqli_fetch_assoc($aspek_q)) {
+                                        $aspek_tinggi[] = $asp['nama_aspek'];
+                                    }
                                 ?>
                                 <tr style="border-bottom: 1px solid #f1f5f9; transition: 0.2s;" onmouseover="this.style.background='#f8fafc'" onmouseout="this.style.background='transparent'">
                                     <td style="padding: 15px; font-weight: 600; color: #1e293b;"><?php echo $no++; ?></td>
@@ -193,9 +207,25 @@ include 'header.php';
                                     <td style="padding: 15px;"><strong style="font-size: 1.1rem; color: #f97316;"><?php echo $row['total_skor']; ?></strong> <span style="font-size: 0.75rem; color: #94a3b8;">/ 56</span></td>
                                     <td style="padding: 15px;"><span class="badge-kategori <?php echo $badge_class; ?>"><?php echo strtoupper($row['kategori']); ?></span></td>
                                     <td style="padding: 15px;">
-                                        <a href="hasil.php?id=<?php echo $row['id_konsultasi']; ?>" class="btn-detail" style="margin:0;">
-                                            <i class="fas fa-eye"></i> Lihat Hasil
-                                        </a>
+                                        <?php if(count($aspek_tinggi) > 0): ?>
+                                            <ul style="margin: 0; padding-left: 15px; color: #ef4444; font-size: 0.8rem;">
+                                                <?php foreach($aspek_tinggi as $nama): ?>
+                                                    <li><?php echo htmlspecialchars($nama); ?></li>
+                                                <?php endforeach; ?>
+                                            </ul>
+                                        <?php else: ?>
+                                            <span style="color: #64748b; font-size: 0.8rem;">Tidak ada</span>
+                                        <?php endif; ?>
+                                    </td>
+                                    <td style="padding: 15px;">
+                                        <div style="display: flex; gap: 8px; flex-direction: column;">
+                                            <a href="hasil.php?id=<?php echo $row['id_konsultasi']; ?>" class="btn-detail" style="margin:0;">
+                                                <i class="fas fa-eye"></i> Lihat Hasil
+                                            </a>
+                                            <a href="hasil.php?id=<?php echo $row['id_konsultasi']; ?>&print=1" class="btn-detail" style="margin:0; background: #e2e8f0; color: #1e293b;" target="_blank">
+                                                <i class="fas fa-print"></i> Cetak
+                                            </a>
+                                        </div>
                                     </td>
                                 </tr>
                                 <?php endwhile; ?>

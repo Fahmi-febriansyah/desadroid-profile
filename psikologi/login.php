@@ -41,8 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             <div class="auth-left">
                 <div class="auth-brand">
-                    <img src="logo.png" alt="Logo" style="height: 60px; margin-bottom: 15px;">
-                    <h1>Psikologi Kita</h1>
+                    <img src="logo.png" alt="Logo" style="height: 120px; margin-bottom: 15px;">
                 </div>
             </div>
 

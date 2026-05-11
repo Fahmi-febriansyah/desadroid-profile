@@ -35,7 +35,6 @@ $user_initial = strtoupper(substr($user_nama, 0, 1));
                 <li><a href="index.php" class="nav-link <?php echo ($current_page == 'index.php') ? 'active' : ''; ?>">Beranda</a></li>
                 <li><a href="konsultasi.php" class="nav-link <?php echo ($current_page == 'konsultasi.php' || $current_page == 'kuesioner.php') ? 'active' : ''; ?>">Konsultasi</a></li>
                 <li><a href="riwayat.php" class="nav-link <?php echo ($current_page == 'riwayat.php') ? 'active' : ''; ?>">Riwayat Deteksi</a></li>
-                <li><a href="psikologi.php" class="nav-link <?php echo ($current_page == 'psikologi.php') ? 'active' : ''; ?>">Psikolog</a></li>
                 <li><a href="testimoni.php" class="nav-link <?php echo ($current_page == 'testimoni.php') ? 'active' : ''; ?>">Testimoni</a></li>
                 <li><a href="index.php#kontak" class="nav-link">Kontak</a></li>
             </ul>
