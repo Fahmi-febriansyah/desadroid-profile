@@ -26,11 +26,11 @@ $query_aspek = "SELECT ha.*, a.nama_aspek, a.kode_aspek
                 ORDER BY a.id_aspek ASC";
 $result_aspek = mysqli_query($koneksi, $query_aspek);
 
-// Get indicated aspects (Top 2)
+// Get indicated aspects (Skor >= 3)
 $indicated = [];
-$indicated_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id ORDER BY ha.nilai_aspek DESC LIMIT 2");
+$indicated_q = mysqli_query($koneksi, "SELECT a.nama_aspek, ha.nilai_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id AND ha.nilai_aspek >= 3 ORDER BY ha.nilai_aspek DESC");
 while($asp = mysqli_fetch_assoc($indicated_q)) {
-    $indicated[] = $asp['nama_aspek'];
+    $indicated[] = $asp;
 }
 mysqli_data_seek($result_aspek, 0);
 ?>
@@ -100,9 +100,12 @@ mysqli_data_seek($result_aspek, 0);
         <div style="background: #f8fafc; border-radius: 12px; padding: 20px; border: 1px solid #e2e8f0; margin-bottom: 20px;">
             <label style="display: block; font-size: 0.75rem; color: #64748b; font-weight: 700; text-transform: uppercase; margin-bottom: 10px;">Aspek Dominan Terindikasi:</label>
             <?php if(!empty($indicated)): ?>
-                <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
                     <?php foreach($indicated as $ind): ?>
-                        <span style="background: #fee2e2; color: #ef4444; padding: 4px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 600;"><?php echo $ind; ?></span>
+                        <div style="background: #fef2f2; border: 1px solid #fee2e2; padding: 6px 12px; border-radius: 50px; display: flex; align-items: center; gap: 6px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                            <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 0.7rem;"></i>
+                            <span style="font-size: 0.75rem; font-weight: 600; color: #991b1b;"><?php echo htmlspecialchars($ind['nama_aspek']); ?> <span style="opacity: 0.7; font-weight: 400;">(Skor: <?php echo $ind['nilai_aspek']; ?>)</span></span>
+                        </div>
                     <?php endforeach; ?>
                 </div>
             <?php else: ?>

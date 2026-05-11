@@ -16,10 +16,10 @@ $search = isset($_GET['search']) ? mysqli_real_escape_string($koneksi, $_GET['se
 $where = $search ? "WHERE u.nama LIKE '%$search%' OR k.kategori LIKE '%$search%'" : "";
 
 $query = "SELECT k.*, u.nama as nama_user, u.email as email_user,
-          (SELECT SUBSTRING_INDEX(GROUP_CONCAT(a.nama_aspek ORDER BY ha.nilai_aspek DESC SEPARATOR ', '), ', ', 2) 
+          (SELECT GROUP_CONCAT(a.nama_aspek ORDER BY ha.nilai_aspek DESC SEPARATOR ', ') 
            FROM hasil_aspek ha 
            JOIN aspek_hars a ON ha.id_aspek = a.id_aspek 
-           WHERE ha.id_konsultasi = k.id_konsultasi) as aspek_terindikasi,
+           WHERE ha.id_konsultasi = k.id_konsultasi AND ha.nilai_aspek >= 3) as aspek_terindikasi,
           r.isi as rekomendasi
           FROM konsultasi k 
           JOIN users u ON k.id_user = u.id_user 

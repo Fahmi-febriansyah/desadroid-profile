@@ -110,28 +110,18 @@ elseif (strpos($kategori, 'berat') !== false) $badge_color = '#ef4444';
             </div>
 
             <?php
-            $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek, ha.nilai_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsultasi AND ha.nilai_aspek >= 2 ORDER BY ha.nilai_aspek DESC");
+            $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek, ha.nilai_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsultasi AND ha.nilai_aspek >= 3 ORDER BY ha.nilai_aspek DESC");
             if (mysqli_num_rows($aspek_q) > 0):
             ?>
             <p class="section-title" style="-webkit-print-color-adjust: exact; border-bottom: 2px solid #6366f1 !important;">Aspek Terindikasi Tinggi</p>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 30px; font-size: 14px; border: 1px solid #e2e8f0;">
-                <thead>
-                    <tr style="background: #f8fafc !important; -webkit-print-color-adjust: exact; text-align: left;">
-                        <th style="padding: 10px; border-bottom: 1px solid #e2e8f0;">No</th>
-                        <th style="padding: 10px; border-bottom: 1px solid #e2e8f0;">Aspek / Gejala</th>
-                        <th style="padding: 10px; border-bottom: 1px solid #e2e8f0;">Skor Keparahan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1; while($asp = mysqli_fetch_assoc($aspek_q)): ?>
-                    <tr>
-                        <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;"><?php echo $no++; ?></td>
-                        <td style="padding: 10px; border-bottom: 1px solid #f1f5f9;"><i class="fas fa-exclamation-triangle" style="color: #ef4444; margin-right: 6px;"></i> <?php echo htmlspecialchars($asp['nama_aspek']); ?></td>
-                        <td style="padding: 10px; border-bottom: 1px solid #f1f5f9; color: #ef4444; font-weight: bold;"><?php echo $asp['nilai_aspek']; ?></td>
-                    </tr>
-                    <?php endwhile; ?>
-                </tbody>
-            </table>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
+                <?php while($asp = mysqli_fetch_assoc($aspek_q)): ?>
+                <div style="background: #fef2f2; border: 1px solid #fee2e2; padding: 6px 14px; border-radius: 50px; display: flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 0.8rem;"></i>
+                    <span style="font-size: 0.8rem; font-weight: 600; color: #991b1b;"><?php echo htmlspecialchars($asp['nama_aspek']); ?> <span style="opacity: 0.7; font-weight: 400;">(Skor: <?php echo $asp['nilai_aspek']; ?>)</span></span>
+                </div>
+                <?php endwhile; ?>
+            </div>
             <?php endif; ?>
 
             <p class="section-title" style="-webkit-print-color-adjust: exact; border-bottom: 2px solid #6366f1 !important;">Rekomendasi Psikolog</p>

@@ -203,30 +203,23 @@ include 'header.php';
 
             <!-- Aspek Terindikasi Tinggi -->
             <?php
-            // Ambil semua aspek yang terindikasi (nilai >= 2)
+            // Ambil semua aspek yang terindikasi tinggi (nilai >= 3 sesuai revisi)
             usort($nilai_per_aspek, function($a, $b) { return $b['nilai'] - $a['nilai']; });
-            $aspek_tinggi = array_filter($nilai_per_aspek, function($asp) { return $asp['nilai'] >= 2; });
+            $aspek_tinggi = array_filter($nilai_per_aspek, function($asp) { return $asp['nilai'] >= 3; });
             if (!empty($aspek_tinggi)):
             ?>
             <p class="section-title">Aspek Terindikasi Tinggi</p>
-            <table class="tabel-aspek" style="border: 1px solid #e2e8f0; border-radius: 8px; overflow: hidden; margin-bottom: 30px;">
-                <thead>
-                    <tr>
-                        <th style="width: 50px;">No</th>
-                        <th>Aspek / Gejala</th>
-                        <th style="width: 150px; text-align: center;">Skor Keparahan</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $no = 1; foreach($aspek_tinggi as $asp): ?>
-                    <tr>
-                        <td><?php echo $no++; ?></td>
-                        <td><i class="fas fa-exclamation-triangle" style="color: #ef4444; margin-right: 6px;"></i> <?php echo htmlspecialchars($asp['nama_aspek']); ?></td>
-                        <td style="text-align: center; color: #ef4444; font-weight: bold;"><?php echo $asp['nilai']; ?></td>
-                    </tr>
-                    <?php endforeach; ?>
-                </tbody>
-            </table>
+            <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 30px;">
+                <?php $has_high = false; foreach($aspek_tinggi as $asp): ?>
+                <div style="background: #fef2f2; border: 1px solid #fee2e2; padding: 8px 16px; border-radius: 50px; display: flex; align-items: center; gap: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05);">
+                    <i class="fas fa-exclamation-triangle" style="color: #ef4444; font-size: 0.8rem;"></i>
+                    <span style="font-size: 0.85rem; font-weight: 600; color: #991b1b;"><?php echo htmlspecialchars($asp['nama_aspek']); ?> <span style="opacity: 0.7; font-weight: 400;">(Skor: <?php echo $asp['nilai']; ?>)</span></span>
+                </div>
+                <?php $has_high = true; endforeach; ?>
+                <?php if(!$has_high): ?>
+                    <p style="color: #64748b; font-size: 0.9rem; font-style: italic;">Tidak ada aspek dengan indikasi tinggi (Skor >= 3)</p>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
 
 
