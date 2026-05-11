@@ -72,7 +72,7 @@ try {
                         </div>
                     </div>
                     
-                    <a href="<?= htmlspecialchars($baseDirUrl . '/project_detail.php?id=' . intval($project['id'])) ?>" class="btn secondary" style="width:100%; margin-top:1.5rem;">Lihat Case Study</a>
+                    <a href="<?= htmlspecialchars($baseDirUrl . '/proyek/' . rawurlencode($project['slug'])) ?>" class="btn secondary" style="width:100%; margin-top:1.5rem;">Lihat Case Study</a>
                 </div>
             </div>
             <?php endforeach; ?>

@@ -19,6 +19,12 @@ RewriteRule ^artikel/([^/]+)/?$ artikel_detail.php?slug=$1 [L,QSA]
 # Pretty URL for article list: /artikel -> artikel.php
 RewriteRule ^artikel/?$ artikel.php [L,QSA]
 
+# Pretty URL for project detail: /proyek/slug -> project_detail.php?slug=slug
+RewriteRule ^proyek/([^/]+)/?$ project_detail.php?slug=$1 [L,QSA]
+
+# Pretty URL for project list: /proyek -> proyek.php
+RewriteRule ^proyek/?$ proyek.php [L,QSA]
+
 # Admin pretty URLs: /admin -> admin/index.php, /admin/dashboard -> admin/dashboard.php
 RewriteRule ^admin/?$ admin/index.php [L,QSA]
 RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L,QSA]

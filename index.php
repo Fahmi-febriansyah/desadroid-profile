@@ -143,9 +143,13 @@ include 'partials/header.php';
                     </div>
                     <div class="project-info">
                         <span class="project-category"><?= htmlspecialchars($project['category']) ?></span>
-                        <h3><?= htmlspecialchars($project['title']) ?></h3>
+                        <h3><a href="<?= htmlspecialchars($baseDir . '/proyek/' . rawurlencode($project['slug'])) ?>" style="color:inherit; text-decoration:none;"><?= htmlspecialchars($project['title']) ?></a></h3>
                         <?php $shortDesc = mb_strimwidth(trim($project['description'] ?? ''), 0, 100, '...'); ?>
                         <p><?= htmlspecialchars($shortDesc) ?></p>
+                        <a href="<?= htmlspecialchars($baseDir . '/proyek/' . rawurlencode($project['slug'])) ?>" class="btn-link" style="color:var(--accent1); font-weight:600; font-size:0.9rem; display:inline-flex; align-items:center; gap:0.4rem; text-decoration:none; margin-top:0.5rem;">
+                            Lihat Case Study
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                        </a>
                     </div>
                 </div>
                 <?php endforeach; ?>

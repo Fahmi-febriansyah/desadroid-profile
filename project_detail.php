@@ -1,15 +1,24 @@
 <?php
 require_once 'config/db.php';
-$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-if ($id <= 0) {
-    header("HTTP/1.1 404 Not Found");
-    echo 'Proyek tidak ditemukan.';
-    exit;
+$slug = $_GET['slug'] ?? '';
+if (!$slug) {
+    // Fallback for old links if any
+    $id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+    if ($id <= 0) {
+        header("HTTP/1.1 404 Not Found");
+        echo 'Proyek tidak ditemukan.';
+        exit;
+    }
 }
 
 try {
-    $stmt = $pdo->prepare('SELECT * FROM projects WHERE id = :id LIMIT 1');
-    $stmt->execute(['id' => $id]);
+    if ($slug) {
+        $stmt = $pdo->prepare('SELECT * FROM projects WHERE slug = :slug LIMIT 1');
+        $stmt->execute(['slug' => $slug]);
+    } else {
+        $stmt = $pdo->prepare('SELECT * FROM projects WHERE id = :id LIMIT 1');
+        $stmt->execute(['id' => $id]);
+    }
     $project = $stmt->fetch();
 } catch (Exception $e) {
     $project = false;
@@ -20,6 +29,8 @@ if (!$project) {
     echo 'Proyek tidak ditemukan.';
     exit;
 }
+
+$id = $project['id']; // Ensure $id is available for other queries
 
 if (empty($project['link'])) {
     header('Location: error/index.html');
@@ -306,7 +317,7 @@ if (!empty($project['tags'])) {
             $rpImg = !empty($rp['featured_image']) ? $rp['featured_image'] : 'https://source.unsplash.com/600x400/?technology,software';
             $rpProgress = isset($rp['progress']) ? intval($rp['progress']) : 0;
             ?>
-            <a href="<?= $baseDir ?>/project_detail.php?id=<?= $rp['id'] ?>" class="pd-related-card">
+            <a href="<?= $baseDir ?>/proyek/<?= rawurlencode($rp['slug']) ?>" class="pd-related-card">
                 <div class="pd-related-img">
                     <img src="<?= htmlspecialchars($rpImg) ?>" alt="<?= htmlspecialchars($rp['title']) ?>" loading="lazy">
                     <span class="pd-related-cat"><?= htmlspecialchars($rp['category']) ?></span>
