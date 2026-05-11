@@ -1,9 +1,6 @@
 <?php
 // Database Configuration
 define('DB_HOST', 'localhost');
-// define('DB_USER', 'root');
-// define('DB_PASS', '');
-// define('DB_NAME', 'desadroid_portfolio');
 define('DB_USER', 'desadroi_fahmi');
 define('DB_PASS', 'desadroid123');
 define('DB_NAME', 'desadroi_sistem_pakar_mobil');
@@ -18,6 +15,7 @@ try {
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]
     );
+    $conn = $pdo; // Maintain compatibility with existing code using $conn
 } catch(PDOException $e) {
     die('Database Error: ' . $e->getMessage());
 }
@@ -31,7 +29,9 @@ if (session_status() === PHP_SESSION_NONE) {
 $timeout = 30 * 60;
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout) {
     session_destroy();
-    header('Location: /portofolio perusahaan/admin/login.php?expired=1');
+    // Redirect logic: if in admin folder, go to admin/login.php, else root login.php
+    $redirect = (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? 'login.php?expired=1' : 'login.php?expired=1';
+    header('Location: ' . $redirect);
     exit;
 }
 $_SESSION['last_activity'] = time();
