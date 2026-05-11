@@ -70,7 +70,7 @@ if (!empty($article['featured_image'])) {
         $parts = explode('/', $img_path);
         $encoded_parts = array_map('rawurlencode', $parts);
         $safe_path = implode('/', $encoded_parts);
-        $heroImg = $scheme . '://' . $host . '/' . $safe_path;
+        $heroImg = $scheme . '://' . $host . $baseDir . '/' . $safe_path;
     }
 } else {
     $heroImg = 'https://source.unsplash.com/1200x800/?technology';
@@ -78,21 +78,15 @@ if (!empty($article['featured_image'])) {
 
 $readingTime = max(1, round(str_word_count(strip_tags($article['content'])) / 200));
 
+// Setup variables for partials/header.php
+$pageTitle = htmlspecialchars($article['title']) . ' — Desadroid';
+$metaDescription = htmlspecialchars($article['excerpt'] ?? '');
+$metaImage = $heroImg;
+$ogType = 'article';
+$canonical = $scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slug']);
+
 ?>
 <?php include 'partials/header.php'; ?>
-
-
-<!-- SEO META -->
-
-<meta name="description" content="<?=htmlspecialchars($article['excerpt'] ?? '')?>">
-
-<meta property="og:type" content="article">
-<meta property="og:title" content="<?=htmlspecialchars($article['title'])?>">
-<meta property="og:description" content="<?=htmlspecialchars($article['excerpt'] ?? '')?>">
-<meta property="og:image" content="<?=$heroImg?>">
-<meta property="og:url" content="<?=$canonical?>">
-
-<meta name="twitter:card" content="summary_large_image">
 
 <!-- Reading Progress Bar -->
 <div class="reading-progress" id="readingProgress"></div>

@@ -51,8 +51,11 @@ if (!empty($metaImage)) {
     <title><?= htmlspecialchars($pageTitle) ?></title>
     <link rel="canonical" href="<?= htmlspecialchars($canonical) ?>">
     <meta name="description" content="<?= htmlspecialchars($metaDescription) ?>">
+    <meta property="og:site_name" content="Desadroid">
     <meta property="og:title" content="<?= htmlspecialchars($pageTitle) ?>">
     <meta property="og:description" content="<?= htmlspecialchars($metaDescription) ?>">
+    <meta property="og:url" content="<?= htmlspecialchars($canonical) ?>">
+    <meta property="og:type" content="<?= htmlspecialchars($ogType ?? 'website') ?>">
     <?php if (!empty($fullMetaImage)): ?>
     <meta property="og:image" content="<?= htmlspecialchars($fullMetaImage) ?>">
     <?php endif; ?>

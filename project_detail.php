@@ -79,6 +79,8 @@ $host = $_SERVER['HTTP_HOST'];
 
 $pageTitle = htmlspecialchars($project['title']) . ' — Desadroid';
 $metaDescription = !empty($project['description']) ? htmlspecialchars(mb_substr(strip_tags($project['description']), 0, 155)) : 'Detail proyek Desadroid: ' . htmlspecialchars($project['title']);
+$metaImage = $heroImg;
+$canonical = $scheme.'://'.$host.$baseDir.'/proyek/'.rawurlencode($project['slug']);
 
 include 'partials/header.php';
 
