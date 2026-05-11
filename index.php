@@ -118,89 +118,94 @@ include 'partials/header.php';
     </section>
 
     <!-- Projects Section -->
-    <section id="projects" class="projects-clean" data-reveal>
+    <section id="projects" class="home-projects-section" data-reveal>
         <div class="container">
-            <div class="section-title">
-                <h2>Portofolio Kami</h2>
-                <p>Beberapa contoh proyek sukses yang telah kami bangun bersama klien.</p>
+            <div class="home-section-head">
+                <div>
+                    <h2 class="home-section-title">Portofolio Kami</h2>
+                    <p class="home-section-sub">Solusi digital nyata yang telah kami bangun bersama klien.</p>
+                </div>
+                <a href="<?= htmlspecialchars($baseDir . '/proyek') ?>" class="home-view-all">Semua Proyek <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
-            
             <?php if (!empty($projects)): ?>
-            <div class="project-grid-clean">
+            <div class="plist-grid">
                 <?php foreach ($projects as $project): ?>
-                <div class="project-card-clean" data-reveal>
-                    <div class="project-img">
-                        <?php if ($project['image_url']): ?>
-                            <img src="<?= htmlspecialchars($project['image_url']) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
-                        <?php else: ?>
-                            <img src="https://source.unsplash.com/featured/600x400/?<?= urlencode(strtolower($project['category'])) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
-                        <?php endif; ?>
-                        <div class="project-overlay">
-                            <?php if ($project['link']): ?>
-                                <a href="<?= htmlspecialchars($project['link']) ?>" class="btn-overlay" target="_blank">Lihat Website</a>
+                <?php
+                    $imgUrl = !empty($project['image_url']) ? $project['image_url'] : 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80';
+                    $progress = isset($project['progress']) ? intval($project['progress']) : 0;
+                    $statusClass = $progress >= 100 ? 'done' : ($progress > 0 ? 'progress' : 'plan');
+                    $statusLabel = $progress >= 100 ? 'Selesai' : ($progress > 0 ? 'Berjalan' : 'Direncanakan');
+                    $detailUrl = $baseDir . '/proyek/' . rawurlencode($project['slug']);
+                ?>
+                <div class="plist-card" data-reveal>
+                    <a href="<?= htmlspecialchars($detailUrl) ?>" class="plist-card-thumb">
+                        <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
+                        <span class="plist-card-cat"><?= htmlspecialchars($project['category']) ?></span>
+                        <span class="plist-card-status <?= $statusClass ?>"><?= $statusLabel ?></span>
+                    </a>
+                    <div class="plist-card-body">
+                        <h3 class="plist-card-title"><a href="<?= htmlspecialchars($detailUrl) ?>"><?= htmlspecialchars($project['title']) ?></a></h3>
+                        <p class="plist-card-desc"><?= htmlspecialchars(mb_strimwidth(strip_tags($project['description'] ?? ''), 0, 95, '…')) ?></p>
+                        <div class="plist-progress">
+                            <div class="plist-progress-head"><span>Progress</span><strong><?= $progress ?>%</strong></div>
+                            <div class="plist-progress-bar"><div class="plist-progress-fill" style="width:<?= $progress ?>%"></div></div>
+                        </div>
+                        <div class="plist-card-footer">
+                            <a href="<?= htmlspecialchars($detailUrl) ?>" class="plist-btn-detail">Lihat Detail <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            <?php if (!empty($project['link'])): ?>
+                            <a href="<?= htmlspecialchars($project['link']) ?>" target="_blank" class="plist-btn-live" title="Lihat website"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
                             <?php endif; ?>
                         </div>
-                    </div>
-                    <div class="project-info">
-                        <span class="project-category"><?= htmlspecialchars($project['category']) ?></span>
-                        <h3><a href="<?= htmlspecialchars($baseDir . '/proyek/' . rawurlencode($project['slug'])) ?>" style="color:inherit; text-decoration:none;"><?= htmlspecialchars($project['title']) ?></a></h3>
-                        <?php $shortDesc = mb_strimwidth(trim($project['description'] ?? ''), 0, 100, '...'); ?>
-                        <p><?= htmlspecialchars($shortDesc) ?></p>
-                        <a href="<?= htmlspecialchars($baseDir . '/proyek/' . rawurlencode($project['slug'])) ?>" class="btn-link" style="color:var(--accent1); font-weight:600; font-size:0.9rem; display:inline-flex; align-items:center; gap:0.4rem; text-decoration:none; margin-top:0.5rem;">
-                            Lihat Case Study
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                        </a>
                     </div>
                 </div>
                 <?php endforeach; ?>
             </div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/proyek' : $baseDirUrl . '/proyek')) ?>" class="btn tertiary">Lihat Semua Portofolio</a>
-            </div>
             <?php else: ?>
-            <div class="empty-state">
-                <p>Belum ada proyek yang ditampilkan.</p>
-            </div>
+            <p style="text-align:center;color:var(--text2);padding:3rem 0;">Portofolio segera hadir.</p>
             <?php endif; ?>
         </div>
     </section>
 
     <!-- Articles Section -->
-    <section id="articles" class="articles-clean bg-light" data-reveal>
+    <section id="articles" class="home-articles-section bg-light" data-reveal>
         <div class="container">
-            <div class="section-title">
-                <h2>Berita & Insight Terkini</h2>
-                <p>Pelajari lebih lanjut tentang teknologi, desain, dan tren bisnis digital.</p>
+            <div class="home-section-head">
+                <div>
+                    <h2 class="home-section-title">Artikel & Insight</h2>
+                    <p class="home-section-sub">Teknologi, desain, dan tren bisnis digital dari tim kami.</p>
+                </div>
+                <a href="<?= htmlspecialchars($baseDir . '/artikel') ?>" class="home-view-all">Semua Artikel <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
-            <div class="article-grid-clean">
-                <?php if (!empty($articles)): ?>
-                    <?php foreach ($articles as $article): ?>
-                    <?php
-                        $articleUrl = $baseDir . '/artikel/' . rawurlencode($article['slug']);
-                        $img = (!empty($article['featured_image']) && preg_match('/^https?:\/\//', $article['featured_image'])) ? $article['featured_image'] : (empty($article['featured_image']) ? "https://source.unsplash.com/featured/600x400/?" . urlencode(strtolower($article['category'])) : $baseDir . '/' . ltrim($article['featured_image'], '/'));
-                    ?>
-                    <div class="article-card-clean" data-reveal>
-                        <div class="article-img">
-                            <a href="<?= htmlspecialchars($articleUrl) ?>">
-                                <img src="<?= htmlspecialchars($img) ?>" alt="<?= htmlspecialchars($article['title']) ?>">
-                            </a>
+            <?php if (!empty($articles)): ?>
+            <div class="alist-grid">
+                <?php foreach ($articles as $article): ?>
+                <?php
+                    $articleUrl = $baseDir . '/artikel/' . rawurlencode($article['slug']);
+                    $aImg = !empty($article['featured_image'])
+                          ? (preg_match('/^https?:\/\//', $article['featured_image']) ? $article['featured_image'] : $baseDir . '/' . ltrim($article['featured_image'], '/'))
+                          : 'https://images.unsplash.com/photo-1542435503-ec7b0f197a62?w=600&q=80';
+                ?>
+                <article class="alist-card" data-reveal>
+                    <a href="<?= htmlspecialchars($articleUrl) ?>" class="alist-card-thumb">
+                        <img src="<?= htmlspecialchars($aImg) ?>" alt="<?= htmlspecialchars($article['title']) ?>" loading="lazy">
+                        <span class="alist-card-cat"><?= htmlspecialchars($article['category']) ?></span>
+                    </a>
+                    <div class="alist-card-body">
+                        <div class="alist-card-meta">
+                            <span><?= date('d M Y', strtotime($article['published_date'])) ?></span>
+                            <span class="dot">·</span>
+                            <span><?= htmlspecialchars($article['read_time'] ?? '5') ?> mnt</span>
                         </div>
-                        <div class="article-body">
-                            <div class="article-meta">
-                                <span class="category"><?= htmlspecialchars($article['category']) ?></span>
-                                <span class="date"><?= date('d M Y', strtotime($article['published_date'])) ?></span>
-                            </div>
-                            <h3><a href="<?= htmlspecialchars($articleUrl) ?>"><?= htmlspecialchars($article['title']) ?></a></h3>
-                            <p><?= htmlspecialchars(mb_strimwidth($article['excerpt'], 0, 90, '...')) ?></p>
-                        </div>
+                        <h3 class="alist-card-title"><a href="<?= htmlspecialchars($articleUrl) ?>"><?= htmlspecialchars($article['title']) ?></a></h3>
+                        <p class="alist-card-desc"><?= htmlspecialchars(mb_strimwidth($article['excerpt'] ?? '', 0, 95, '…')) ?></p>
+                        <a href="<?= htmlspecialchars($articleUrl) ?>" class="alist-card-link">Baca Selengkapnya <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
                     </div>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <div class="empty-state" style="grid-column: 1 / -1;">
-                        <p>Belum ada artikel yang dipublikasikan.</p>
-                    </div>
-                <?php endif; ?>
+                </article>
+                <?php endforeach; ?>
             </div>
+            <?php else: ?>
+            <p style="text-align:center;color:var(--text2);padding:3rem 0;">Artikel segera hadir.</p>
+            <?php endif; ?>
         </div>
     </section>
 
