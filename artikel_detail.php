@@ -298,47 +298,48 @@ function copyLink(){
     });
 }
 
-/* BACA JUGA - insert after every 2 paragraphs */
+/* BACA JUGA - setiap 2 blok konten, cycling */
 (function(){
-    const paragraphs = document.querySelectorAll("#content p");
+    const content = document.getElementById('content');
+    if (!content) return;
+
+    // Ambil semua elemen blok langsung di dalam #content
+    const blocks = Array.from(content.querySelectorAll(':scope > p, :scope > h2, :scope > h3, :scope > ul, :scope > ol, :scope > blockquote, :scope > figure'));
+
     const relatedArticles = <?=json_encode(array_map(function($r) use ($baseDir){
         return [
             'title' => $r['title'],
-            'url' => $baseDir.'/artikel/'.rawurlencode($r['slug']),
-            'image' => !empty($r['featured_image']) ? $r['featured_image'] : 'https://source.unsplash.com/200x130/?technology'
+            'url'   => $baseDir.'/artikel/'.rawurlencode($r['slug'])
         ];
     }, $related))?>;
 
-    if(relatedArticles.length === 0) return;
+    if (relatedArticles.length === 0 || blocks.length < 3) return;
 
     let insertedCount = 0;
-    const insertPoints = [];
 
-    for(let i = 1; i < paragraphs.length; i += 2){
-        if(insertedCount < relatedArticles.length){
-            insertPoints.push({ after: paragraphs[i], article: relatedArticles[insertedCount] });
+    // Setiap 2 blok, sisipkan kotak Baca Juga
+    for (let i = 1; i < blocks.length - 1; i++) {
+        if ((i % 2) === 0 && insertedCount < relatedArticles.length) {
+            const art = relatedArticles[insertedCount % relatedArticles.length];
+            const box = document.createElement('div');
+            box.className = 'ad-read-also';
+            box.innerHTML =
+                '<div class="ad-read-also-label">' +
+                    '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' +
+                    ' Baca Juga' +
+                '</div>' +
+                '<a href="' + art.url + '" class="ad-read-also-link">' +
+                    '<div class="ad-read-also-text">' +
+                        '<span class="ad-read-also-title">' + art.title + '</span>' +
+                        '<span class="ad-read-also-arrow">' +
+                            '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
+                        '</span>' +
+                    '</div>' +
+                '</a>';
+            blocks[i].after(box);
             insertedCount++;
         }
     }
-
-    insertPoints.forEach(function(point){
-        const box = document.createElement('div');
-        box.className = 'ad-read-also';
-        box.innerHTML =
-            '<div class="ad-read-also-label">' +
-                '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>' +
-                ' Baca Juga' +
-            '</div>' +
-            '<a href="' + point.article.url + '" class="ad-read-also-link">' +
-                '<div class="ad-read-also-text">' +
-                    '<span class="ad-read-also-title">' + point.article.title + '</span>' +
-                    '<span class="ad-read-also-arrow">' +
-                        '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>' +
-                    '</span>' +
-                '</div>' +
-            '</a>';
-        point.after.after(box);
-    });
 })();
 
 /* Reading Progress Bar */
