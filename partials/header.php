@@ -41,7 +41,7 @@ if (!empty($metaImage)) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id" prefix="og: https://ogp.me/ns#">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -58,6 +58,9 @@ if (!empty($metaImage)) {
     <meta property="og:type" content="<?= htmlspecialchars($ogType ?? 'website') ?>">
     <?php if (!empty($fullMetaImage)): ?>
     <meta property="og:image" content="<?= htmlspecialchars($fullMetaImage) ?>">
+    <?php if (strpos($fullMetaImage, 'https') === 0): ?>
+    <meta property="og:image:secure_url" content="<?= htmlspecialchars($fullMetaImage) ?>">
+    <?php endif; ?>
     <?php endif; ?>
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?= htmlspecialchars($pageTitle) ?>">
