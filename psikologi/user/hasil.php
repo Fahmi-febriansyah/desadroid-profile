@@ -203,7 +203,9 @@ include 'header.php';
 
             <!-- Aspek Terindikasi Tinggi -->
             <?php
-            $aspek_tinggi = array_filter($nilai_per_aspek, function($a) { return $a['nilai'] >= 3; });
+            // Ambil top 2 aspek tertinggi
+            usort($nilai_per_aspek, function($a, $b) { return $b['nilai'] - $a['nilai']; });
+            $aspek_tinggi = array_slice($nilai_per_aspek, 0, 2);
             if (!empty($aspek_tinggi)):
             ?>
             <p class="section-title">Aspek Terindikasi Tinggi</p>

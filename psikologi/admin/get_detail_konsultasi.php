@@ -26,13 +26,11 @@ $query_aspek = "SELECT ha.*, a.nama_aspek, a.kode_aspek
                 ORDER BY a.id_aspek ASC";
 $result_aspek = mysqli_query($koneksi, $query_aspek);
 
-// Get indicated aspects (score >= 3)
+// Get indicated aspects (Top 2)
 $indicated = [];
-mysqli_data_seek($result_aspek, 0);
-while($asp = mysqli_fetch_assoc($result_aspek)) {
-    if($asp['nilai_aspek'] >= 3) {
-        $indicated[] = $asp['nama_aspek'];
-    }
+$indicated_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id ORDER BY ha.nilai_aspek DESC LIMIT 2");
+while($asp = mysqli_fetch_assoc($indicated_q)) {
+    $indicated[] = $asp['nama_aspek'];
 }
 mysqli_data_seek($result_aspek, 0);
 ?>

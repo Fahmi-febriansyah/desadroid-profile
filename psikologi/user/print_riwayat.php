@@ -99,7 +99,7 @@ $user = mysqli_fetch_assoc($user_q);
                 while ($row = mysqli_fetch_assoc($result)): 
                     // Ambil aspek terindikasi tinggi
                     $id_konsul = $row['id_konsultasi'];
-                    $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsul AND ha.nilai_aspek >= 3");
+                    $aspek_q = mysqli_query($koneksi, "SELECT a.nama_aspek FROM hasil_aspek ha JOIN aspek_hars a ON ha.id_aspek = a.id_aspek WHERE ha.id_konsultasi = $id_konsul ORDER BY ha.nilai_aspek DESC LIMIT 2");
                     $aspek_tinggi = [];
                     while($asp = mysqli_fetch_assoc($aspek_q)) {
                         $aspek_tinggi[] = $asp['nama_aspek'];
