@@ -22,65 +22,56 @@ try {
 }
 ?>
 
-<!-- Projects Hero -->
-<section class="page-hero text-center" data-reveal>
-    <div class="container">
-        <span class="hero-label">Karya Kami</span>
-        <h1>Portofolio <span class="text-gradient">Terbaik</span> Kami</h1>
-        <p class="hero-subtitle mx-auto">Setiap baris kode dan setiap piksel desain kami buat dengan dedikasi tinggi untuk menghasilkan produk digital berkualitas.</p>
+<!-- Page Hero -->
+<section class="pg-hero">
+    <div class="pg-hero-bg"></div>
+    <div class="container text-center" style="position:relative; z-index:2;">
+        <span class="pg-hero-label">Karya Kami</span>
+        <h1 class="pg-hero-title">Portofolio <span class="text-gradient">Terbaik</span> Kami</h1>
+        <p class="pg-hero-subtitle mx-auto">Jelajahi inovasi digital yang telah kami bangun untuk berbagai bisnis. Dari ide hingga implementasi, setiap proyek adalah komitmen kami pada kualitas.</p>
     </div>
 </section>
 
-<section class="projects-page bg-light" data-reveal>
+<!-- Projects Grid Section -->
+<section class="pg-section">
     <div class="container">
         <?php if (!empty($projects)): ?>
-        <div class="project-grid-clean">
+        <div class="pg-grid">
             <?php foreach ($projects as $project): ?>
-            <div class="project-card-clean" data-reveal>
-                <div class="project-img">
-                    <?php if ($project['image_url']): ?>
-                        <img src="<?= htmlspecialchars($project['image_url']) ?>" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
-                    <?php else: ?>
-                        <img src="https://source.unsplash.com/featured/600x400/?<?= urlencode(strtolower($project['category'])) ?>" alt="<?= htmlspecialchars($project['title']) ?>">
-                    <?php endif; ?>
-                    <div class="project-overlay">
-                        <?php
-                            $hasLink = !empty($project['link']);
-                            $viewHref = $hasLink ? htmlspecialchars($project['link']) : '#';
-                            $viewTarget = $hasLink ? ' target="_blank"' : '';
-                        ?>
-                        <a href="<?= $viewHref ?>"<?= $viewTarget ?> class="btn-overlay"><?= $hasLink ? 'Lihat Website' : 'Info' ?></a>
-                        <?php if (!empty($project['code_link'])): ?>
-                            <a href="<?= htmlspecialchars($project['code_link']) ?>" target="_blank" class="btn-overlay" style="margin-left:10px;">Source Code</a>
-                        <?php endif; ?>
+            <?php 
+                $imgUrl = $project['image_url'] ? $project['image_url'] : "https://source.unsplash.com/featured/600x400/?" . urlencode(strtolower($project['category']));
+                $progress = isset($project['progress']) ? intval($project['progress']) : 0;
+            ?>
+            <div class="pg-card" data-reveal>
+                <div class="pg-card-img">
+                    <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
+                    <div class="pg-card-cat"><?= htmlspecialchars($project['category']) ?></div>
+                    <div class="pg-card-overlay">
+                        <a href="<?= htmlspecialchars($baseDirUrl . '/proyek/' . rawurlencode($project['slug'])) ?>" class="pg-btn-view">Lihat Detail <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
                     </div>
                 </div>
-                <div class="project-info">
-                    <span class="project-category"><?= htmlspecialchars($project['category']) ?></span>
-                    <h3><?= htmlspecialchars($project['title']) ?></h3>
-                    <?php $short = mb_strimwidth(trim($project['description'] ?? ''), 0, 100, '...'); ?>
-                    <p><?= htmlspecialchars($short) ?></p>
+                <div class="pg-card-body">
+                    <h3 class="pg-card-title"><a href="<?= htmlspecialchars($baseDirUrl . '/proyek/' . rawurlencode($project['slug'])) ?>"><?= htmlspecialchars($project['title']) ?></a></h3>
+                    <p class="pg-card-desc"><?= htmlspecialchars(mb_strimwidth(trim($project['description'] ?? ''), 0, 110, '...')) ?></p>
                     
-                    <div class="project-progress mt-3">
-                        <?php $progress = isset($project['progress']) ? intval($project['progress']) : 0; ?>
-                        <div class="progress-info">
-                            <span>Status Proyek</span>
-                            <strong><?= $progress ?>% Selesai</strong>
+                    <div class="pg-progress-wrap">
+                        <div class="pg-progress-header">
+                            <span>Progress</span>
+                            <strong><?= $progress ?>%</strong>
                         </div>
-                        <div class="progress-bar-bg">
-                            <div class="progress-bar-fill" style="width: <?= $progress ?>%;"></div>
+                        <div class="pg-progress-track">
+                            <div class="pg-progress-fill" style="width: <?= $progress ?>%;"></div>
                         </div>
                     </div>
-                    
-                    <a href="<?= htmlspecialchars($baseDirUrl . '/proyek/' . rawurlencode($project['slug'])) ?>" class="btn secondary" style="width:100%; margin-top:1.5rem;">Lihat Case Study</a>
                 </div>
             </div>
             <?php endforeach; ?>
         </div>
         <?php else: ?>
-        <div class="empty-state">
-            <p>📋 Belum ada proyek yang ditambahkan.</p>
-            <p style="font-size: 0.95rem; margin-top: 0.5rem; color: var(--text2);">Hubungi kami untuk melihat portofolio lengkap atau mengajukan proyek baru.</p>
+        <div class="pg-empty">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+            <h3>Belum ada proyek</h3>
+            <p>Portofolio proyek kami akan segera hadir di sini.</p>
         </div>
         <?php endif; ?>
     </div>
