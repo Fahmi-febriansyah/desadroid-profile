@@ -169,7 +169,6 @@ $categories = ['Web Development', 'Mobile Apps', 'UX/UI Design', 'Backend Develo
         <div style="margin-bottom: 1.5rem;">
             <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #333;">Konten Artikel *</label>
             <textarea name="content" required rows="12" style="width: 100%; padding: 0.75rem; border: 1px solid #ddd; border-radius: 4px; font-size: 1rem; font-family: 'Courier New', monospace;"><?= htmlspecialchars($article['content']) ?></textarea>
-            <small style="color: #999;">Tips: Gunakan HTML untuk formatting.</small>
         </div>
 
         <div style="margin-bottom: 1.5rem;">
@@ -279,7 +278,29 @@ $categories = ['Web Development', 'Mobile Apps', 'UX/UI Design', 'Backend Develo
 }
 </style>
 
+<script src="https://cdn.tiny.cloud/1/an81at2fwzw7pk20qfbfqkseev026w2p450knfid3d53yz1p/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
+tinymce.init({
+    selector: 'textarea[name="content"]',
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    height: 500,
+    menubar: true,
+    branding: false,
+    promotion: false,
+    image_advtab: true,
+    image_caption: true,
+    images_upload_url: 'upload_handler.php',
+    relative_urls: false,
+    remove_script_host: false,
+    convert_urls: true,
+    setup: function (editor) {
+        editor.on('change', function () {
+            editor.save();
+        });
+    }
+});
+
 document.querySelector('input[name="featured_image"]').addEventListener('change', function(e) {
     const file = e.target.files[0];
     const preview = document.getElementById('preview');
@@ -288,21 +309,6 @@ document.querySelector('input[name="featured_image"]').addEventListener('change'
         const reader = new FileReader();
         reader.onload = function(event) {
             preview.innerHTML = '<img src="' + event.target.result + '" style="max-width: 100%; max-height: 250px; border-radius: 4px; margin-top: 1rem;">';
-        };
-        reader.readAsDataURL(file);
-    }
-});
-</script>
-
-<script>
-document.querySelector('input[name="featured_image"]').addEventListener('change', function(e) {
-    const file = e.target.files[0];
-    const preview = document.getElementById('preview');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            preview.innerHTML = '<img src="' + event.target.result + '" style="max-width: 400px; max-height: 250px; border-radius: 4px; margin-top: 1rem;">';
         };
         reader.readAsDataURL(file);
     }

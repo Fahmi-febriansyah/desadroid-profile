@@ -161,7 +161,7 @@ $readingTime = max(1, round(str_word_count(strip_tags($article['content'])) / 20
                 <div class="ad-content" id="content">
 
 <?php
-$content = '<p>'.implode('</p><p>', explode("\n", $article['content'])).'</p>';
+$content = $article['content'];
 
 /* AUTO INTERNAL LINK SEO */
 
