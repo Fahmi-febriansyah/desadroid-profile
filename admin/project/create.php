@@ -32,13 +32,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
 
                 if (!$error) {
+                    // Generate slug from title
+                    $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9-]+/', '-', $title), '-'));
+                    
+                    // Check if slug already exists
+                    $check = $pdo->prepare('SELECT id FROM projects WHERE slug = ?');
+                    $check->execute([$slug]);
+                    if ($check->fetch()) {
+                        $slug .= '-' . time();
+                    }
+
                     $stmt = $pdo->prepare('
-                        INSERT INTO projects (title, category, description, image_url, link, code_link, order_num, progress)
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                        INSERT INTO projects (title, slug, category, description, image_url, link, code_link, order_num, progress)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ');
 
                     $stmt->execute([
                         $title,
+                        $slug,
                         $category,
                         $description,
                         $image_url,

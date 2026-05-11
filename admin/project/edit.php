@@ -123,15 +123,26 @@ try {
                 }
 
                 if (!$error) {
+                    // Generate slug from title
+                    $slug = strtolower(trim(preg_replace('/[^a-zA-Z0-9-]+/', '-', $title), '-'));
+                    
+                    // Check if slug already exists (excluding current project)
+                    $check = $pdo->prepare('SELECT id FROM projects WHERE slug = ? AND id != ?');
+                    $check->execute([$slug, $id]);
+                    if ($check->fetch()) {
+                        $slug .= '-' . time();
+                    }
+
                     $stmt = $pdo->prepare('
                         UPDATE projects 
-                        SET title = ?, category = ?, description = ?, 
+                        SET title = ?, slug = ?, category = ?, description = ?, 
                             image_url = ?, link = ?, code_link = ?, order_num = ?, progress = ?
                         WHERE id = ?
                     ');
 
                     $stmt->execute([
                         $title,
+                        $slug,
                         $category,
                         $description,
                         $image_url,

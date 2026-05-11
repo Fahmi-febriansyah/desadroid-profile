@@ -70,7 +70,13 @@ if (!empty($metaImage)) {
     <?php endif; ?>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- GSAP & Animation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
     <?php $cssVersion = file_exists(dirname(__DIR__) . '/src/css/style.css') ? filemtime(dirname(__DIR__) . '/src/css/style.css') : '1.0'; ?>
     <link rel="stylesheet" href="<?= htmlspecialchars(($baseDirUrl === '' ? '' : $baseDirUrl) . '/src/css/style.css?v=' . $cssVersion) ?>">
 </head>
