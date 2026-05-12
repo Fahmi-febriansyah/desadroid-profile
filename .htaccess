@@ -3,6 +3,13 @@
     Deny from all
 </Files>
 
+# Prevent indexing of specific directories
+<IfModule mod_headers.c>
+    <DirectoryMatch "^/(psikologi|sistempakar)(/.*)?$">
+        Header set X-Robots-Tag "noindex, nofollow"
+    </DirectoryMatch>
+</IfModule>
+
 Options -MultiViews
 RewriteEngine On
 

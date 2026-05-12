@@ -18,6 +18,8 @@ Disallow: /vendor/
 Disallow: /config/
 Disallow: /uploads/
 Disallow: /signatures/
+Disallow: /psikologi/
+Disallow: /sistempakar/
 
 # Give search engines a friendly crawl pace
 Crawl-delay: 5
