@@ -125,7 +125,7 @@ include 'partials/header.php';
                     <h2 class="home-section-title">Portofolio Kami</h2>
                     <p class="home-section-sub">Solusi digital nyata yang telah kami bangun bersama klien.</p>
                 </div>
-                <a href="<?= htmlspecialchars($baseDir . '/proyek') ?>" class="home-view-all">Semua Proyek <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                <a href="https://project.desadroid.shop" target="_blank" class="home-view-all">Semua Proyek <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
             </div>
             <?php if (!empty($projects)): ?>
             <div class="plist-grid">
@@ -135,23 +135,23 @@ include 'partials/header.php';
                     $progress = isset($project['progress']) ? intval($project['progress']) : 0;
                     $statusClass = $progress >= 100 ? 'done' : ($progress > 0 ? 'progress' : 'plan');
                     $statusLabel = $progress >= 100 ? 'Selesai' : ($progress > 0 ? 'Berjalan' : 'Direncanakan');
-                    $detailUrl = $baseDir . '/proyek/' . rawurlencode($project['slug']);
+                    $detailUrl = 'https://project.desadroid.shop/project/' . rawurlencode($project['slug']);
                 ?>
                 <div class="plist-card" data-reveal>
-                    <a href="<?= htmlspecialchars($detailUrl) ?>" class="plist-card-thumb">
+                    <a href="<?= htmlspecialchars($detailUrl) ?>" target="_blank" class="plist-card-thumb">
                         <img src="<?= htmlspecialchars($imgUrl) ?>" alt="<?= htmlspecialchars($project['title']) ?>" loading="lazy">
                         <span class="plist-card-cat"><?= htmlspecialchars($project['category']) ?></span>
                         <span class="plist-card-status <?= $statusClass ?>"><?= $statusLabel ?></span>
                     </a>
                     <div class="plist-card-body">
-                        <h3 class="plist-card-title"><a href="<?= htmlspecialchars($detailUrl) ?>"><?= htmlspecialchars($project['title']) ?></a></h3>
+                        <h3 class="plist-card-title"><a href="<?= htmlspecialchars($detailUrl) ?>" target="_blank"><?= htmlspecialchars($project['title']) ?></a></h3>
                         <p class="plist-card-desc"><?= htmlspecialchars(mb_strimwidth(strip_tags($project['description'] ?? ''), 0, 95, '…')) ?></p>
                         <div class="plist-progress">
                             <div class="plist-progress-head"><span>Progress</span><strong><?= $progress ?>%</strong></div>
                             <div class="plist-progress-bar"><div class="plist-progress-fill" style="width:<?= $progress ?>%"></div></div>
                         </div>
                         <div class="plist-card-footer">
-                            <a href="<?= htmlspecialchars($detailUrl) ?>" class="plist-btn-detail">Lihat Detail <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                            <a href="<?= htmlspecialchars($detailUrl) ?>" target="_blank" class="plist-btn-detail">Lihat Detail <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
                             <?php if (!empty($project['link'])): ?>
                             <a href="<?= htmlspecialchars($project['link']) ?>" target="_blank" class="plist-btn-live" title="Lihat website"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
                             <?php endif; ?>

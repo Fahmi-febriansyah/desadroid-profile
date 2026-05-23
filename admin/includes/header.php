@@ -349,7 +349,7 @@ $prefix = $is_admin_root ? './' : '../';
             <ul class="sidebar-menu">
                 <li><a href="<?= htmlspecialchars($adminBase) ?>" class="<?= $is_admin_root && $current_page === 'index.php' ? 'active' : '' ?>">📊 Beranda</a></li>
                 <li><a href="<?= htmlspecialchars($adminBase . '/artikel/list') ?>" class="<?= $is_artikel ? 'active' : '' ?>">📝 Artikel</a></li>
-                <li><a href="<?= htmlspecialchars($adminBase . '/project/list') ?>" class="<?= $is_project ? 'active' : '' ?>">🎯 Proyek</a></li>
+                <li><a href="https://project.desadroid.shop/admin" target="_blank">🎯 Proyek</a></li>
                 <li><a href="<?= htmlspecialchars($adminBase . '/client/list') ?>" class="<?= $is_client ? 'active' : '' ?>">⭐ Klien</a></li>
                     <li><a href="<?= htmlspecialchars($adminBase . '/outgoing_letters/list') ?>" class="<?= $is_letters ? 'active' : '' ?>">✉️ Surat Keluar</a></li>
                 <li><a href="<?= htmlspecialchars($adminBase . '/admins/list') ?>" class="<?= $is_admins ? 'active' : '' ?>">👥 Admin</a></li>

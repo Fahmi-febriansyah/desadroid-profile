@@ -83,7 +83,7 @@ if (!empty($metaImage)) {
                 <a href="<?= htmlspecialchars($homeHref) ?>">Beranda</a>
                 <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/tentang' : $baseDirUrl . '/tentang')) ?>">Tentang</a>
                 <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Layanan</a>
-                <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/proyek' : $baseDirUrl . '/proyek')) ?>">Proyek</a>
+                <a href="https://project.desadroid.shop" target="_blank">Proyek</a>
                 <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/artikel' : $baseDirUrl . '/artikel')) ?>">Artikel</a>
                 <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>">Kontak</a>
             </nav>
