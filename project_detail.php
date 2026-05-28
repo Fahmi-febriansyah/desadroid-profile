@@ -22,7 +22,7 @@ $projectLink = 'https://project.desadroid.shop/project/' . urlencode($slug);
                 </p>
             </div>
             <a href="<?= htmlspecialchars($projectLink) ?>" style="display: inline-block; padding: 1rem 2.5rem; background: white; color: #667eea; text-decoration: none; border-radius: 6px; font-weight: 700; font-size: 1rem; transition: all 0.3s; border: none; cursor: pointer;" onmouseover="this.style.transform='translateY(-3px)'; this.style.boxShadow='0 10px 25px rgba(0,0,0,0.2)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
-                👉 Lihat Detail Proyek →
+                 Lihat Detail Proyek
             </a>
             <p style="margin-top: 2rem; font-size: 0.9rem; color: rgba(255,255,255,0.8);">
                 Jika tidak dialihkan otomatis, klik tombol di atas
