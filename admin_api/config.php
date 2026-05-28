@@ -16,9 +16,9 @@ define('DB_PASS', 'desadroid123'); // Or '' locally
 
 // Database Names
 define('DB_PORTFOLIO', 'desadroi_desadroid_portfolio'); // desadroid_portfolio on local? Using what we found earlier. Wait, SHOW DATABASES showed "desadroid_portfolio" and "proyekdesa".
-// Let's use the actual local names from SHOW DATABASES
-define('DB_PORTFOLIO_LOCAL', 'desadroid_portfolio');
-define('DB_PROYEK_LOCAL', 'proyekdesa');
+// Let's use the actual live names from cPanel
+define('DB_PORTFOLIO_LOCAL', 'desadroi_desadroid_portfolio');
+define('DB_PROYEK_LOCAL', 'desadroi_proyekdesa');
 
 try {
     // Connect to Portfolio DB
