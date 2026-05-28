@@ -6,7 +6,7 @@ $action = $_GET['action'] ?? '';
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         if ($action === 'list_articles') {
-            $stmt = $pdo_portofolio->query("SELECT id, title, category, status, views, created_at FROM articles ORDER BY created_at DESC");
+            $stmt = $pdo_portofolio->query("SELECT id, title, category, status, views, created_at, featured_image FROM articles ORDER BY created_at DESC");
             $articles = $stmt->fetchAll();
             echo json_encode(['status' => 'success', 'data' => $articles]);
         } 
