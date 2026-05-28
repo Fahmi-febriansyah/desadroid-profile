@@ -24,7 +24,15 @@ try {
     }
     
     elseif ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $data = json_decode(file_get_contents('php://input'), true);
+        // We now support both JSON and multipart/form-data
+        $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
+        
+        $data = [];
+        if (strpos($contentType, 'application/json') !== false) {
+            $data = json_decode(file_get_contents('php://input'), true);
+        } else {
+            $data = $_POST; // For multipart/form-data
+        }
         
         if ($action === 'create_article') {
             $title = $data['title'] ?? '';
@@ -33,19 +41,30 @@ try {
             $content = $data['content'] ?? '';
             $status = $data['status'] ?? 'draft';
             
-            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (title, slug, category, excerpt, content, status, views, created_at) VALUES (?, ?, ?, ?, ?, ?, 0, NOW())");
-            // Simple slug generator for now
+            // Handle image upload
+            $featured_image = '';
+            if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = '../uploads/'; // Ensure this folder exists in your public_html
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                $fileName = time() . '_' . basename($_FILES['featured_image']['name']);
+                $targetFilePath = $uploadDir . $fileName;
+                if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $targetFilePath)) {
+                    $featured_image = 'uploads/' . $fileName;
+                }
+            }
+            
+            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (title, slug, category, excerpt, content, featured_image, status, views, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 0, NOW())");
             $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
             
-            $stmt->execute([$title, $slug, $category, $excerpt, $content, $status]);
+            $stmt->execute([$title, $slug, $category, $excerpt, $content, $featured_image, $status]);
             echo json_encode(['status' => 'success', 'message' => 'Article created successfully']);
         }
-    }
-    
-    elseif ($_SERVER['REQUEST_METHOD'] === 'PUT') {
-        $data = json_decode(file_get_contents('php://input'), true);
         
-        if ($action === 'update_article') {
+        elseif ($action === 'update_article') {
+            // Note: HTML forms only support POST/GET natively. React Native fetch can send PUT with FormData, but PHP doesn't populate $_POST/$_FILES for PUT requests natively.
+            // So for updates with images, we send a POST request with action=update_article
             $id = $data['id'] ?? 0;
             $title = $data['title'] ?? '';
             $category = $data['category'] ?? '';
@@ -53,8 +72,27 @@ try {
             $content = $data['content'] ?? '';
             $status = $data['status'] ?? 'draft';
             
-            $stmt = $pdo_portofolio->prepare("UPDATE articles SET title = ?, category = ?, excerpt = ?, content = ?, status = ?, updated_at = NOW() WHERE id = ?");
-            $stmt->execute([$title, $category, $excerpt, $content, $status, $id]);
+            // Get existing image
+            $stmt = $pdo_portofolio->prepare("SELECT featured_image FROM articles WHERE id = ?");
+            $stmt->execute([$id]);
+            $existing = $stmt->fetch();
+            $featured_image = $existing ? $existing['featured_image'] : '';
+            
+            // Handle new image upload if provided
+            if (isset($_FILES['featured_image']) && $_FILES['featured_image']['error'] === UPLOAD_ERR_OK) {
+                $uploadDir = '../uploads/';
+                if (!is_dir($uploadDir)) {
+                    mkdir($uploadDir, 0777, true);
+                }
+                $fileName = time() . '_' . basename($_FILES['featured_image']['name']);
+                $targetFilePath = $uploadDir . $fileName;
+                if (move_uploaded_file($_FILES['featured_image']['tmp_name'], $targetFilePath)) {
+                    $featured_image = 'uploads/' . $fileName;
+                }
+            }
+            
+            $stmt = $pdo_portofolio->prepare("UPDATE articles SET title = ?, category = ?, excerpt = ?, content = ?, featured_image = ?, status = ?, updated_at = NOW() WHERE id = ?");
+            $stmt->execute([$title, $category, $excerpt, $content, $featured_image, $status, $id]);
             echo json_encode(['status' => 'success', 'message' => 'Article updated successfully']);
         }
     }
