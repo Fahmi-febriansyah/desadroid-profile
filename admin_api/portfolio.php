@@ -55,7 +55,7 @@ try {
                 }
             }
             
-            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (author_id, title, category, excerpt, content, featured_image, status, created_at) VALUES (1, ?, ?, ?, ?, ?, ?, NOW())");
+            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (author_id, title, category, excerpt, content, featured_image, status, created_at) VALUES ((SELECT id FROM admin_users LIMIT 1), ?, ?, ?, ?, ?, ?, NOW())");
             
             $stmt->execute([$title, $category, $excerpt, $content, $featured_image, $status]);
             echo json_encode(['status' => 'success', 'message' => 'Article created successfully']);
