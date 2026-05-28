@@ -55,10 +55,9 @@ try {
                 }
             }
             
-            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (title, slug, category, excerpt, content, featured_image, status, views, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, 0, NOW())");
-            $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', '-', $title)));
+            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (title, category, excerpt, content, featured_image, status, created_at) VALUES (?, ?, ?, ?, ?, ?, NOW())");
             
-            $stmt->execute([$title, $slug, $category, $excerpt, $content, $featured_image, $status]);
+            $stmt->execute([$title, $category, $excerpt, $content, $featured_image, $status]);
             echo json_encode(['status' => 'success', 'message' => 'Article created successfully']);
         }
         

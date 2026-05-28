@@ -3,11 +3,10 @@
     Deny from all
 </Files>
 
-# Prevent indexing of specific directories
+# Prevent indexing of specific directories safely in .htaccess
 <IfModule mod_headers.c>
-    <DirectoryMatch "^/(psikologi|sistempakar)(/.*)?$">
-        Header set X-Robots-Tag "noindex, nofollow"
-    </DirectoryMatch>
+    SetEnvIf Request_URI "^/(psikologi|sistempakar)(/.*)?$" NOINDEX_DIR
+    Header set X-Robots-Tag "noindex, nofollow" env=NOINDEX_DIR
 </IfModule>
 
 Options -MultiViews
