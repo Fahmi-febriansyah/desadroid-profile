@@ -55,9 +55,15 @@ try {
                 }
             }
             
-            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (author_id, title, category, excerpt, content, featured_image, status, created_at) VALUES ((SELECT id FROM admin_users LIMIT 1), ?, ?, ?, ?, ?, ?, NOW())");
+            function createSlug($str, $delimiter = '-') {
+                $slug = strtolower(trim(preg_replace('/[^A-Za-z0-9-]+/', $delimiter, preg_replace('/[\s-]+/', $delimiter, preg_replace('/[^A-Za-z0-9\s-]/', '', $str)))));
+                return $slug ?: 'article-' . time();
+            }
+            $slug = createSlug($title);
             
-            $stmt->execute([$title, $category, $excerpt, $content, $featured_image, $status]);
+            $stmt = $pdo_portofolio->prepare("INSERT INTO articles (author_id, title, slug, category, excerpt, content, featured_image, status, created_at) VALUES ((SELECT id FROM admin_users LIMIT 1), ?, ?, ?, ?, ?, ?, ?, NOW())");
+            
+            $stmt->execute([$title, $slug, $category, $excerpt, $content, $featured_image, $status]);
             echo json_encode(['status' => 'success', 'message' => 'Article created successfully']);
         }
         
