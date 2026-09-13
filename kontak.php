@@ -8,6 +8,13 @@ include 'partials/header.php';
 <?php 
 $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); 
 if ($baseDir === '/') $baseDir = ''; 
+
+if (empty($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
+$csrf_token = $_SESSION['csrf_token'];
+$form_flash = $_SESSION['contact_flash'] ?? null;
+unset($_SESSION['contact_flash']);
 ?>
 
 <!-- Contact Hero -->
@@ -20,7 +27,7 @@ if ($baseDir === '/') $baseDir = '';
 </section>
 
 <!-- Contact Content -->
-<section class="contact-page bg-light" data-reveal>
+<section class="contact-page bg-light" id="contact" data-reveal>
     <div class="container">
         <div class="contact-split">
             <div class="contact-text">
@@ -60,27 +67,58 @@ if ($baseDir === '/') $baseDir = '';
                 <div class="social-contact mt-4">
                     <h4>Ikuti Kami</h4>
                     <div class="social-links">
-                        <!-- Standard social links as defined in footer could be repeated here or just kept simple -->
-                        <a href="https://github.com/Fahmi-febriansyah" class="social-btn" target="_blank">GitHub</a>
-                        <a href="https://www.linkedin.com/in/fahmifebriansyah/" class="social-btn" target="_blank">LinkedIn</a>
-                        <a href="https://www.instagram.com/desadroiditconsultant/" class="social-btn" target="_blank">Instagram</a>
+                        <a href="https://github.com/Fahmi-febriansyah" class="social-btn" target="_blank" rel="noopener">GitHub</a>
+                        <a href="https://www.linkedin.com/in/fahmifebriansyah/" class="social-btn" target="_blank" rel="noopener">LinkedIn</a>
+                        <a href="https://www.instagram.com/desadroiditconsultant/" class="social-btn" target="_blank" rel="noopener">Instagram</a>
                     </div>
                 </div>
             </div>
             
             <div class="contact-form-card">
+                <?php if ($form_flash): ?>
+                <div class="form-alert <?= $form_flash['type'] === 'success' ? 'form-alert-success' : 'form-alert-error' ?>">
+                    <div class="form-alert-icon">
+                        <?php if ($form_flash['type'] === 'success'): ?>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <?php else: ?>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                        <?php endif; ?>
+                    </div>
+                    <div>
+                        <strong><?= htmlspecialchars($form_flash['title'] ?? '') ?></strong>
+                        <p><?= htmlspecialchars($form_flash['message'] ?? '') ?></p>
+                    </div>
+                </div>
+                <?php endif; ?>
+
                 <form method="post" action="<?= htmlspecialchars($baseDir . '/send_message.php') ?>">
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
+                    <input type="hidden" name="form_load_time" value="<?= time() ?>">
+                    <!-- Honeypot anti-spam trap field -->
+                    <div style="position: absolute; left: -9999px; top: -9999px; opacity: 0; pointer-events: none;" aria-hidden="true">
+                        <label for="website_hp_page">Website Security</label>
+                        <input type="text" id="website_hp_page" name="website_hp" tabindex="-1" autocomplete="off">
+                    </div>
+
                     <div class="form-group">
                         <label for="name">Nama Lengkap</label>
-                        <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required>
+                        <input type="text" id="name" name="name" placeholder="Masukkan nama Anda" required maxlength="100">
                     </div>
                     <div class="form-group">
                         <label for="email">Alamat Email</label>
-                        <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required>
+                        <input type="email" id="email" name="email" placeholder="Masukkan email Anda" required maxlength="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Nomor Telepon / WhatsApp</label>
+                        <input type="text" id="phone" name="phone" placeholder="Contoh: 081234567890" maxlength="25">
                     </div>
                     <div class="form-group">
                         <label for="message">Pesan Anda</label>
-                        <textarea id="message" name="message" rows="5" placeholder="Ceritakan kebutuhan proyek atau pertanyaan Anda" required></textarea>
+                        <textarea id="message" name="message" rows="5" placeholder="Ceritakan kebutuhan proyek atau pertanyaan Anda" required maxlength="3000"></textarea>
+                    </div>
+                    <div class="form-security-badge">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        <span>Enkripsi SSL 256-bit & Proteksi Anti-Spam CSRF Aktif</span>
                     </div>
                     <button type="submit" class="btn primary btn-submit">Kirim Pesan Sekarang</button>
                 </form>
