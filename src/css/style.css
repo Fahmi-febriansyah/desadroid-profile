@@ -1316,3 +1316,87 @@ section{padding:80px 0}
     left: -15px;
     z-index: 2;
 }
+
+/* Vision & Mission Section */
+.about-vision-section{
+    padding: 85px 0;
+}
+.vision-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+.vision-card{
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 18px;
+    padding: 2.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    transition: all 0.3s;
+}
+.vision-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 15px 35px rgba(37,99,235,0.06);
+    border-color: rgba(37,99,235,0.25);
+}
+.vision-icon{
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    background: rgba(37,99,235,0.08);
+    color: var(--accent1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+.vision-card h3{
+    font-size: 1.35rem;
+    margin-bottom: 0.85rem;
+}
+.vision-card p{
+    color: var(--text2);
+    line-height: 1.7;
+    margin: 0;
+    font-size: 0.98rem;
+}
+
+/* Service Features & CTA Link */
+.service-features{
+    list-style: none;
+    margin: 1.25rem 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+.service-features li{
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.88rem;
+    color: var(--text2);
+}
+.service-features li svg{
+    color: #10b981;
+    flex-shrink: 0;
+}
+.service-link-cta{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--accent1);
+    transition: all 0.2s ease;
+}
+.service-link-cta:hover{
+    color: var(--accent2);
+    transform: translateX(4px);
+}
+
+@media(max-width: 768px){
+    .vision-grid{
+        grid-template-columns: 1fr;
+    }
+}

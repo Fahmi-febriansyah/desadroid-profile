@@ -4,8 +4,10 @@ require_once 'config/db.php';
 $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseDir === '/') $baseDir = '';
 
-$pageTitle = 'Blog & Artikel — Desadroid IT Consultant';
-$metaDescription = 'Baca artikel teknologi terbaru dari tim Desadroid: tips pengembangan web, mobile, desain UI/UX, dan tren industri digital.';
+$pageTitle = 'Blog & Artikel Teknologi — Desadroid IT Consultant Bogor';
+$metaDescription = 'Kumpulan artikel, panduan pengembangan web modern, arsitektur software, dan insight teknologi digital dari konsultan IT Desadroid di Bogor.';
+$metaKeywords = 'blog teknologi bogor, artikel web developer, tips website bisnis, it consultant bogor, desadroid blog, jasa web bogor';
+$metaImage = 'src/img/DESADROID.jpg';
 
 try {
     $articles = $pdo->query('SELECT * FROM articles WHERE status="published" ORDER BY published_date DESC')->fetchAll();

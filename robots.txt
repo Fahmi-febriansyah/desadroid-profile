@@ -1,28 +1,66 @@
 # robots.txt for desadroid.shop
-# Allow search engines to index public site while blocking admin and sensitive paths.
+# Comprehensive crawler instructions for Googlebot, Bingbot & Search Crawlers
 
-# Host and sitemap (Sitemap line is standard; Host is optional/non-standard but sometimes used)
-Host: desadroid.shop
-Sitemap: https://desadroid.shop/sitemap.xml
+User-agent: Googlebot
+Allow: /
+Allow: /src/
+Allow: /uploads/articles/
+Allow: /uploads/projects/
+Allow: /uploads/testimonials/
+Disallow: /admin/
+Disallow: /admin_api/
+Disallow: /config/
+Disallow: /vendor/
+Disallow: /signatures/
+Disallow: /uploads/letters/
+Disallow: /uploads/signatures/
+Disallow: /psikologi/
+Disallow: /sistempakar/
+
+User-agent: Googlebot-Image
+Allow: /src/img/
+Allow: /src/icon/
+Allow: /uploads/articles/
+Allow: /uploads/projects/
+Allow: /uploads/testimonials/
+Disallow: /uploads/letters/
+Disallow: /uploads/signatures/
+
+User-agent: Bingbot
+Allow: /
+Allow: /src/
+Allow: /uploads/articles/
+Allow: /uploads/projects/
+Allow: /uploads/testimonials/
+Disallow: /admin/
+Disallow: /admin_api/
+Disallow: /config/
+Disallow: /vendor/
+Disallow: /signatures/
+Disallow: /uploads/letters/
+Disallow: /uploads/signatures/
+Disallow: /psikologi/
+Disallow: /sistempakar/
 
 User-agent: *
-# Allow main assets so crawlers can render pages (important for Mobile-first indexing)
+Allow: /
 Allow: /src/css/
 Allow: /src/js/
 Allow: /src/img/
 Allow: /src/icon/
-
-# Prefer crawling pretty URLs; block admin and backend folders
+Allow: /uploads/articles/
+Allow: /uploads/projects/
+Allow: /uploads/testimonials/
 Disallow: /admin/
-Disallow: /vendor/
+Disallow: /admin_api/
 Disallow: /config/
-Disallow: /uploads/
+Disallow: /vendor/
 Disallow: /signatures/
+Disallow: /uploads/letters/
+Disallow: /uploads/signatures/
 Disallow: /psikologi/
 Disallow: /sistempakar/
+Disallow: /scratch/
 
-# Give search engines a friendly crawl pace
-Crawl-delay: 5
-
-# Sitemap location (again for clarity)
+# Official XML Sitemap
 Sitemap: https://desadroid.shop/sitemap.xml

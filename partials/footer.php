@@ -17,8 +17,8 @@ if (!empty($baseDirSegments)) {
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section about">
-                    <h4>desadroid</h4>
-                    <p>Menciptakan solusi digital inovatif yang mengubah bisnis dan menyenangkan pengguna.</p>
+                    <div class="logo mb-2" style="font-size: 1.5rem;"><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/' : $baseDirUrl . '/')) ?>">desadroid</a></div>
+                    <p>Studio Teknologi &amp; IT Consultant profesional berbasis di Bogor. Kami merancang website modern, aplikasi mobile berkinerja tinggi, dan sistem kustom yang siap mengakselerasi skala bisnis Anda.</p>
                     <div class="social">
                         <a href="https://github.com/Fahmi-febriansyah" aria-label="GitHub" class="social-link" target="_blank" rel="noopener">GitHub</a>
                         <a href="https://www.linkedin.com/in/fahmifebriansyah/" aria-label="LinkedIn" class="social-link" target="_blank" rel="noopener">LinkedIn</a>
@@ -26,36 +26,37 @@ if (!empty($baseDirSegments)) {
                     </div>
                 </div>
                 <div class="footer-section">
-                    <h5>Company</h5>
+                    <h5>Perusahaan</h5>
                     <ul>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/tentang' : $baseDirUrl . '/tentang')) ?>">About</a></li>
-                        <li><a href="#">Team</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>">Contact</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/tentang' : $baseDirUrl . '/tentang')) ?>">Tentang Kami</a></li>
+                        <li><a href="https://project.desadroid.shop" target="_blank">Portofolio Proyek</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/artikel' : $baseDirUrl . '/artikel')) ?>">Blog &amp; Insight</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>">Hubungi Kami</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/privacy.php' : $baseDirUrl . '/privacy.php')) ?>">Kebijakan Privasi</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h5>Services</h5>
+                    <h5>Layanan Unggulan</h5>
                     <ul>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Web Development</a></li>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Mobile Apps</a></li>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">UI/UX Design</a></li>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Consulting</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Jasa Pembuatan Website</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Pengembangan Aplikasi Mobile</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Desain UI/UX &amp; Prototyping</a></li>
+                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>">Konsultasi IT &amp; Cloud Architecture</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
-                    <h5>Resources</h5>
-                    <ul>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/artikel' : $baseDirUrl . '/artikel')) ?>">Blog</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">Support</a></li>
-                        <li><a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/privacy.php' : $baseDirUrl . '/privacy.php')) ?>">Privacy Policy</a></li>
+                    <h5>Lokasi &amp; Kontak</h5>
+                    <ul style="color: var(--text2); font-size: 0.92rem; line-height: 1.6;">
+                        <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text);">Kantor:</strong> Cikeas Udik, Kabupaten Bogor, Jawa Barat</li>
+                        <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text);">Email:</strong> <a href="mailto:consulting@desadroid.shop">consulting@desadroid.shop</a></li>
+                        <li style="margin-bottom: 0.5rem;"><strong style="color: var(--text);">WhatsApp:</strong> <a href="https://wa.me/6289669709021" target="_blank">+62 896 6970 9021</a></li>
+                        <li><strong style="color: var(--text);">Jam Kerja:</strong> Sen - Jum 09:00 - 18:00 WIB</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <div>&copy; 2026 desadroid. All rights reserved.</div>
-                <div>Made with care in Indonesia</div>
+                <div>&copy; 2026 Desadroid. All rights reserved.</div>
+                <div>Mitra Inovasi Digital &amp; IT Consultant Bogor, Jawa Barat</div>
             </div>
         </div>
     </footer>

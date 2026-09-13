@@ -1,10 +1,10 @@
 <?php
 require_once 'config/db.php';
-$pageTitle = 'Layanan - Desadroid';
-$metaDescription = 'Temukan solusi digital terbaik dari Desadroid, mulai dari Web Development, Mobile Apps, hingga desain UI/UX kelas dunia.';
-include 'partials/header.php'; 
-?>
-<?php 
+$pageTitle = 'Layanan IT & Jasa Pembuatan Web Bogor — Desadroid';
+$metaDescription = 'Solusi teknologi terpadu dari Desadroid di Bogor: Jasa Pembuatan Website, Aplikasi Mobile, UI/UX Design, Arsitektur Sistem, dan Konsultasi IT Profesional.';
+$metaKeywords = 'layanan it bogor, jasa pembuatan web bogor, it consultant bogor, bikin website bogor, developer aplikasi bogor, web developer bogor';
+$metaImage = 'src/img/DESADROID.jpg';
+
 $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); 
 if ($baseDir === '/') $baseDir = ''; 
 $baseDirSegments = array_filter(explode('/', ltrim($baseDir, '/')), function($s){ return $s !== ''; }); 
@@ -13,24 +13,38 @@ if (!empty($baseDirSegments)) {
     $baseDirUrl = '/' . implode('/', array_map('rawurlencode', $baseDirSegments)); 
 } 
 
+include 'partials/header.php'; 
+
 try {
     $services_query = $pdo->query('SELECT * FROM services ORDER BY id ASC');
     $services = $services_query->fetchAll();
 } catch (Exception $e) {
     $services = [];
 }
+
+$serviceFeatures = [
+    ['Desain Responsif & Modern', 'SEO On-Page & Kecepatan Tinggi', 'Panel Admin / CMS Kustom'],
+    ['Android & iOS (Flutter / Native)', 'UI Interaktif & Performa Mulus', 'Integrasi API & Push Notifikasi'],
+    ['Riset UX & User Persona', 'Figma Design System Komprehensif', 'Prototipe Interaktif Siap Uji'],
+    ['RESTful API Berkeamanan Ketat', 'Database Scalable & Teroptimasi', 'Proteksi CSRF, XSS & SQL Injection'],
+    ['Integrasi Payment Gateway Aman', 'Sistem Order & Manajemen Stok', 'Fitur Diskon, Voucher & Laporan'],
+    ['Audit Sistem & Analisis Keamanan', 'Roadmap Arsitektur Teknologi', 'Rekomendasi Efisiensi Server Cloud']
+];
 ?>
 
 <!-- Services Hero -->
 <section class="page-hero text-center" data-reveal>
     <div class="container">
-        <span class="hero-label">Keahlian Kami</span>
-        <h1>Solusi Digital untuk <span class="text-gradient">Skala Bisnis</span> Anda</h1>
-        <p class="hero-subtitle mx-auto">Kami mengombinasikan kreativitas desain dan keandalan teknologi untuk membangun produk digital yang inovatif dan efektif.</p>
+        <div class="hero-badge-tag">
+            <span class="hero-badge-dot"></span>
+            <span>Keahlian &amp; Solusi Teknologi</span>
+        </div>
+        <h1>Solusi Digital Terpadu untuk <span class="gradient-text">Akselerasi Bisnis</span> Anda</h1>
+        <p class="hero-subtitle mx-auto">Kami menggabungkan ketelitian rekayasa piranti lunak dan desain visual berkelas dunia untuk menghasilkan produk digital yang cepat, aman, dan mendatangkan return nyata.</p>
     </div>
 </section>
 
-<!-- Services Grid -->
+<!-- Services Grid Section -->
 <section class="services-list bg-light" data-reveal>
     <div class="container">
         <div class="service-grid-clean">
@@ -46,6 +60,7 @@ try {
                 ];
                 foreach ($services as $index => $service): 
                     $icon = $svgs[$index % count($svgs)];
+                    $pills = $serviceFeatures[$index] ?? ['Kualitas Kode Teruji', 'Dukungan Berkelanjutan', 'Konsultasi Intensif'];
                 ?>
                 <div class="service-card" data-reveal>
                     <div class="icon-box">
@@ -53,6 +68,22 @@ try {
                     </div>
                     <h3><?= htmlspecialchars($service['name']) ?></h3>
                     <p><?= htmlspecialchars($service['description']) ?></p>
+                    
+                    <ul class="service-features">
+                        <?php foreach ($pills as $pill): ?>
+                        <li>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                            <span><?= htmlspecialchars($pill) ?></span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
+                        <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="service-link-cta">
+                            <span>Konsultasikan Kebutuhan Ini</span>
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                        </a>
+                    </div>
                 </div>
                 <?php endforeach; ?>
             <?php else: ?>
@@ -63,33 +94,33 @@ try {
 </section>
 
 <!-- Workflow / Proses Kerja -->
-<section class="workflow-section" data-reveal>
+<section class="workflow-home" data-reveal>
     <div class="container">
         <div class="section-title text-center">
-            <h2>Bagaimana Kami Bekerja?</h2>
-            <p>Pendekatan terstruktur kami memastikan setiap proyek selesai tepat waktu dengan standar kualitas tertinggi.</p>
+            <h2>Metodologi &amp; Alur Kerja Terstruktur</h2>
+            <p>Standar kerja transparan yang menjamin setiap fase proyek selesai tepat waktu dan berstandar enterprise.</p>
         </div>
         
-        <div class="workflow-grid">
-            <div class="workflow-step" data-reveal>
-                <div class="step-number">01</div>
-                <h3>Discovery</h3>
-                <p>Kami mendengarkan visi Anda, menganalisis pasar, dan merumuskan strategi teknis yang paling tepat untuk mencapai tujuan bisnis.</p>
+        <div class="workflow-cards-grid">
+            <div class="process-card-item" data-reveal>
+                <span class="process-step-num">01</span>
+                <h3>Discovery &amp; Strategy</h3>
+                <p>Kami membedah visi bisnis, menganalisis audiens target, dan merumuskan spesifikasi teknis paling efisien.</p>
             </div>
-            <div class="workflow-step" data-reveal>
-                <div class="step-number">02</div>
-                <h3>Design & Prototype</h3>
-                <p>Membuat kerangka kerja UI/UX dan interaksi desain interaktif sebelum menulis satu baris kode pun, memastikan arah desain yang benar.</p>
+            <div class="process-card-item" data-reveal>
+                <span class="process-step-num">02</span>
+                <h3>UI/UX &amp; Architecture</h3>
+                <p>Menyusun wireframe, design system, dan blueprint arsitektur sistem sebelum implementasi kode dimulai.</p>
             </div>
-            <div class="workflow-step" data-reveal>
-                <div class="step-number">03</div>
-                <h3>Development</h3>
-                <p>Proses coding yang agile, membangun frontend interaktif dan backend scalable dengan standar keamanan yang ketat.</p>
+            <div class="process-card-item" data-reveal>
+                <span class="process-step-num">03</span>
+                <h3>Agile Development</h3>
+                <p>Pengembangan kode bersih dengan pengujian berkala, memastikan performa tinggi dan keamanan tanpa celah.</p>
             </div>
-            <div class="workflow-step" data-reveal>
-                <div class="step-number">04</div>
-                <h3>Launch & Support</h3>
-                <p>Peluncuran produk yang mulus dan pemeliharaan berkelanjutan. Kami memastikan produk Anda selalu relevan dan up-to-date.</p>
+            <div class="process-card-item" data-reveal>
+                <span class="process-step-num">04</span>
+                <h3>Deployment &amp; Growth</h3>
+                <p>Peluncuran sistem ke server produksi disertai monitoring berkala, panduan penggunaan, dan garansi pemeliharaan.</p>
             </div>
         </div>
     </div>
@@ -98,9 +129,17 @@ try {
 <!-- CTA -->
 <section class="about-cta bg-light" data-reveal>
     <div class="container text-center">
-        <h2>Punya Ide Brilian?</h2>
-        <p class="mb-4 text-muted mx-auto" style="max-width:500px;">Jadikan ide Anda kenyataan. Tim kami siap memberikan konsultasi gratis.</p>
-        <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="btn primary">Mulai Proyek Bersama</a>
+        <h2>Punya Rencana Proyek Digital yang Ingin Diwujudkan?</h2>
+        <p class="mb-4 text-muted mx-auto" style="max-width: 540px;">Kami siap memberikan konsultasi gratis dan rancangan estimasi biaya yang transparan untuk kebutuhan bisnis Anda.</p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="btn primary">
+                <span>Mulai Konsultasi Gratis</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="https://wa.me/6289669709021" target="_blank" class="btn secondary">
+                <span>Chat via WhatsApp</span>
+            </a>
+        </div>
     </div>
 </section>
 

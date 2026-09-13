@@ -88,6 +88,35 @@ $canonical = $scheme.'://'.$host.$baseDir.'/artikel/'.rawurlencode($article['slu
 ?>
 <?php include 'partials/header.php'; ?>
 
+<!-- Structured Data: BlogPosting Schema for Google Rich Snippets -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "<?= htmlspecialchars($canonical) ?>"
+  },
+  "headline": "<?= htmlspecialchars($article['title']) ?>",
+  "description": "<?= htmlspecialchars($article['excerpt'] ?? '') ?>",
+  "image": "<?= htmlspecialchars($heroImg) ?>",
+  "datePublished": "<?= date('c', strtotime($article['published_date'])) ?>",
+  "dateModified": "<?= date('c', strtotime($article['published_date'])) ?>",
+  "author": {
+    "@type": "Person",
+    "name": "<?= htmlspecialchars($article['author'] ?? 'Tim Desadroid') ?>"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Desadroid",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "<?= htmlspecialchars($scheme . '://' . $host . $baseDir . '/src/icon/icon.png') ?>"
+    }
+  }
+}
+</script>
+
 <!-- Reading Progress Bar -->
 <div class="reading-progress" id="readingProgress"></div>
 
