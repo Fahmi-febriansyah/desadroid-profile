@@ -53,10 +53,10 @@ include 'partials/header.php';
             <div class="hero-text">
                 <div class="hero-badge-tag">
                     <span class="hero-badge-dot"></span>
-                    <span>Mitra Inovasi Digital & Konsultan IT Terpercaya</span>
+                    <span>Tentang Desadroid · Inovasi Digital Sejak 2025</span>
                 </div>
-                <h1>Membangun <span class="gradient-text">Ekosistem Digital</span> Modern, Andal & Skalabel</h1>
-                <p>Kami merancang dan mengembangkan produk digital berkelas tinggi—mulai dari website mutakhir, aplikasi mobile berperforma tinggi, hingga sistem kustom yang siap mengakselerasi pertumbuhan bisnis Anda.</p>
+                <h1>Membangun <span class="gradient-text">Ekosistem Digital</span> yang Berdampak Nyata</h1>
+                <p>Sejak 2025, kami membantu perusahaan dan pelaku bisnis mengubah ide brilian menjadi produk digital yang kuat, andal, dan scalable. Kami bukan sekadar agensi, melainkan mitra inovasi teknologi Anda.</p>
                 <div class="hero-actions">
                     <a href="#contact" class="btn primary">
                         <span>Konsultasi Proyek Gratis</span>
@@ -65,75 +65,42 @@ include 'partials/header.php';
                     <a href="#projects" class="btn secondary">
                         <span>Lihat Portofolio</span>
                     </a>
+                    <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/tentang' : $baseDirUrl . '/tentang')) ?>" class="btn tertiary">
+                        <span>Profil Kami</span>
+                    </a>
                 </div>
                 
-                <!-- Quick Trust Metrics Bar (Authentic & Professional) -->
+                <!-- Quick Trust Metrics Bar (from tentang.php: 100%, 15+, 2025) -->
                 <div class="hero-trust-bar">
                     <div class="trust-item">
-                        <strong>15<span>+</span></strong>
-                        <span class="trust-label">Solusi Digital Berhasil</span>
+                        <strong>100<span>%</span></strong>
+                        <span class="trust-label">Kepuasan Klien</span>
                     </div>
                     <div class="trust-item">
-                        <strong>100<span>%</span></strong>
-                        <span class="trust-label">Kepuasan & Kode Bersih</span>
+                        <strong>15<span>+</span></strong>
+                        <span class="trust-label">Proyek Sukses</span>
                     </div>
                     <div class="trust-item">
                         <strong>2025</strong>
-                        <span class="trust-label">Era Inovasi & Kolaborasi</span>
+                        <span class="trust-label">Tahun Berdiri</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Hero Visual: Tech & System Engine Showcase -->
-            <div class="hero-visual-wrapper">
-                <div class="hero-visual-card">
-                    <div class="hero-card-header">
-                        <div class="window-dots">
-                            <span class="window-dot dot-red"></span>
-                            <span class="window-dot dot-yellow"></span>
-                            <span class="window-dot dot-green"></span>
-                        </div>
-                        <span class="hero-card-title">desadroid-architecture.ts</span>
-                    </div>
-                    <div class="hero-card-body">
-                        <div class="hero-code-block">
-                            <span class="code-token-comment">// Inisialisasi Arsitektur Digital Desadroid</span><br>
-                            <span class="code-token-keyword">const</span> <span class="code-token-class">DesadroidSolution</span> = <span class="code-token-keyword">new</span> <span class="code-token-class">Engine</span>({<br>
-                            &nbsp;&nbsp;client: <span class="code-token-string">"Visi Bisnis Masa Depan Anda"</span>,<br>
-                            &nbsp;&nbsp;stack: [<span class="code-token-string">"PHP 8"</span>, <span class="code-token-string">"Laravel"</span>, <span class="code-token-string">"React"</span>, <span class="code-token-string">"Flutter"</span>],<br>
-                            &nbsp;&nbsp;security: <span class="code-token-string">"Enkripsi SSL + Proteksi CSRF Berlapis"</span>,<br>
-                            &nbsp;&nbsp;speed: <span class="code-token-string">"Ultra-Fast & High Concurrency"</span><br>
-                            });<br><br>
-                            <span class="code-token-keyword">await</span> <span class="code-token-class">DesadroidSolution</span>.<span class="code-token-function">deployProduction</span>();
-                        </div>
-
-                        <div class="hero-dashboard-preview">
-                            <div class="preview-mini-stat">
-                                <span>Sistem Uptime & Reliabilitas</span>
-                                <strong>99.98% Stabil</strong>
-                            </div>
-                            <div class="preview-mini-stat">
-                                <span>Status Keamanan Data</span>
-                                <strong style="color:#10b981;">Terproteksi & Aman</strong>
-                            </div>
-                        </div>
+            <!-- Hero Image: Photo from Tentang (DESADROID.jpg) with Quality Badge -->
+            <div class="hero-image">
+                <?php $imgSrc = (!empty($baseDirUrl) ? $baseDirUrl . '/src/img/DESADROID.jpg' : '/src/img/DESADROID.jpg'); ?>
+                <img src="<?= htmlspecialchars($imgSrc) ?>" alt="Tim Desadroid" class="main-img">
+                <div class="story-card">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                    <div class="card-text">
+                        <strong>Fokus pada Kualitas</strong>
+                        <span>Kode bersih & Desain intuitif</span>
                     </div>
                 </div>
-
-                <!-- Floating Authentic Badges -->
                 <div class="hero-float-badge hero-float-badge-top">
-                    <div class="float-badge-icon badge-icon-blue">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
-                    </div>
-                    <div class="float-badge-text">
-                        <strong>Kecepatan Tinggi</strong>
-                        <span>Arsitektur Modular & Scalable</span>
-                    </div>
-                </div>
-
-                <div class="hero-float-badge hero-float-badge-bottom">
                     <div class="float-badge-icon badge-icon-green">
-                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                     </div>
                     <div class="float-badge-text">
                         <strong>15+ Solusi Sukses</strong>
@@ -223,6 +190,13 @@ include 'partials/header.php';
                     <h3>Garansi & Kemitraan</h3>
                     <p>Kami mendampingi proses bisnis Anda pasca-peluncuran dengan jaminan garansi bug, pemeliharaan sistem, dan konsultasi berkala.</p>
                 </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2.5rem;" data-reveal>
+                <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/tentang' : $baseDirUrl . '/tentang')) ?>" class="btn secondary" style="display: inline-flex; align-items: center; gap: 0.5rem;">
+                    <span>Pelajari Visi & Profil Desadroid Selengkapnya</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </a>
             </div>
         </div>
     </section>
