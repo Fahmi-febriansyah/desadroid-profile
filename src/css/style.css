@@ -1400,3 +1400,171 @@ section{padding:80px 0}
         grid-template-columns: 1fr;
     }
 }
+
+/* ===========================================
+   ERROR PAGES (404, 403, 500)
+   =========================================== */
+.error-page{
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    padding: 100px 0 80px;
+    background: radial-gradient(circle at 50% 30%, rgba(37,99,235,0.06) 0%, transparent 60%);
+    position: relative;
+    overflow: hidden;
+}
+.error-wrapper{
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+.error-visual{
+    position: relative;
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+.error-code{
+    font-size: 8.5rem;
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.05em;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #2563eb 0%, #4f46e5 50%, #8b5cf6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+    user-select: none;
+}
+.error-visual-403 .error-code{
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #b45309 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.error-visual-500 .error-code{
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #991b1b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.error-glow{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(50% 50% at 50% 50%, rgba(37,99,235,0.2) 0%, transparent 100%);
+    filter: blur(50px);
+    pointer-events: none;
+    z-index: -1;
+}
+.error-glow-orange{
+    background: radial-gradient(50% 50% at 50% 50%, rgba(245,158,11,0.25) 0%, transparent 100%);
+}
+.error-glow-red{
+    background: radial-gradient(50% 50% at 50% 50%, rgba(239,68,68,0.25) 0%, transparent 100%);
+}
+.error-badge{
+    position: absolute;
+    bottom: 5px;
+    right: -10px;
+    background: var(--surface);
+    border: 1px solid rgba(37,99,235,0.2);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-radius: 30px;
+    padding: 0.45rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent1);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    backdrop-filter: blur(8px);
+}
+.error-badge-orange{
+    color: #d97706;
+    border-color: rgba(245,158,11,0.3);
+}
+.error-badge-red{
+    color: #dc2626;
+    border-color: rgba(239,68,68,0.3);
+}
+.error-content h1{
+    font-size: 2.3rem;
+    font-weight: 800;
+    line-height: 1.25;
+    margin-bottom: 1.2rem;
+    letter-spacing: -0.02em;
+}
+.error-desc{
+    font-size: 1.1rem;
+    color: var(--text2);
+    line-height: 1.7;
+    max-width: 620px;
+    margin: 0 auto 2.5rem;
+}
+.error-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 3rem;
+}
+.error-actions .btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.85rem 1.8rem;
+    font-size: 0.95rem;
+    border-radius: 10px;
+}
+.error-quick-links{
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-color);
+}
+.quick-links-title{
+    display: block;
+    font-size: 0.88rem;
+    color: var(--text2);
+    margin-bottom: 0.85rem;
+    font-weight: 600;
+}
+.quick-links-pills{
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+.quick-pill{
+    display: inline-block;
+    padding: 0.45rem 1rem;
+    background: var(--surface);
+    border: 1px solid var(--border-color);
+    border-radius: 30px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text2);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.quick-pill:hover{
+    border-color: var(--accent1);
+    color: var(--accent1);
+    background: rgba(37,99,235,0.04);
+    transform: translateY(-2px);
+}
+
+@media(max-width: 768px){
+    .error-page{padding: 80px 0 60px;}
+    .error-code{font-size: 5.8rem;}
+    .error-content h1{font-size: 1.8rem;}
+    .error-desc{font-size: 1rem;}
+    .error-actions{flex-direction: column; width: 100%;}
+    .error-actions .btn{width: 100%; justify-content: center;}
+}
+

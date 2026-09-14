@@ -69,5 +69,11 @@ RewriteRule ^admin/([^/]+)/?$ admin/$1.php [L,QSA]
 RewriteRule ^admin/([^/]+)/([^/]+)/?$ admin/$1/$2.php [L,QSA]
 
 # Generic pretty URLs for top-level pages (e.g. /tentang -> tentang.php)
-# This will only apply when the requested path isn't an existing file/dir (handled above).
+# Only rewrite if the corresponding .php file actually exists
+RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^([A-Za-z0-9-]+)/?$ $1.php [L,QSA]
+
+# Custom Error Documents
+ErrorDocument 404 /404.php
+ErrorDocument 403 /403.php
+ErrorDocument 500 /500.php

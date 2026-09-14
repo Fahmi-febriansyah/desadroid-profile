@@ -61,9 +61,10 @@ if (!empty($metaImage)) {
     <link rel="canonical" href="<?= htmlspecialchars($canonical) ?>">
 
     <!-- Search Bot Directives -->
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <meta name="googlebot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-    <meta name="bingbot" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+    <?php $robotsContent = $metaRobots ?? 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'; ?>
+    <meta name="robots" content="<?= htmlspecialchars($robotsContent) ?>">
+    <meta name="googlebot" content="<?= htmlspecialchars($robotsContent) ?>">
+    <meta name="bingbot" content="<?= htmlspecialchars($robotsContent) ?>">
 
     <!-- Regional & Local SEO Tags (Bogor, Jawa Barat) -->
     <meta name="geo.region" content="ID-JB">

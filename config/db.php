@@ -29,7 +29,8 @@ try {
             ]
         );
     } catch (PDOException $ex) {
-        die('Database Error: ' . $ex->getMessage());
+        error_log('Database Error: ' . $ex->getMessage());
+        $pdo = null;
     }
 }
 

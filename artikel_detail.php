@@ -9,7 +9,7 @@ $allArticles = [];
 $baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
 if ($baseDir === '/') $baseDir = '';
 
-if ($slug) {
+if ($slug && $pdo) {
 
 $stmt = $pdo->prepare("SELECT * FROM articles WHERE slug=? AND status='published'");
 $stmt->execute([$slug]);
@@ -38,8 +38,9 @@ WHERE status='published'
 }
 
 if (!$article) {
-echo "Artikel tidak ditemukan";
-exit;
+    http_response_code(404);
+    include __DIR__ . '/404.php';
+    exit;
 }
 
 $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
