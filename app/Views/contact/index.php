@@ -1,23 +1,3 @@
-<?php
-require_once 'config/db.php';
-$pageTitle = 'Hubungi Kami & Konsultasi IT Bogor — Desadroid';
-$metaDescription = 'Hubungi tim Desadroid di Bogor untuk konsultasi proyek pembuatan website, aplikasi mobile, maupun arsitektur sistem. Respons cepat dan ramah.';
-$metaKeywords = 'kontak desadroid, it consultant bogor, jasa pembuatan web bogor, konsultasi it bogor, kantor desadroid bogor, whatsapp desadroid';
-$metaImage = 'src/img/DESADROID.jpg';
-
-$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); 
-if ($baseDir === '/') $baseDir = ''; 
-
-if (empty($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-}
-$csrf_token = $_SESSION['csrf_token'];
-$form_flash = $_SESSION['contact_flash'] ?? null;
-unset($_SESSION['contact_flash']);
-
-include 'partials/header.php'; 
-?>
-
 <!-- Contact Hero Section -->
 <section class="page-hero text-center" data-reveal>
     <div class="container">
@@ -55,7 +35,7 @@ include 'partials/header.php';
                         </div>
                         <div>
                             <h4>Telepon / WhatsApp</h4>
-                            <p><a href="https://wa.me/6289669709021" target="_blank" style="color: var(--accent1); font-weight: 600;">+62 896 6970 9021 (Respon Cepat)</a></p>
+                            <p><a href="https://wa.me/6289669709021" target="_blank" rel="noopener" style="color: var(--accent1); font-weight: 600;">+62 896 6970 9021 (Respon Cepat)</a></p>
                         </div>
                     </div>
                     <div class="detail-item">
@@ -89,7 +69,7 @@ include 'partials/header.php';
             </div>
             
             <div class="contact-form-card">
-                <?php if ($form_flash): ?>
+                <?php if (!empty($form_flash)): ?>
                 <div class="form-alert <?= $form_flash['type'] === 'success' ? 'form-alert-success' : 'form-alert-error' ?>">
                     <div class="form-alert-icon">
                         <?php if ($form_flash['type'] === 'success'): ?>
@@ -105,7 +85,7 @@ include 'partials/header.php';
                 </div>
                 <?php endif; ?>
 
-                <form method="post" action="<?= htmlspecialchars($baseDir . '/send_message.php') ?>">
+                <form method="post" action="<?= htmlspecialchars(($baseDirUrl ?: '') . '/send-message') ?>">
                     <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf_token) ?>">
                     <input type="hidden" name="form_load_time" value="<?= time() ?>">
                     <!-- Honeypot anti-spam trap field (invisible to real users) -->
@@ -153,5 +133,3 @@ include 'partials/header.php';
         </div>
     </div>
 </section>
-
-<?php include 'partials/footer.php'; ?>

@@ -1,37 +1,3 @@
-<?php
-require_once 'config/db.php';
-$pageTitle = 'Layanan IT & Jasa Pembuatan Web Bogor — Desadroid';
-$metaDescription = 'Solusi teknologi terpadu dari Desadroid di Bogor: Jasa Pembuatan Website, Aplikasi Mobile, UI/UX Design, Arsitektur Sistem, dan Konsultasi IT Profesional.';
-$metaKeywords = 'layanan it bogor, jasa pembuatan web bogor, it consultant bogor, bikin website bogor, developer aplikasi bogor, web developer bogor';
-$metaImage = 'src/img/DESADROID.jpg';
-
-$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); 
-if ($baseDir === '/') $baseDir = ''; 
-$baseDirSegments = array_filter(explode('/', ltrim($baseDir, '/')), function($s){ return $s !== ''; }); 
-$baseDirUrl = ''; 
-if (!empty($baseDirSegments)) { 
-    $baseDirUrl = '/' . implode('/', array_map('rawurlencode', $baseDirSegments)); 
-} 
-
-include 'partials/header.php'; 
-
-try {
-    $services_query = $pdo->query('SELECT * FROM services ORDER BY id ASC');
-    $services = $services_query->fetchAll();
-} catch (Exception $e) {
-    $services = [];
-}
-
-$serviceFeatures = [
-    ['Desain Responsif & Modern', 'SEO On-Page & Kecepatan Tinggi', 'Panel Admin / CMS Kustom'],
-    ['Android & iOS (Flutter / Native)', 'UI Interaktif & Performa Mulus', 'Integrasi API & Push Notifikasi'],
-    ['Riset UX & User Persona', 'Figma Design System Komprehensif', 'Prototipe Interaktif Siap Uji'],
-    ['RESTful API Berkeamanan Ketat', 'Database Scalable & Teroptimasi', 'Proteksi CSRF, XSS & SQL Injection'],
-    ['Integrasi Payment Gateway Aman', 'Sistem Order & Manajemen Stok', 'Fitur Diskon, Voucher & Laporan'],
-    ['Audit Sistem & Analisis Keamanan', 'Roadmap Arsitektur Teknologi', 'Rekomendasi Efisiensi Server Cloud']
-];
-?>
-
 <!-- Services Hero -->
 <section class="page-hero text-center" data-reveal>
     <div class="container">
@@ -79,7 +45,7 @@ $serviceFeatures = [
                     </ul>
 
                     <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--border-color);">
-                        <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="service-link-cta">
+                        <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/kontak') ?>" class="service-link-cta">
                             <span>Konsultasikan Kebutuhan Ini</span>
                             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
                         </a>
@@ -132,15 +98,13 @@ $serviceFeatures = [
         <h2>Punya Rencana Proyek Digital yang Ingin Diwujudkan?</h2>
         <p class="mb-4 text-muted mx-auto" style="max-width: 540px;">Kami siap memberikan konsultasi gratis dan rancangan estimasi biaya yang transparan untuk kebutuhan bisnis Anda.</p>
         <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="btn primary">
+            <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/kontak') ?>" class="btn primary">
                 <span>Mulai Konsultasi Gratis</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
-            <a href="https://wa.me/6289669709021" target="_blank" class="btn secondary">
+            <a href="https://wa.me/6289669709021" target="_blank" rel="noopener" class="btn secondary">
                 <span>Chat via WhatsApp</span>
             </a>
         </div>
     </div>
 </section>
-
-<?php include 'partials/footer.php'; ?>

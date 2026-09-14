@@ -8,7 +8,7 @@ Allow: /uploads/articles/
 Allow: /uploads/projects/
 Allow: /uploads/testimonials/
 Disallow: /admin/
-Disallow: /admin_api/
+Disallow: /app/
 Disallow: /config/
 Disallow: /vendor/
 Disallow: /signatures/
@@ -33,7 +33,7 @@ Allow: /uploads/articles/
 Allow: /uploads/projects/
 Allow: /uploads/testimonials/
 Disallow: /admin/
-Disallow: /admin_api/
+Disallow: /app/
 Disallow: /config/
 Disallow: /vendor/
 Disallow: /signatures/
@@ -52,7 +52,7 @@ Allow: /uploads/articles/
 Allow: /uploads/projects/
 Allow: /uploads/testimonials/
 Disallow: /admin/
-Disallow: /admin_api/
+Disallow: /app/
 Disallow: /config/
 Disallow: /vendor/
 Disallow: /signatures/
@@ -60,7 +60,6 @@ Disallow: /uploads/letters/
 Disallow: /uploads/signatures/
 Disallow: /psikologi/
 Disallow: /sistempakar/
-Disallow: /scratch/
 
 # Official XML Sitemap
 Sitemap: https://desadroid.shop/sitemap.xml

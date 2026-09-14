@@ -1,40 +1,8 @@
-<?php
-require_once 'config/db.php';
-
-$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-if ($baseDir === '/') $baseDir = '';
-
-$pageTitle = 'Blog & Artikel Teknologi — Desadroid IT Consultant Bogor';
-$metaDescription = 'Kumpulan artikel, panduan pengembangan web modern, arsitektur software, dan insight teknologi digital dari konsultan IT Desadroid di Bogor.';
-$metaKeywords = 'blog teknologi bogor, artikel web developer, tips website bisnis, it consultant bogor, desadroid blog, jasa web bogor';
-$metaImage = 'src/img/DESADROID.jpg';
-
-try {
-    $articles = $pdo->query('SELECT * FROM articles WHERE status="published" ORDER BY published_date DESC')->fetchAll();
-} catch (Exception $e) {
-    $articles = [];
-}
-
-// Unique categories
-$categories = ['Semua'];
-foreach ($articles as $a) {
-    if (!empty($a['category']) && !in_array($a['category'], $categories)) {
-        $categories[] = $a['category'];
-    }
-}
-
-// Featured = first article
-$featured = !empty($articles) ? $articles[0] : null;
-$rest = !empty($articles) ? array_slice($articles, 1) : [];
-
-include 'partials/header.php';
-?>
-
 <!-- Page Header -->
 <section class="alist-header">
     <div class="container">
         <nav class="alist-breadcrumb">
-            <a href="<?= $baseDir ?: '/' ?>">Beranda</a>
+            <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/') ?>">Beranda</a>
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
             <span>Artikel</span>
         </nav>
@@ -59,9 +27,9 @@ include 'partials/header.php';
 
 <?php if ($featured): ?>
 <?php
-    $fUrl  = $baseDir . '/artikel/' . rawurlencode($featured['slug']);
+    $fUrl  = ($baseDirUrl ?: '') . '/artikel/' . rawurlencode($featured['slug']);
     $fImg  = !empty($featured['featured_image'])
-           ? (preg_match('/^https?:\/\//', $featured['featured_image']) ? $featured['featured_image'] : $baseDir . '/' . ltrim($featured['featured_image'], '/'))
+           ? (preg_match('/^https?:\/\//', $featured['featured_image']) ? $featured['featured_image'] : ($baseDirUrl ?: '') . '/' . ltrim($featured['featured_image'], '/'))
            : "https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=1200&q=80";
 ?>
 <!-- Featured Article -->
@@ -112,9 +80,9 @@ include 'partials/header.php';
         <div class="alist-grid" id="alist-grid">
             <?php foreach ($rest as $article): ?>
             <?php
-                $aUrl = $baseDir . '/artikel/' . rawurlencode($article['slug']);
+                $aUrl = ($baseDirUrl ?: '') . '/artikel/' . rawurlencode($article['slug']);
                 $aImg = !empty($article['featured_image'])
-                      ? (preg_match('/^https?:\/\//', $article['featured_image']) ? $article['featured_image'] : $baseDir . '/' . ltrim($article['featured_image'], '/'))
+                      ? (preg_match('/^https?:\/\//', $article['featured_image']) ? $article['featured_image'] : ($baseDirUrl ?: '') . '/' . ltrim($article['featured_image'], '/'))
                       : "https://images.unsplash.com/photo-1542435503-ec7b0f197a62?w=600&q=80";
             ?>
             <article class="alist-card" data-reveal data-cat="<?= htmlspecialchars($article['category']) ?>">
@@ -180,5 +148,3 @@ include 'partials/header.php';
     });
 })();
 </script>
-
-<?php include 'partials/footer.php'; ?>

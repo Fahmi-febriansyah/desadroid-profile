@@ -1,22 +1,3 @@
-<?php
-http_response_code(404);
-
-
-$pageTitle = '404 — Halaman Tidak Ditemukan | Desadroid';
-$metaDescription = 'Maaf, halaman yang Anda cari tidak dapat ditemukan atau mungkin telah dipindahkan.';
-$metaRobots = 'noindex, follow';
-
-$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\');
-if ($baseDir === '/') $baseDir = '';
-$baseDirSegments = array_filter(explode('/', ltrim($baseDir, '/')), function($s){ return $s !== ''; });
-$baseDirUrl = '';
-if (!empty($baseDirSegments)) {
-    $baseDirUrl = '/' . implode('/', array_map('rawurlencode', $baseDirSegments));
-}
-
-include __DIR__ . '/partials/header.php';
-?>
-
 <section class="error-page" data-reveal>
     <div class="container">
         <div class="error-wrapper">
@@ -37,14 +18,14 @@ include __DIR__ . '/partials/header.php';
                 </p>
 
                 <div class="error-actions">
-                    <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/' : $baseDirUrl . '/')) ?>" class="btn primary">
+                    <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/') ?>" class="btn primary">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
                         <span>Kembali ke Beranda</span>
                     </a>
-                    <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>" class="btn secondary">
+                    <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/layanan') ?>" class="btn secondary">
                         <span>Lihat Layanan Kami</span>
                     </a>
-                    <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="btn secondary">
+                    <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/kontak') ?>" class="btn secondary">
                         <span>Hubungi Bantuan</span>
                     </a>
                 </div>
@@ -52,15 +33,13 @@ include __DIR__ . '/partials/header.php';
                 <div class="error-quick-links">
                     <span class="quick-links-title">Mungkin Anda sedang mencari:</span>
                     <div class="quick-links-pills">
-                        <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/tentang' : $baseDirUrl . '/tentang')) ?>" class="quick-pill">Profil Tentang Kami</a>
-                        <a href="https://project.desadroid.shop" target="_blank" class="quick-pill">Portofolio Proyek</a>
-                        <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/artikel' : $baseDirUrl . '/artikel')) ?>" class="quick-pill">Artikel &amp; Blog</a>
-                        <a href="https://wa.me/6289669709021" target="_blank" class="quick-pill">Chat WhatsApp</a>
+                        <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/tentang') ?>" class="quick-pill">Profil Tentang Kami</a>
+                        <a href="https://project.desadroid.shop" target="_blank" rel="noopener" class="quick-pill">Portofolio Proyek</a>
+                        <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/artikel') ?>" class="quick-pill">Artikel &amp; Blog</a>
+                        <a href="https://wa.me/6289669709021" target="_blank" rel="noopener" class="quick-pill">Chat WhatsApp</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-<?php include __DIR__ . '/partials/footer.php'; ?>

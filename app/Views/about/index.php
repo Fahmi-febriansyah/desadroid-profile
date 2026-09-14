@@ -1,21 +1,3 @@
-<?php
-require_once 'config/db.php';
-$pageTitle = 'Tentang Kami — Desadroid IT Consultant & Web Studio';
-$metaDescription = 'Ketahui profil Desadroid, konsultan IT dan mitra pembuatan website modern terpercaya di Bogor. Berkomitmen menghadirkan solusi teknologi scalable sejak 2025.';
-$metaKeywords = 'tentang desadroid, it consultant bogor, jasa pembuatan web bogor, konsultan it bogor, profil desadroid, agensi web bogor';
-$metaImage = 'src/img/DESADROID.jpg';
-
-$baseDir = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/\\'); 
-if ($baseDir === '/') $baseDir = ''; 
-$baseDirSegments = array_filter(explode('/', ltrim($baseDir, '/')), function($s){ return $s !== ''; }); 
-$baseDirUrl = ''; 
-if (!empty($baseDirSegments)) { 
-    $baseDirUrl = '/' . implode('/', array_map('rawurlencode', $baseDirSegments)); 
-} 
-
-include 'partials/header.php'; 
-?>
-
 <!-- About Hero Section -->
 <section class="about-hero" data-reveal>
     <div class="container">
@@ -93,7 +75,7 @@ include 'partials/header.php';
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                 </div>
                 <h3>Misi Kami</h3>
-                <p>Menyajikan layanan konsultasi IT transparan, menerapkan praktik *clean code* dengan keamanan tingkat tinggi, serta memberikan pendampingan berkelanjutan yang menumbuhkan nilai bisnis klien.</p>
+                <p>Menyajikan layanan konsultasi IT transparan, menerapkan praktik <em>clean code</em> dengan keamanan tingkat tinggi, serta memberikan pendampingan berkelanjutan yang menumbuhkan nilai bisnis klien.</p>
             </div>
         </div>
     </div>
@@ -139,15 +121,13 @@ include 'partials/header.php';
         <h2>Siap Mewujudkan Visi Digital Anda Bersama Kami?</h2>
         <p class="mb-4 text-muted mx-auto" style="max-width: 600px;">Diskusikan kebutuhan sistem, website, maupun aplikasi mobile Anda bersama tim ahli kami. Kami siap memberikan arahan teknis terbaik.</p>
         <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-            <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/kontak' : $baseDirUrl . '/kontak')) ?>" class="btn primary">
+            <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/kontak') ?>" class="btn primary">
                 <span>Konsultasi Proyek Sekarang</span>
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </a>
-            <a href="<?= htmlspecialchars(($baseDirUrl === '' ? '/layanan' : $baseDirUrl . '/layanan')) ?>" class="btn secondary">
+            <a href="<?= htmlspecialchars(($baseDirUrl ?: '') . '/layanan') ?>" class="btn secondary">
                 <span>Eksplorasi Layanan Kami</span>
             </a>
         </div>
     </div>
 </section>
-
-<?php include 'partials/footer.php'; ?>

@@ -42,38 +42,26 @@
 Options -MultiViews
 RewriteEngine On
 
+# Protect internal application & sensitive directories from direct browsing
+RewriteRule ^(app|config|vendor)/.*$ - [F,L]
+
 # Ignore the psikologi directory completely
 RewriteRule ^psikologi(/.*)?$ - [L]
-# Don't rewrite existing files or directories
+
+# Admin Panel pretty URLs (bypass front controller)
+RewriteRule ^admin/?$ admin/index.php [L,QSA]
+RewriteRule ^admin/([^/]+)/?$ admin/$1.php [L,QSA]
+RewriteRule ^admin/([^/]+)/([^/]+)/?$ admin/$1/$2.php [L,QSA]
+
+# Don't rewrite existing physical files or directories
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# Pretty URL for article detail: /artikel/slug -> artikel_detail.php?slug=slug
-RewriteRule ^artikel/([^/]+)/?$ artikel_detail.php?slug=$1 [L,QSA]
+# Front Controller: Route all public requests through index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
 
-# Pretty URL for article list: /artikel -> artikel.php
-RewriteRule ^artikel/?$ artikel.php [L,QSA]
-
-# Pretty URL for project detail: /proyek/slug -> project_detail.php?slug=slug
-RewriteRule ^proyek/([^/]+)/?$ project_detail.php?slug=$1 [L,QSA]
-
-# Pretty URL for project list: /proyek -> proyek.php
-RewriteRule ^proyek/?$ proyek.php [L,QSA]
-
-# Admin pretty URLs: /admin -> admin/index.php, /admin/dashboard -> admin/dashboard.php
-RewriteRule ^admin/?$ admin/index.php [L,QSA]
-RewriteRule ^admin/dashboard/?$ admin/dashboard.php [L,QSA]
-# Admin subpages: /admin/section[/sub] -> admin/section.php or admin/section/sub.php
-RewriteRule ^admin/([^/]+)/?$ admin/$1.php [L,QSA]
-RewriteRule ^admin/([^/]+)/([^/]+)/?$ admin/$1/$2.php [L,QSA]
-
-# Generic pretty URLs for top-level pages (e.g. /tentang -> tentang.php)
-# Only rewrite if the corresponding .php file actually exists
-RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^([A-Za-z0-9-]+)/?$ $1.php [L,QSA]
-
-# Custom Error Documents
-ErrorDocument 404 /404.php
-ErrorDocument 403 /403.php
-ErrorDocument 500 /500.php
+# Custom Error Documents (Handled by MVC Router / ErrorController)
+ErrorDocument 404 /404
+ErrorDocument 403 /403
+ErrorDocument 500 /500
